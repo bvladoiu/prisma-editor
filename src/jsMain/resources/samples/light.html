@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prisma-Software Home</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fomantic-ui/dist/semantic.min.css">
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <!--albastru deschis - #56b2f0, violet - #7d4ceb,
+    al doilea violet - #7112a1, albastru inchis - #0050a0-->
+    <style>
+            /* Light theme tokens */
+:root {
+            --color-violet-light: #7d4ceb;#
+            --color-violet-dark: #7112a1;
+            --color-blue-light: #56b2f0;
+            --color-blue-dark: #0050a0;
+
+            --color-bg: #ffffff;
+            --color-text: #0f1114;
+            --color-active: #56b2f0;
+            --color-active-contrast: #0f1114;
+            --color-appbar-bg: #0f1114;
+            --color-appbar-text: #56b2f0;
+            --color-appbar-cta-bg: #0f1214;
+            --color-appbar-cta-text: #56b2f0;
+            --color-button-bg: #0f1214;
+            --color-button-text: #56b2f0;
+
+        }
+
+        html.dark {
+            --color-bg: #2a1b32;
+            --color-text: #ffffff;
+            --color-active: #56b2f0;
+            --color-active-contrast: #56b2f0;
+            --color-appbar-bg: #2a1b32;
+            --color-button-bg: #56b2f0;
+            --color-button-text: #2a1b32;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .ui.button {
+            background-color: var( --color-button-bg) !important;
+            color: var(--color-button-text)
+        }
+
+        .ui.button:hover {
+            background-color: var( --color-active) !important;
+            color: var(--color-button-text)
+        }
+
+        .ui.menu.button {
+            background-color: #ffffff !important;
+            color: #30206a !important
+        }
+        .ui.menu.button:hover {
+            background-color:var( --color-active)!important;
+            color: #ffffff !important
+        }
+
+        .ui.menu {
+            background-color: var(--color-bg) !important;
+            border: none;
+        }
+
+        .ui.menu,
+        .ui.menu .item:hover {
+
+            color: var(--color-active) !important;
+        }
+
+        .item{
+          color: var(--color-appbar-text) !important;
+        }
+
+        .ui.basic.segment {
+        background-color: --color-appbar-bg: #1f1f37;
+        }
+
+        .ui.segment {
+            background-color: #f9f9f9;
+            border: none;
+        }
+
+        .ui.divider {
+            background-color: #cccccc;
+        }
+
+        .ui.dividing.header {
+            color: var(--color-text);
+        }
+
+        .ui.huge.header {
+            color: var(--color-active-contrast);
+        }
+
+        .ui.raised.segment {
+            background-color: var(--color-button-text) !important;
+            color: var(--color-text) !important
+        }
+
+         .ui.raised.segment:hover {
+            background-color: var(--color-button-bg) !important;
+            color: var(--color-bg) !important
+        }
+
+        .ui.top.fixed.menu {
+              background: rgba(42, 27, 50, 0.9) !important; /* 70% opacity fallback */
+              backdrop-filter: blur(10px);
+              -webkit-backdrop-filter: blur(10px);
+              color: var(--color-appbar-text) !important;
+              border: 1px solid var(--color-accent);
+        }
+
+        footer {
+            background-color:#201b32;
+            padding: 2rem 0;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        footer a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Menu -->
+<div class="ui top fixed menu">
+    <div class="ui container">
+        <a class="header item" href="#">Prisma-Software</a>
+        <a class="item" href="#">Home</a>
+        <a class="item" href="#">News</a>
+        <a class="item" href="#">Blog</a>
+        <a class="item" href="#">Company</a>
+        <div class="right menu">
+            <div class="item">
+                <button id="themeToggle" class="ui menu button">Toggle Dark Mode</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hero / Intro Section -->
+<div class="ui container" style="margin-top:5rem;">
+    <div class="ui basic segment">
+        <h1 class="ui huge header" style="font-weight:400; margin-top:2rem;">
+            Embedded Software Solutions — Secure for Every Industry
+        </h1>
+        <p style="font-size:1.1rem; line-height:1.6;">
+            Over 20 years of embedded expertise in mission-critical systems, from in-vehicle platforms to robust,
+            cloud-connected applications. We focus on quality, compliance, and a user-first experience to ensure your
+            products excel in competitive markets.
+        </p>
+        <div style="margin-top:2rem;">
+            <button class="ui button">Get in Touch</button>
+        </div>
+    </div>
+</div>
+
+<!-- Core Expertise Section -->
+<div class="ui container">
+    <div class="ui basic segment">
+        <div class="ui dividing header">Our Core Expertise</div>
+        <div class="ui stackable equal width grid">
+            <div class="column">
+                <div class="ui raised segment">
+                    <h3 class="ui">Automotive</h3>
+                    <p>
+                        ISO 26262, ASPICE, AUTOSAR — We excel at functional safety, powertrain control, battery
+                        management, and ADAS. From OTA updates to secure diagnostics, our solutions combine precision
+                        and compliance for tomorrow's vehicles.
+                    </p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui raised segment">
+                    <h3 class="ui">MedTech &amp; Industry 4.0</h3>
+                    <p>
+                        With select experience in IEC 62304 and smart manufacturing, our team embeds connectivity (BLE,
+                        Wi-Fi, and industrial protocols) to drive secure, data-driven solutions. We help you meet strict
+                        compliance without sacrificing innovation.
+                    </p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui raised segment">
+                    <h3 class="ui">Cloud &amp; Application Engineering</h3>
+                    <p>
+                        We build multi-platform apps with Kotlin, Flutter, or React — offline-first, secure, and
+                        integrated with your backend. Leveraging CI/CD pipelines (Jenkins, GitLab, GitHub Actions), we
+                        ensure smooth builds, rapid deployment, and scalable cloud architectures.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Keyword Strip -->
+<div class="ui container">
+    <div class="ui basic segment">
+        <div class="ui raised segment" style="text-align:center;">
+            <p style="margin-top:1rem; line-height:1.8;">
+                ISO 26262 &bull; ASPICE &bull; AUTOSAR &bull; Model-Based Development &bull;
+                MATLAB/Simulink &bull; TargetLink &bull; IBM Rhapsody &bull;
+                Agile/V-Cycle &bull; Kotlin &bull; Flutter &bull; React &bull;
+                Jenkins &bull; GitLab &bull; GitHub Actions &bull; C/C++ &bull;
+                BLE, Wi-Fi, NFC &bull; IEC 62304 &bull; OTA Updates &bull;
+                Cryptography &bull; Asynchronous Programming &bull; Performance Optimization
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Why Work With Us? -->
+<div class="ui container">
+    <div class="ui basic segment">
+        <div class="ui dividing header">Why Work With Us?</div>
+        <div class="ui stackable equal width grid">
+            <div class="column">
+                <div class="ui raised segment">
+                    <strong>Proven Expertise</strong><br>
+                    20+ years delivering in complex compliance environments,
+                    with a deep record in automotive embedded.
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui raised segment">
+                    <strong>Continuous Improvement</strong><br>
+                    Agile methodologies, TDD, code reviews, and tight feedback loops.
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui raised segment">
+                    <strong>End-to-End Perspective</strong><br>
+                    From firmware to mobile apps to cloud backends—our holistic approach keeps everything in sync.
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui raised segment">
+                    <strong>Scalable Collaboration</strong><br>
+                    Whether a feasibility study or multi-year engagement, we match your roadmap at every step.
+                </div>
+            </div>
+        </div>
+        <div style="margin-top:2rem;">
+            <button class="ui button">Let's Build Something Great</button>
+        </div>
+    </div>
+</div>
+
+<!-- Latest Updates -->
+<div class="ui container">
+    <div class="ui basic segment">
+        <div class="ui dividing header">Latest Updates</div>
+        <div class="ui relaxed divided list">
+            <div class="item">
+                <div class="content">
+                    <a class="header" href="#">Expanding Beyond Automotive</a>
+                    <div class="description">by David &bull; Apr 3, 2024</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="content">
+                    <a class="header" href="#">How Can Marketing Help Your Business?</a>
+                    <div class="description">by Allen &bull; Apr 3, 2024</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="ui container">
+        <p>Prisma-Software &copy; 2024, All rights reserved.</p>
+        <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/fomantic-ui/dist/semantic.min.js"></script>
+<script>
+    // Toggle dark mode on the html element
+    document.getElementById('themeToggle').addEventListener('click', function() {
+        document.documentElement.classList.toggle('dark');
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+/* --- Base Variables & Global Styles --- */
+:root {
+  --charcoal: #1795E3;
+  --light-bg: #ffffff;
+  --dark-bg: #101010;
+  --text-color: #ffffff;
+  --divider-color: #666666;
+  --light-text: #cccccc;
+  --hover-bg: rgba(255, 255, 255, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--charcoal);
+  color: var(--text-color);
+  padding-top: 3rem;
+}
+
+/* --- Baseline UI --- */
+.ui {
+  font-family: "Lato", "Helvetica Neue", Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.ui.top-bar {
+  width: 100%;
+  max-width: 1170px;
+}
+
+/* --- Container --- */
+.ui.container {
+  width: 100%;
+  max-width: 1170px;
+  margin: 2rem auto;
+  padding: 0 15px;
+}
+
+/* --- Menu & Navigation --- */
+.ui.top.fixed.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--charcoal);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  border: none;
+}
+
+.ui.menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--charcoal);
+  border: none;
+}
+
+.ui.menu .item {
+  padding: 1em;
+  color: var(--text-color);
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.ui.menu .item:hover {
+  background-color: var(--hover-bg);
+  cursor: pointer;
+}
+
+/* --- Segments --- */
+.ui.segment {
+  background-color: rgba(255, 255, 255, 0.03);
+  padding: 1em 1.5em;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  border-radius: 0.3rem;
+  margin-bottom: 1em;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.ui.segment:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(34, 36, 38, 0.3);
+}
+
+.ui.raised.segment {
+  box-shadow: 0 1px 2px rgba(34, 36, 38, 0.15),
+              0 1px 3px rgba(34, 36, 38, 0.15);
+}
+
+.ui.basic.segment {
+  background: none;
+  border: none;
+  padding: 1em 0;
+  margin-bottom: 1em;
+}
+
+/* --- Headers --- */
+.ui.header {
+  font-weight: 700;
+  margin-bottom: 1em;
+  color: var(--text-color);
+}
+
+.ui.huge.header {
+  font-size: 2.5em;
+  font-weight: 400;
+  margin-top: 2rem;
+}
+
+.ui.dividing.header {
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid var(--divider-color);
+  margin-bottom: 1em;
+}
+
+/* --- Grid & Layout --- */
+.ui.stackable.equal.width.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* --- Buttons --- */
+.ui.primary.button {
+  background-color: var(--light-bg);
+  color: var(--charcoal);
+  padding: 0.75em 1.5em;
+  border: none;
+  border-radius: 0.3rem;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.ui.primary.button:hover {
+  background-color: #f0f0f0;
+}
+
+/* --- Lists --- */
+.ui.relaxed.divided.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ui.relaxed.divided.list .item {
+  padding: 1em 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ui.relaxed.divided.list .item:last-child {
+  border-bottom: none;
+}
+
+.ui.relaxed.divided.list .header {
+  font-size: 1.2em;
+  font-weight: 600;
+  margin-bottom: 0.5em;
+}
+
+.ui.relaxed.divided.list .description {
+  font-size: 0.9em;
+  color: #aaa;
+}
+
+/* --- Footer --- */
+footer {
+  background-color: var(--dark-bg);
+  padding: 2rem 0;
+  text-align: center;
+  color: var(--light-text);
+}
+
+footer a {
+  color: var(--text-color);
+  text-decoration: underline;
+}
+
+/* --- Accordion Styles (Delta) --- */
+.ui.accordion .title {
+  cursor: pointer;
+}
+
+.ui.accordion .content {
+  display: none;
+  padding: 1em 0;
+  /* Optional: add a transition for smooth expand/collapse */
+  transition: max-height 0.3s ease;
+  overflow: hidden;
+}
+
+.ui.accordion .title.active + .content {
+  display: block;
+}
+
+/* --- Ordered Steps as Grid --- */
+.ui.ordered.steps {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+  counter-reset: step;
+  margin: 2rem 0;
+  list-style: none;
+  padding: 0;
+}
+
+.ui.ordered.steps .step {
+  padding: 1rem;
+
+  border-top: 2px solid rgba(255, 255, 255, 0.15);
+  text-align: center;
+  position: relative;
+}
+
+.ui.ordered.steps .step::before {
+  content: counter(step);
+  counter-increment: step;
+  display: block;
+  width: 3rem;
+  height: 3rem;
+  line-height: 3rem;
+  margin: 0 auto 0.5rem;
+  border-radius: 50%;
+  background: var(--light-bg);
+  color: var(--charcoal);
+  font-weight: bold;
+}
+
+.ui.ordered.steps .step .title {
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
+.ui.ordered.steps .step .description {
+  font-size: 0.9em;
+  margin-top: 0.25rem;
+}

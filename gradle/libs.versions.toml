@@ -1,0 +1,115 @@
+[versions]
+activityCompose = "1.9.3"
+agp = "8.11.0-alpha07"
+android-compileSdk = "34"
+android-minSdk = "24"
+android-targetSdk = "34"
+androidx-activityCompose = "1.10.1"
+androidx-appcompat = "1.7.0"
+androidx-constraintlayout = "2.2.1"
+androidx-core-ktx = "1.15.0"
+androidx-espresso-core = "3.6.1"
+androidx-lifecycle = "2.8.4"
+androidx-material = "1.12.0"
+androidx-test-junit = "1.2.1"
+collection = "1.5.0"
+junit = "4.013.2"
+kotlin = "2.2.0-Beta1"
+kotlinx-coroutines = "1.10.2"
+kotlinxDatetime = "0.6.2"
+kotlinxHtml = "0.12.0"
+kotlinx-serialization = "1.8.1"
+ktor = "3.1.2"
+uiAndroid = "1.7.8"
+node-gradle = "7.1.0"
+compose = "1.8.10-SNAPSHOT+k-tskh-kgp-2-2-0" # "1.7.3" #
+playwright = "1.51.0"
+slf4j = "2.1.0-alpha1" # 2.0.17
+logback = "1.5.18"
+benmanesVersions = "0.52.0"
+kaysilColorpicker = "1.0.0"
+mpfilepicker = "3.1.0"
+colorpicker = "1.1.2"
+atomicfu = "0.27.0"
+jnativehook = "2.2.2"
+kotlin-css = "1.0.0-pre.156-kotlin-1.5.0"
+kotlin-wrappers-browser = "2025.4.16"
+kotlin-wrappers-browser-js = "2025.4.16"
+compose-bom = "2024.06.00"
+composables-core = "1.29.0"
+# sqldelight = "2.0.1" # Removed as part of database purge
+sqlite-jdbc = "3.45.1.0"
+sqlite-driver = "2.0.1"
+graalvm = "23.1.2"
+
+[libraries]
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+kotlin-css = { module = "org.jetbrains:kotlin-css", name = "kotlin-css", version.ref = "kotlin-css" }
+kotlin-wrappers-browser = { module = "org.jetbrains.kotlin-wrappers:kotlin-browser", version.ref = "kotlin-wrappers-browser" }
+kotlin-wrappers-browser-js = { module = "org.jetbrains.kotlin-wrappers:kotlin-browser-js", version.ref = "kotlin-wrappers-browser-js" }
+native-hooks = { module = "com.github.kwhat:jnativehook", name = "jnativehook", version.ref = "jnativehook" }
+atomic-fu = { group = "org.jetbrains.kotlinx", name = "atomicfu", version.ref = "kaysilColorpicker" }
+kaysil-colorpicker = { group = "com.github.kaysil", name = "ColorPicker-Compose-Multiplatform", version.ref = "kaysilColorpicker" }
+darkrockstudios-mpfilepicker = { group = "com.darkrockstudios", name = "mpfilepicker", version.ref = "mpfilepicker" }
+sqlite-jdbc = { group = "org.xerial", name = "sqlite-jdbc", version.ref = "sqlite-jdbc" }
+# sqldelight-sqlite-driver = { group = "app.cash.sqldelight", name = "sqlite-driver", version.ref = "sqlite-driver" } # Removed as part of database purge
+# sqldelight-jdbc-driver = { group = "app.cash.sqldelight", name = "jdbc-driver", version.ref = "sqlite-driver" } # Removed as part of database purge
+graalvm-sdk = { group = "org.graalvm.sdk", name = "graal-sdk", version.ref = "graalvm" }
+graalvm-nativeimage = { group = "org.graalvm.nativeimage", name = "svm", version.ref = "graalvm" }
+composables-core = { group = "com.composables", name = "core", version.ref = "composables-core" }
+
+microsoft-playwright = { group = "com.microsoft.playwright", name = "playwright", version.ref = "playwright" }
+slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
+compose-colorpicker = { module = "com.github.skydoves:colorpicker-compose", version.ref = "colorpicker" }
+androidx-collection = { module = "androidx.collection:collection", version.ref = "collection" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+kotlin-stdlib-common = { module = "org.jetbrains.kotlin:kotlin-stdlib-common", version.ref = "kotlin" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
+androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-junit" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-espresso-core" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
+androidx-material = { group = "com.google.android.material", name = "material", version.ref = "androidx-material" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-js = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-js", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-jvm = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm", version.ref = "kotlinx-coroutines" }
+
+kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "uiAndroid" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+kotlinx-datetime-jvm = { module = "org.jetbrains.kotlinx:kotlinx-datetime-jvm", version.ref = "kotlinxDatetime" }
+kotlinx-html = { module = "org.jetbrains.kotlinx:kotlinx-html", version.ref = "kotlinxHtml" }
+kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
+ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
+ktor-server-cio = { module = "io.ktor:ktor-server-cio", version.ref = "ktor" }
+ktor-server-compression = { module = "io.ktor:ktor-server-compression", version.ref = "ktor" }
+ktor-server-websockets = { module = "io.ktor:ktor-server-websockets", version.ref = "ktor" }
+ktor-client-websockets = { module = "io.ktor:ktor-client-websockets", version.ref = "ktor" }
+ktor-server-call-logging = { module = "io.ktor:ktor-server-call-logging", version.ref = "ktor" }
+ktor-server-html-builder = { module = "io.ktor:ktor-server-html-builder", version.ref = "ktor" }
+logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose" }
+composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+nodeGradle = { id = "com.github.node-gradle.node", version.ref = "node-gradle" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
+benmanes-versions = { id = "com.github.ben-manes.versions", version.ref = "benmanesVersions" }
+# sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" } # Removed as part of database purge

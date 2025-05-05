@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prisma-Software Home</title>
+    <!-- Fomantic-UI CSS (example CDN) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fomantic-ui/dist/semantic.min.css">
+
+    <style>
+        /* Custom brand color: rgb(2,0,12) - "charcoal" */
+        :root {
+            --charcoal: rgb(2, 0, 12);
+        }
+
+        body {
+            background-color: var(--charcoal);
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Override default Fomantic-UI colors for menu/segments */
+        .ui.menu {
+            background-color: var(--charcoal) !important;
+            border: none;
+        }
+        .ui.menu .item, .ui.menu .item:hover {
+            color: #ffffff !important;
+        }
+
+        .ui.container {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .ui.segment {
+            background-color: rgba(255,255,255,0.03); /* Subtle panel effect */
+            border: none;
+        }
+
+        .ui.divider {
+            background-color: #666666;
+        }
+
+        .ui.header {
+            color: #ffffff;
+        }
+
+        .ui.button.primary {
+            background-color: #ffffff !important;
+            color: var(--charcoal) !important;
+        }
+
+        /* Footer styling */
+        footer {
+            background-color: #101010;
+            padding: 2rem 0;
+            color: #cccccc;
+            text-align: center;
+        }
+        footer a {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Menu -->
+<div class="ui top fixed menu">
+    <div class="ui container">
+        <a class="header item" href="#">Prisma-Software</a>
+        <a class="item" href="#">Home</a>
+        <a class="item" href="#">Services</a>
+        <a class="item" href="#">Solutions</a>
+        <a class="item" href="#">About</a>
+        <a class="item" href="#">Contact</a>
+    </div>
+</div>
+
+<!-- Hero / Intro Section -->
+<div class="ui container" style="margin-top:5rem;">
+    <div class="ui basic segment">
+        <h1 class="ui huge header" style="font-weight:400;">
+            Embedded Software for Automotive, MedTech, and Industry 4.0
+        </h1>
+        <p style="font-size:1.1rem; line-height:1.6;">
+            For 20 years, we’ve built custom solutions across diverse industries, helping create innovative products and experiences. Our commitment to quality and performance has led to trusted partnerships that stand the test of time.
+        </p>
+        <div style="margin-top:2rem;">
+            <button class="ui primary button">Learn More</button>
+        </div>
+    </div>
+</div>
+
+<!-- Key Industries Section -->
+<div class="ui container">
+    <div class="ui basic segment">
+        <div class="ui dividing header">Key Industries</div>
+        <div class="ui stackable equal width grid">
+
+            <div class="column">
+                <div class="ui raised segment">
+                    <h3 class="ui header">Automotive</h3>
+                    <p>
+                        We develop ADAS features (collision avoidance, lane keeping, ASIL-D safety), handle in-vehicle networking (CAN, LIN, FlexRay), and implement powertrain control & battery management. Our ISO 26262, AUTOSAR, and ASPICE compliance ensures safe, modern systems—from secure diagnostics to seamless OTA updates.
+                    </p>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="ui raised segment">
+                    <h3 class="ui header">MedTech & Industry 4.0</h3>
+                    <p>
+                        From predictive maintenance in smart factories to secure communication in healthcare, we embed compliance-driven software and robust connectivity (BLE, Wi-Fi, industrial protocols) to optimize performance and ensure safety-critical reliability. Cryptography, authentication, and remote data management are built into every solution.
+                    </p>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="ui raised segment">
+                    <h3 class="ui header">Platforms & Applications</h3>
+                    <p>
+                        We leverage Flutter, Kotlin, React, and more to craft stable apps—be it for smartphones, automotive infotainment, or cloud-based dashboards. Our CI/CD pipelines (Jenkins, GitLab) enable daily development with integration, staging, and automated testing. With asynchronous programming and performance tuning at the forefront, we deliver offline capabilities, secure role-based access, and real-time analytics.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Latest Updates (Blog/News) -->
+<div class="ui container">
+    <div class="ui basic segment">
+        <div class="ui dividing header">Latest Updates</div>
+        <div class="ui relaxed divided list">
+            <div class="item">
+                <div class="content">
+                    <a class="header" href="#">Expanding Beyond Automotive</a>
+                    <div class="description">by David • Apr 3, 2024</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="content">
+                    <a class="header" href="#">How Can Marketing Help Your Business?</a>
+                    <div class="description">by Allen • Apr 3, 2024</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="ui container">
+        <p>Prisma-Software © 2024, All rights reserved.</p>
+        <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </div>
+</footer>
+
+<!-- Fomantic-UI JS (example CDN) -->
+<script src="https://cdn.jsdelivr.net/npm/fomantic-ui/dist/semantic.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+# Gradle files
+.gradle/
+build/
+kotlin-js-store/
+.kotlin/
+
+# Local configuration file
+local.properties
+
+# IDE files
+.idea/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# Package files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Kotlin/JS
+node_modules/

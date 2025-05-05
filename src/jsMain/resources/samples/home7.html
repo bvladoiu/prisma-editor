@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Prisma-Software Home (Material Design)</title>
+
+  <!-- Material Components Web CSS (matching version CDN) -->
+  <!-- Adjust the CSS link if a different version or CDN is preferred -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/15.0.0-canary.fff4066c6.0/material-components-web.min.css"
+  />
+
+  <style>
+    :root {
+      --charcoal: rgb(2, 0, 12);
+    }
+
+    body {
+      background-color: var(--charcoal);
+      color: #ffffff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top App Bar custom styling */
+    .mdc-top-app-bar {
+      background-color: var(--charcoal);
+      color: #ffffff;
+    }
+    /* Override the text color of top-app-bar action items */
+    .mdc-top-app-bar__action-item {
+      color: #ffffff;
+    }
+
+    /* Layout Grid adjustments to mimic container spacing */
+    .mdc-layout-grid {
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    /* “Segment” look using a slight tinted background (similar to your original .ui.segment) */
+    .tinted-segment {
+      background-color: rgba(255, 255, 255, 0.03);
+      padding: 2rem;
+      border-radius: 4px;
+    }
+
+    /* Material Card variant for raised segments */
+    .custom-card.mdc-card {
+      background-color: rgba(255, 255, 255, 0.03);
+      color: #fff;
+      padding: 1.5rem;
+      margin: 1rem 0;
+    }
+
+    /* Divider style (in MDC we typically use <hr> or <li class="mdc-list-divider">) */
+    .custom-divider {
+      height: 1px;
+      background-color: #666666;
+      border: none;
+      margin: 2rem 0;
+    }
+
+    /* Buttons */
+    .mdc-button--primary {
+      --mdc-theme-primary: #ffffff;     /* Button background */
+      --mdc-theme-on-primary: #02000c; /* Button text color */
+    }
+
+    /* Footer style */
+    footer {
+      background-color: #101010;
+      padding: 2rem 0;
+      color: #cccccc;
+      text-align: center;
+    }
+
+    footer a {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    /* Utility classes */
+    .mt-5 {
+      margin-top: 5rem;
+    }
+    .mb-2 {
+      margin-bottom: 2rem;
+    }
+    .text-center {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top App Bar -->
+  <header
+    class="mdc-top-app-bar mdc-top-app-bar--fixed"
+    style="position: fixed; top: 0; z-index: 100;"
+  >
+    <div class="mdc-top-app-bar__row">
+      <section
+        class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start"
+      >
+        <span class="mdc-top-app-bar__title">Prisma-Software</span>
+      </section>
+      <section
+        class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end"
+        role="toolbar"
+      >
+        <a class="mdc-button mdc-top-app-bar__action-item" href="#">Home</a>
+        <a class="mdc-button mdc-top-app-bar__action-item" href="#">News</a>
+        <a class="mdc-button mdc-top-app-bar__action-item" href="#">Blog</a>
+        <a class="mdc-button mdc-top-app-bar__action-item" href="#">Company</a>
+      </section>
+    </div>
+  </header>
+  <!-- Required for the fixed Top App Bar so content isn’t hidden behind it -->
+  <div class="mdc-top-app-bar--fixed-adjust"></div>
+
+  <!-- Hero / Intro Section -->
+  <div class="mdc-layout-grid mt-5">
+    <div class="mdc-layout-grid__inner">
+      <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
+        <div class="tinted-segment">
+          <h1
+            class="mdc-typography--headline4"
+            style="font-weight:400; margin-bottom:1rem;"
+          >
+            Embedded Software Solutions — Secure for Every Industry
+          </h1>
+          <p
+            class="mdc-typography--body1"
+            style="font-size:1.1rem; line-height:1.6;"
+          >
+            Over 20 years of embedded expertise in mission-critical systems,
+            from in-vehicle platforms to robust, cloud-connected applications.
+            We focus on quality, compliance, and a user-first experience to
+            ensure your products excel in competitive markets.
+          </p>
+          <div style="margin-top:2rem;">
+            <button
+              class="mdc-button mdc-button--raised mdc-button--primary"
+              type="button"
+            >
+              <span class="mdc-button__label">Get in Touch</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Expertise Section -->
+  <div class="mdc-layout-grid">
+    <div class="mdc-layout-grid__inner">
+      <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
+        <h2 class="mdc-typography--headline5">Our Core Expertise</h2>
+        <hr class="custom-divider" />
+
+        <div class="mdc-layout-grid__inner">
+          <!-- Automotive -->
+          <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-4">
+            <div class="mdc-card custom-card">
+              <h3 class="mdc-typography--headline6">Automotive</h3>
+              <p class="mdc-typography--body2">
+                ISO 26262, ASPICE, AUTOSAR — We excel at functional safety,
+                powertrain control, battery management, and ADAS. From OTA
+                updates to secure diagnostics, our solutions combine precision
+                and compliance for tomorrow's vehicles.
+              </p>
+            </div>
+          </div>
+
+          <!-- MedTech & Industry 4.0 -->
+          <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-4">
+            <div class="mdc-card custom-card">
+              <h3 class="mdc-typography--headline6">
+                MedTech &amp; Industry 4.0
+              </h3>
+              <p class="mdc-typography--body2">
+                With select experience in IEC 62304 and smart manufacturing, our
+                team embeds connectivity (BLE, Wi-Fi, and industrial protocols)
+                to drive secure, data-driven solutions. We help you meet strict
+                compliance without sacrificing innovation.
+              </p>
+            </div>
+          </div>
+
+          <!-- Cloud & App Development -->
+          <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-4">
+            <div class="mdc-card custom-card">
+              <h3 class="mdc-typography--headline6">
+                Cloud &amp; Application Engineering
+              </h3>
+              <p class="mdc-typography--body2">
+                We build multi-platform apps with Kotlin, Flutter, or React —
+                offline-first, secure, and integrated with your backend.
+                Leveraging CI/CD pipelines (Jenkins, GitLab, GitHub Actions), we
+                ensure smooth builds, rapid deployment, and scalable cloud
+                architectures.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Keyword Strip -->
+  <div class="mdc-layout-grid">
+    <div class="mdc-layout-grid__inner">
+      <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
+        <div class="tinted-segment text-center" style="margin-top: 1rem;">
+          <p style="margin-top:1rem; line-height:1.8;">
+            ISO 26262 &bull; ASPICE &bull; AUTOSAR &bull; Model-Based Development
+            &bull; MATLAB/Simulink &bull; TargetLink &bull; IBM Rhapsody &bull;
+            Agile/V-Cycle &bull; Kotlin &bull; Flutter &bull; React &bull;
+            Jenkins &bull; GitLab &bull; GitHub Actions &bull; C/C++ &bull; BLE,
+            Wi-Fi, NFC &bull; IEC 62304 &bull; OTA Updates &bull; Cryptography
+            &bull; Asynchronous Programming &bull; Performance Optimization
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Why Work With Us? -->
+  <div class="mdc-layout-grid">
+    <div class="mdc-layout-grid__inner">
+      <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
+        <h2 class="mdc-typography--headline5">Why Work With Us?</h2>
+        <hr class="custom-divider" />
+
+        <div class="mdc-layout-grid__inner">
+          <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-3">
+            <div class="tinted-segment">
+              <strong>Proven Expertise</strong><br />
+              20+ years delivering in complex compliance environments,
+              with a deep record in automotive embedded.
+            </div>
+          </div>
+          <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-3">
+            <div class="tinted-segment">
+              <strong>Continuous Improvement</strong><br />
+              Agile methodologies, TDD, code reviews,
+              and tight feedback loops.
+            </div>
+          </div>
+          <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-3">
+            <div class="tinted-segment">
+              <strong>End-to-End Perspective</strong><br />
+              From firmware to mobile apps to cloud backends—our holistic
+              approach keeps everything in sync.
+            </div>
+          </div>
+          <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-3">
+            <div class="tinted-segment">
+              <strong>Scalable Collaboration</strong><br />
+              Whether a feasibility study or multi-year engagement,
+              we match your roadmap at every step.
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:2rem;">
+          <button
+            class="mdc-button mdc-button--raised mdc-button--primary"
+            type="button"
+          >
+            <span class="mdc-button__label">Let's Build Something Great</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Latest Updates (Blog/News) -->
+  <div class="mdc-layout-grid">
+    <div class="mdc-layout-grid__inner">
+      <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
+        <h2 class="mdc-typography--headline5">Latest Updates</h2>
+        <hr class="custom-divider" />
+
+        <!-- Simple list approach for the blog/news items -->
+        <ul class="mdc-deprecated-list" style="padding: 0;">
+          <li
+            class="mdc-deprecated-list-item"
+            style="border-bottom:1px solid #666; padding:1rem 0;"
+          >
+            <span class="mdc-deprecated-list-item__text">
+              <a
+                class="mdc-typography--subtitle1"
+                href="#"
+                style="color:#fff; text-decoration:underline;"
+              >
+                Expanding Beyond Automotive
+              </a>
+              <br />
+              <span class="mdc-typography--caption"
+                >by David &bull; Apr 3, 2024</span
+              >
+            </span>
+          </li>
+
+          <li
+            class="mdc-deprecated-list-item"
+            style="border-bottom:1px solid #666; padding:1rem 0;"
+          >
+            <span class="mdc-deprecated-list-item__text">
+              <a
+                class="mdc-typography--subtitle1"
+                href="#"
+                style="color:#fff; text-decoration:underline;"
+              >
+                How Can Marketing Help Your Business?
+              </a>
+              <br />
+              <span class="mdc-typography--caption"
+                >by Allen &bull; Apr 3, 2024</span
+              >
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="mdc-layout-grid">
+      <div class="mdc-layout-grid__inner">
+        <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
+          <p>Prisma-Software &copy; 2024, All rights reserved.</p>
+          <p>
+            <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Material Components Web JS (the one you provided) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/15.0.0-canary.fff4066c6.0/material-components-web.min.js"></script>
+  <script>
+    // Auto-init all MDC components
+    window.mdc.autoInit();
+
+    // If you need specific access to certain components, you can query for them:
+    // const topAppBar = new mdc.topAppBar.MDCTopAppBar(document.querySelector('.mdc-top-app-bar'));
+  </script>
+</body>
+</html>
