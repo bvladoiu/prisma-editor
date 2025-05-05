@@ -1,16 +1,17 @@
 package prisma.editor.styles
 
 import org.jetbrains.compose.web.css.*
+import org.jetbrains.compose.web.css.StyleScope
 
 object ExpertiseItemStyles {
-    val container: StyleBuilder.() -> Unit = {
+    val container: StyleScope.() -> Unit = {
         padding(Theme.Spacing.md)
         backgroundColor(Theme.Colors.lightTransparent)
         borderRadius(Theme.Spacing.borderRadius)
         height(Theme.Spacing.fullWidth)
     }
 
-    val title: StyleBuilder.() -> Unit = {
+    val title: StyleScope.() -> Unit = {
         with(Theme.Typography) {
             fontSize(fontMd)
             fontFamily(defaultFontFamily)
@@ -19,7 +20,7 @@ object ExpertiseItemStyles {
         color(Theme.Colors.white)
     }
 
-    val description: StyleBuilder.() -> Unit = {
+    val description: StyleScope.() -> Unit = {
         margin(Theme.Spacing.none)
         with(Theme.Typography) {
             lineHeight(lineHeightNormal)

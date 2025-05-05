@@ -1,9 +1,10 @@
 package prisma.editor.styles
 
 import org.jetbrains.compose.web.css.*
+import org.jetbrains.compose.web.css.StyleScope
 
 object ButtonStyles {
-    val primary: StyleBuilder.() -> Unit = {
+    val primary: StyleScope.() -> Unit = {
         backgroundColor(Theme.Colors.secondary)
         color(Theme.Colors.primary)
         padding(Theme.Spacing.sm, Theme.Spacing.md)

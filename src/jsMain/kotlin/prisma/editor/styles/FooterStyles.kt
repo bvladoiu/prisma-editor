@@ -1,9 +1,10 @@
 package prisma.editor.styles
 
 import org.jetbrains.compose.web.css.*
+import org.jetbrains.compose.web.css.StyleScope
 
 object FooterStyles {
-    val container: StyleBuilder.() -> Unit = {
+    val container: StyleScope.() -> Unit = {
         backgroundColor(Theme.Colors.darkBackground)
         padding(Theme.Spacing.xl, Theme.Spacing.none)
         color(Theme.Colors.lightGray)
@@ -12,13 +13,13 @@ object FooterStyles {
         fontFamily(Theme.Typography.defaultFontFamily)
     }
 
-    val content: StyleBuilder.() -> Unit = {
+    val content: StyleScope.() -> Unit = {
         maxWidth(Theme.Spacing.maxContentWidth)
         property("margin", "0 auto")
         padding(Theme.Spacing.none, Theme.Spacing.md)
     }
 
-    val link: StyleBuilder.() -> Unit = {
+    val link: StyleScope.() -> Unit = {
         color(Theme.Colors.white)
         textDecoration("underline")
         fontFamily(Theme.Typography.defaultFontFamily)

@@ -1,6 +1,7 @@
 package prisma.editor.styles
 
 import org.jetbrains.compose.web.css.*
+import org.jetbrains.compose.web.css.StyleScope
 
 /**
  * Theme object containing all colors, spacings, and typography used throughout the application.
@@ -79,35 +80,35 @@ object Theme {
         val fontWeightBold = "bold"
 
         // Common text styles
-        val h1: StyleBuilder.() -> Unit = {
+        val h1: StyleScope.() -> Unit = {
             fontSize(fontXl)
             fontWeight(fontWeightNormal)
             lineHeight(lineHeightNormal)
             fontFamily(defaultFontFamily)
         }
 
-        val h2: StyleBuilder.() -> Unit = {
+        val h2: StyleScope.() -> Unit = {
             fontSize(fontLg)
             fontWeight(fontWeightBold)
             lineHeight(lineHeightNormal)
             fontFamily(defaultFontFamily)
         }
 
-        val body1: StyleBuilder.() -> Unit = {
+        val body1: StyleScope.() -> Unit = {
             fontSize(fontMd)
             fontWeight(fontWeightNormal)
             lineHeight(lineHeightNormal)
             fontFamily(defaultFontFamily)
         }
 
-        val body2: StyleBuilder.() -> Unit = {
+        val body2: StyleScope.() -> Unit = {
             fontSize(fontSm)
             fontWeight(fontWeightNormal)
             lineHeight(lineHeightLarge)
             fontFamily(defaultFontFamily)
         }
 
-        val caption: StyleBuilder.() -> Unit = {
+        val caption: StyleScope.() -> Unit = {
             fontSize(fontXs)
             fontWeight(fontWeightNormal)
             lineHeight(lineHeightNormal)

@@ -1,9 +1,10 @@
 package prisma.editor.styles
 
 import org.jetbrains.compose.web.css.*
+import org.jetbrains.compose.web.css.StyleScope
 
 object NavigationMenuStyles {
-    val container: StyleBuilder.() -> Unit = {
+    val container: StyleScope.() -> Unit = {
         position(Position.Fixed)
         top(Theme.Spacing.none)
         left(Theme.Spacing.none)
@@ -12,7 +13,7 @@ object NavigationMenuStyles {
         property("z-index", "100")
     }
 
-    val content: StyleBuilder.() -> Unit = {
+    val content: StyleScope.() -> Unit = {
         display(DisplayStyle.Flex)
         alignItems(AlignItems.Center)
         padding(Theme.Spacing.none, Theme.Spacing.md)
@@ -21,7 +22,7 @@ object NavigationMenuStyles {
         height(Theme.Spacing.navHeight)
     }
 
-    val brand: StyleBuilder.() -> Unit = {
+    val brand: StyleScope.() -> Unit = {
         color(Theme.Colors.white)
         with(Theme.Typography) {
             fontWeight(fontWeightBold)
@@ -31,18 +32,18 @@ object NavigationMenuStyles {
         marginRight(Theme.Spacing.lg)
     }
 
-    val navList: StyleBuilder.() -> Unit = {
+    val navList: StyleScope.() -> Unit = {
         display(DisplayStyle.Flex)
         listStyleType("none")
         margin(Theme.Spacing.none)
         padding(Theme.Spacing.none)
     }
 
-    val navItem: StyleBuilder.() -> Unit = {
+    val navItem: StyleScope.() -> Unit = {
         margin(Theme.Spacing.none, Theme.Spacing.xs)
     }
 
-    val navLink: StyleBuilder.() -> Unit = {
+    val navLink: StyleScope.() -> Unit = {
         color(Theme.Colors.white)
         textDecoration("none")
         padding(Theme.Spacing.sm, Theme.Spacing.md)

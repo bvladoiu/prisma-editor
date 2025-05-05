@@ -1,9 +1,10 @@
 package prisma.editor.styles
 
 import org.jetbrains.compose.web.css.*
+import org.jetbrains.compose.web.css.StyleScope
 
 object KeywordStripStyles {
-    val container: StyleBuilder.() -> Unit = {
+    val container: StyleScope.() -> Unit = {
         padding(Theme.Spacing.md)
         backgroundColor(Theme.Colors.lightTransparent)
         borderRadius(Theme.Spacing.borderRadius)
@@ -11,7 +12,7 @@ object KeywordStripStyles {
         fontFamily(Theme.Typography.defaultFontFamily)
     }
 
-    val paragraph: StyleBuilder.() -> Unit = {
+    val paragraph: StyleScope.() -> Unit = {
         marginTop(Theme.Spacing.md)
         marginBottom(Theme.Spacing.md)
         with(Theme.Typography) {
@@ -20,7 +21,7 @@ object KeywordStripStyles {
         }
     }
 
-    val separator: StyleBuilder.() -> Unit = {
+    val separator: StyleScope.() -> Unit = {
         margin(Theme.Spacing.none, Theme.Spacing.sm)
     }
 }

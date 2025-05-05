@@ -1,9 +1,10 @@
 package prisma.editor.styles
 
 import org.jetbrains.compose.web.css.*
+import org.jetbrains.compose.web.css.StyleScope
 
 object HeroStyles {
-    val title: StyleBuilder.() -> Unit = {
+    val title: StyleScope.() -> Unit = {
         with(Theme.Typography) {
             fontSize(fontXl)
             fontWeight(fontWeightNormal)
@@ -13,7 +14,7 @@ object HeroStyles {
         marginBottom(Theme.Spacing.md)
     }
 
-    val description: StyleBuilder.() -> Unit = {
+    val description: StyleScope.() -> Unit = {
         with(Theme.Typography) {
             fontSize(fontSm)
             lineHeight(lineHeightLarge)
