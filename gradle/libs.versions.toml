@@ -35,6 +35,8 @@ jnativehook = "2.2.2"
 kotlin-css = "1.0.0-pre.156-kotlin-1.5.0"
 kotlin-wrappers-browser = "2025.4.16"
 kotlin-wrappers-browser-js = "2025.4.16"
+kotlin-mui-material = "2025.5.2-5.17.1"
+kotlin-mui-icons = "2025.5.2-5.17.1"
 compose-bom = "2024.06.00"
 composables-core = "1.29.0"
 # sqldelight = "2.0.1" # Removed as part of database purge
@@ -47,6 +49,8 @@ compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = 
 kotlin-css = { module = "org.jetbrains:kotlin-css", name = "kotlin-css", version.ref = "kotlin-css" }
 kotlin-wrappers-browser = { module = "org.jetbrains.kotlin-wrappers:kotlin-browser", version.ref = "kotlin-wrappers-browser" }
 kotlin-wrappers-browser-js = { module = "org.jetbrains.kotlin-wrappers:kotlin-browser-js", version.ref = "kotlin-wrappers-browser-js" }
+kotlin-mui-material = { module = "org.jetbrains.kotlin-wrappers:kotlin-mui-material", version.ref = "kotlin-mui-material" }
+kotlin-mui-icons = { module = "org.jetbrains.kotlin-wrappers:kotlin-mui-icons-material", version.ref = "kotlin-mui-icons" }
 native-hooks = { module = "com.github.kwhat:jnativehook", name = "jnativehook", version.ref = "jnativehook" }
 atomic-fu = { group = "org.jetbrains.kotlinx", name = "atomicfu", version.ref = "kaysilColorpicker" }
 kaysil-colorpicker = { group = "com.github.kaysil", name = "ColorPicker-Compose-Multiplatform", version.ref = "kaysilColorpicker" }

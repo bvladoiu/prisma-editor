@@ -18,26 +18,11 @@ fun main() {
         trace(message)
     }
 
-    val scriptPath = "/build/kotlin-webpack/js/productionExecutable/prisma.js"
-    val projectRoot = System.getProperty("user.dir")
-    val absoluteScriptPath = File(projectRoot, scriptPath)
-
-    if (!absoluteScriptPath.exists()) {
-        println("Error: Could not find script file at $scriptPath or $absoluteScriptPath")
-
-        val staticDir = File(projectRoot, "static")
-        if (staticDir.exists() && staticDir.isDirectory) {
-            println("Files in static directory:")
-            staticDir.listFiles()?.forEach { println("  - ${it.name}") }
-        } else {
-            println("Static directory not found at: ${staticDir.absolutePath}")
-        }
-        return
-    }
-    val scriptContent = absoluteScriptPath.readText()
-    println("Script content length: ${scriptContent.length} characters")
-    page.addInitScript(scriptContent)
-    println("Script injected successfully")
+    // Use the development server URL with editor.html
+    val devServerUrl = "http://localhost:8080/editor.html"
+    println("Navigating to editor page: $devServerUrl")
+    page.navigate(devServerUrl)
+    println("Editor page loaded successfully")
 }
 
 fun trace(message: ConsoleMessage) {
