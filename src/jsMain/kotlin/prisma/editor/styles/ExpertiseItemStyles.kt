@@ -4,20 +4,26 @@ import org.jetbrains.compose.web.css.*
 
 object ExpertiseItemStyles {
     val container: StyleBuilder.() -> Unit = {
-        padding(16.px)
-        backgroundColor(rgba(255, 255, 255, 0.1))
-        borderRadius(4.px)
-        height(100.percent)
+        padding(Theme.Spacing.md)
+        backgroundColor(Theme.Colors.lightTransparent)
+        borderRadius(Theme.Spacing.borderRadius)
+        height(Theme.Spacing.fullWidth)
     }
 
     val title: StyleBuilder.() -> Unit = {
-        fontSize(20.px)
-        marginBottom(8.px)
-        color(Color.white)
+        with(Theme.Typography) {
+            fontSize(fontMd)
+            fontFamily(defaultFontFamily)
+        }
+        marginBottom(Theme.Spacing.sm)
+        color(Theme.Colors.white)
     }
 
     val description: StyleBuilder.() -> Unit = {
-        margin(0.px)
-        lineHeight("1.5")
+        margin(Theme.Spacing.none)
+        with(Theme.Typography) {
+            lineHeight(lineHeightNormal)
+            fontFamily(defaultFontFamily)
+        }
     }
 }

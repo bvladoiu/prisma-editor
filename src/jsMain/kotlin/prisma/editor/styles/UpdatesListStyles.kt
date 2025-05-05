@@ -6,27 +6,34 @@ object UpdatesListStyles {
     val list: StyleBuilder.() -> Unit = {
         display(DisplayStyle.Flex)
         flexDirection(FlexDirection.Column)
-        gap(16.px)
+        gap(Theme.Spacing.md)
         listStyleType("none")
-        padding(0.px)
-        margin(0.px)
+        padding(Theme.Spacing.none)
+        margin(Theme.Spacing.none)
     }
 
     val listItem: StyleBuilder.() -> Unit = {
-        padding(8.px, 0.px)
-        property("border-bottom", "1px solid rgba(255, 255, 255, 0.1)")
+        padding(Theme.Spacing.sm, Theme.Spacing.none)
+        property("border-bottom", "1px solid ${Theme.Colors.lightTransparent}")
+        fontFamily(Theme.Typography.defaultFontFamily)
     }
 
     val updateLink: StyleBuilder.() -> Unit = {
-        color(Color.white)
+        color(Theme.Colors.white)
         textDecoration("none")
-        fontSize(18.px)
+        with(Theme.Typography) {
+            fontSize(fontSm)
+            fontFamily(defaultFontFamily)
+        }
         display(DisplayStyle.Block)
-        marginBottom(4.px)
+        marginBottom(Theme.Spacing.xs)
     }
 
     val metadata: StyleBuilder.() -> Unit = {
-        fontSize(14.px)
-        color(rgba(255, 255, 255, 0.7))
+        with(Theme.Typography) {
+            fontSize(fontXs)
+            fontFamily(defaultFontFamily)
+        }
+        color(Theme.Colors.mediumTransparent)
     }
 }

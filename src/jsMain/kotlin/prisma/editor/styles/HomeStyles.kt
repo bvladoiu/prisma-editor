@@ -4,49 +4,51 @@ import org.jetbrains.compose.web.css.*
 
 object HomeStyles {
     val container: StyleBuilder.() -> Unit = {
-        backgroundColor(Color("#56b2f0"))
-        color(Color.white)
-        fontFamily("'Poppins', sans-serif")
-        margin(0.px)
-        padding(0.px)
+        backgroundColor(Theme.Colors.primary)
+        color(Theme.Colors.white)
+        fontFamily(Theme.Typography.defaultFontFamily)
+        margin(Theme.Spacing.none)
+        padding(Theme.Spacing.none)
     }
 
     val loadingContainer: StyleBuilder.() -> Unit = {
         display(DisplayStyle.Flex)
         justifyContent(JustifyContent.Center)
         alignItems(AlignItems.Center)
-        height(100.vh)
+        height(Theme.Spacing.fullHeight)
     }
 
     val errorContainer: StyleBuilder.() -> Unit = {
         display(DisplayStyle.Flex)
         justifyContent(JustifyContent.Center)
         alignItems(AlignItems.Center)
-        height(100.vh)
-        color(Color.red)
+        height(Theme.Spacing.fullHeight)
+        color(Theme.Colors.red)
+        fontFamily(Theme.Typography.defaultFontFamily)
     }
 
     val mainContent: StyleBuilder.() -> Unit = {
-        marginTop(5.cssRem)
-        marginBottom(2.cssRem)
+        marginTop(Theme.Spacing.rem5)
+        marginBottom(Theme.Spacing.rem2)
     }
 
     fun sectionItemsGrid(minWidth: String): StyleBuilder.() -> Unit = {
         display(DisplayStyle.Grid)
         property("grid-template-columns", "repeat(auto-fit, minmax($minWidth, 1fr))")
-        gap(16.px)
+        gap(Theme.Spacing.md)
     }
 
     val buttonContainer: StyleBuilder.() -> Unit = {
-        marginTop(2.cssRem)
+        marginTop(Theme.Spacing.rem2)
     }
 
     val button: StyleBuilder.() -> Unit = {
-        backgroundColor(Color("#7112a1"))
-        color(Color("#56b2f0"))
-        padding(8.px, 16.px)
-        border(0.px)
-        borderRadius(4.px)
+        backgroundColor(Theme.Colors.secondary)
+        color(Theme.Colors.primary)
+        padding(Theme.Spacing.sm, Theme.Spacing.md)
+        border(Theme.Spacing.none)
+        borderRadius(Theme.Spacing.borderRadius)
         cursor("pointer")
+        fontFamily(Theme.Typography.defaultFontFamily)
     }
 }

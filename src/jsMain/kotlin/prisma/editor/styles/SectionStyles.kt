@@ -5,33 +5,39 @@ import org.jetbrains.compose.web.css.*
 object SectionStyles {
     fun container(marginTop: CSSNumeric): StyleBuilder.() -> Unit = {
         marginTop(marginTop)
-        marginBottom(2.cssRem)
-        padding(0.px, 16.px)
-        maxWidth(1200.px)
+        marginBottom(Theme.Spacing.rem2)
+        padding(Theme.Spacing.none, Theme.Spacing.md)
+        maxWidth(Theme.Spacing.maxContentWidth)
         property("margin", "0 auto")
     }
 
     val article: StyleBuilder.() -> Unit = {
-        padding(16.px)
-        backgroundColor(rgba(255, 255, 255, 0.03))
-        borderRadius(4.px)
+        padding(Theme.Spacing.md)
+        backgroundColor(Theme.Colors.veryLightTransparent)
+        borderRadius(Theme.Spacing.borderRadius)
     }
 
     val headerWithDivider: StyleBuilder.() -> Unit = {
-        fontSize(24.px)
-        fontWeight("bold")
-        marginBottom(16.px)
-        paddingBottom(8.px)
-        property("border-bottom", "1px solid #666666")
+        with(Theme.Typography) {
+            fontSize(fontLg)
+            fontWeight(fontWeightBold)
+            fontFamily(defaultFontFamily)
+        }
+        marginBottom(Theme.Spacing.md)
+        paddingBottom(Theme.Spacing.sm)
+        property("border-bottom", "1px solid ${Theme.Colors.mediumGray}")
     }
 
     val headerWithoutDivider: StyleBuilder.() -> Unit = {
-        marginBottom(16.px)
+        marginBottom(Theme.Spacing.md)
     }
 
     val heading: StyleBuilder.() -> Unit = {
-        fontSize(24.px)
-        fontWeight("bold")
-        margin(0.px)
+        with(Theme.Typography) {
+            fontSize(fontLg)
+            fontWeight(fontWeightBold)
+            fontFamily(defaultFontFamily)
+        }
+        margin(Theme.Spacing.none)
     }
 }

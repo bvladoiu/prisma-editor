@@ -1,5 +1,11 @@
 # Tasks
 
+## Extract typography styles to Typography - 05/17/2025
+Created a Typography object in the Theme.kt file to centralize all typography-related styles. Moved font sizes from Spacing and font properties from Styles to the Typography object, and added common text styles (h1, h2, body1, body2, caption). Refactored all 10 style files to use the Typography object, ensuring consistent typography across the application and making it easier to maintain and update text styles.
+
+## Extract colors and spacings to Theme - 05/16/2025
+Created a Theme object in its own file with Colors, Spacing, and Styles sub-objects to centralize all design tokens. Extracted all hardcoded colors and spacing values from the 10 style files in the styles package and replaced them with references to the Theme object. This improves maintainability by making it easier to update design values across the application and ensures consistency in the UI.
+
 ## Refactor model classes into separate files - 05/15/2025
 Created a model package and moved each data model class from HomeData.kt into its own file. Renamed HomeData to Home, removing the "Data" suffix as requested. Updated all references in the composables to use the new model classes. This improves code organization by following the single responsibility principle and makes the model classes more maintainable.
 

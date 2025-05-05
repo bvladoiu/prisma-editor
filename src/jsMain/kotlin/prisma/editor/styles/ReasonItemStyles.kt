@@ -4,14 +4,18 @@ import org.jetbrains.compose.web.css.*
 
 object ReasonItemStyles {
     val container: StyleBuilder.() -> Unit = {
-        padding(16.px)
-        backgroundColor(rgba(255, 255, 255, 0.1))
-        borderRadius(4.px)
+        padding(Theme.Spacing.md)
+        backgroundColor(Theme.Colors.lightTransparent)
+        borderRadius(Theme.Spacing.borderRadius)
+        fontFamily(Theme.Typography.defaultFontFamily)
     }
 
     val title: StyleBuilder.() -> Unit = {
-        fontWeight("bold")
+        with(Theme.Typography) {
+            fontWeight(fontWeightBold)
+            fontFamily(defaultFontFamily)
+        }
         display(DisplayStyle.Block)
-        marginBottom(8.px)
+        marginBottom(Theme.Spacing.sm)
     }
 }

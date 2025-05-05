@@ -5,46 +5,50 @@ import org.jetbrains.compose.web.css.*
 object NavigationMenuStyles {
     val container: StyleBuilder.() -> Unit = {
         position(Position.Fixed)
-        top(0.px)
-        left(0.px)
-        right(0.px)
-        backgroundColor(Color("#56b2f0"))
+        top(Theme.Spacing.none)
+        left(Theme.Spacing.none)
+        right(Theme.Spacing.none)
+        backgroundColor(Theme.Colors.primary)
         property("z-index", "100")
     }
 
     val content: StyleBuilder.() -> Unit = {
         display(DisplayStyle.Flex)
         alignItems(AlignItems.Center)
-        padding(0.px, 16.px)
-        maxWidth(1200.px)
+        padding(Theme.Spacing.none, Theme.Spacing.md)
+        maxWidth(Theme.Spacing.maxContentWidth)
         property("margin", "0 auto")
-        height(56.px)
+        height(Theme.Spacing.navHeight)
     }
 
     val brand: StyleBuilder.() -> Unit = {
-        color(Color.white)
-        fontWeight("bold")
+        color(Theme.Colors.white)
+        with(Theme.Typography) {
+            fontWeight(fontWeightBold)
+            fontFamily(defaultFontFamily)
+        }
         textDecoration("none")
-        marginRight(24.px)
+        marginRight(Theme.Spacing.lg)
     }
 
     val navList: StyleBuilder.() -> Unit = {
         display(DisplayStyle.Flex)
         listStyleType("none")
-        margin(0.px)
-        padding(0.px)
+        margin(Theme.Spacing.none)
+        padding(Theme.Spacing.none)
     }
 
     val navItem: StyleBuilder.() -> Unit = {
-        margin(0.px, 4.px)
+        margin(Theme.Spacing.none, Theme.Spacing.xs)
     }
 
     val navLink: StyleBuilder.() -> Unit = {
-        color(Color.white)
+        color(Theme.Colors.white)
         textDecoration("none")
-        padding(8.px, 16.px)
+        padding(Theme.Spacing.sm, Theme.Spacing.md)
         display(DisplayStyle.Block)
-        backgroundColor(Color("#7112a1"))
-        borderRadius(4.px)
+        backgroundColor(Theme.Colors.secondary)
+        borderRadius(Theme.Spacing.borderRadius)
+        fontFamily(Theme.Typography.defaultFontFamily)
     }
 }

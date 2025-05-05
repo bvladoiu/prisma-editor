@@ -4,21 +4,23 @@ import org.jetbrains.compose.web.css.*
 
 object FooterStyles {
     val container: StyleBuilder.() -> Unit = {
-        backgroundColor(Color("#101010"))
-        padding(32.px, 0.px)
-        color(Color("#cccccc"))
+        backgroundColor(Theme.Colors.darkBackground)
+        padding(Theme.Spacing.xl, Theme.Spacing.none)
+        color(Theme.Colors.lightGray)
         textAlign("center")
-        marginTop(32.px)
+        marginTop(Theme.Spacing.xl)
+        fontFamily(Theme.Typography.defaultFontFamily)
     }
 
     val content: StyleBuilder.() -> Unit = {
-        maxWidth(1200.px)
+        maxWidth(Theme.Spacing.maxContentWidth)
         property("margin", "0 auto")
-        padding(0.px, 16.px)
+        padding(Theme.Spacing.none, Theme.Spacing.md)
     }
 
     val link: StyleBuilder.() -> Unit = {
-        color(Color.white)
+        color(Theme.Colors.white)
         textDecoration("underline")
+        fontFamily(Theme.Typography.defaultFontFamily)
     }
 }
