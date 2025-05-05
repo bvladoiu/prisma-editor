@@ -3,7 +3,7 @@ package prisma.editor.styles
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.css.StyleScope
 
-object HomeStyles {
+object PageStyles {
     val container: StyleScope.() -> Unit = {
         backgroundColor(Theme.Colors.primary)
         color(Theme.Colors.white)

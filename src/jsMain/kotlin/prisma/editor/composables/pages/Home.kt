@@ -7,8 +7,7 @@ import prisma.editor.model.Home
 import prisma.editor.model.loadHome
 import prisma.editor.model.Update
 import prisma.editor.composables.component.*
-import prisma.editor.styles.HomeStyles
-import prisma.editor.styles.ButtonStyles
+import prisma.editor.styles.PageStyles
 
 @Composable
 fun Home(homeData: Home? = null) {
@@ -31,13 +30,13 @@ fun Home(homeData: Home? = null) {
     }
 
     Div(attrs = {
-        style(HomeStyles.container)
+        style(PageStyles.container)
     }) {
         when {
             isLoading -> {
                 // Show loading indicator
                 Div(attrs = {
-                    style(HomeStyles.loadingContainer)
+                    style(PageStyles.loadingContainer)
                 }) {
                     Text("Loading...")
                 }
@@ -45,7 +44,7 @@ fun Home(homeData: Home? = null) {
             error != null -> {
                 // Show error message
                 Div(attrs = {
-                    style(HomeStyles.errorContainer)
+                    style(PageStyles.errorContainer)
                 }) {
                     Text("Error: $error")
                 }
@@ -56,7 +55,7 @@ fun Home(homeData: Home? = null) {
 
                 // Main content container
                 Div(attrs = {
-                    style(HomeStyles.mainContent)
+                    style(PageStyles.mainContent)
                 }) {
                     // Hero Section
                     Section(
