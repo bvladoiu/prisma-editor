@@ -3,6 +3,7 @@ package prisma.editor.composables.component
 import androidx.compose.runtime.*
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.*
+import prisma.editor.styles.SectionStyles
 
 @Composable
 fun Section(
@@ -12,31 +13,15 @@ fun Section(
     content: @Composable () -> Unit
 ) {
     Section(attrs = {
-        style {
-            marginTop(marginTop)
-            marginBottom(2.cssRem)
-            padding(0.px, 16.px)
-            maxWidth(1200.px)
-            property("margin", "0 auto")
-        }
+        style(SectionStyles.container(marginTop))
     }) {
         Article(attrs = {
-            style {
-                padding(16.px)
-                backgroundColor(rgba(255, 255, 255, 0.03))
-                borderRadius(4.px)
-            }
+            style(SectionStyles.article)
         }) {
             if (title != null) {
                 if (isDivider) {
                     Header(attrs = {
-                        style {
-                            fontSize(24.px)
-                            fontWeight("bold")
-                            marginBottom(16.px)
-                            paddingBottom(8.px)
-                            property("border-bottom", "1px solid #666666")
-                        }
+                        style(SectionStyles.headerWithDivider)
                     }) {
                         H2 {
                             Text(title)
@@ -44,16 +29,10 @@ fun Section(
                     }
                 } else {
                     Header(attrs = {
-                        style {
-                            marginBottom(16.px)
-                        }
+                        style(SectionStyles.headerWithoutDivider)
                     }) {
                         H2(attrs = {
-                            style {
-                                fontSize(24.px)
-                                fontWeight("bold")
-                                margin(0.px)
-                            }
+                            style(SectionStyles.heading)
                         }) {
                             Text(title)
                         }

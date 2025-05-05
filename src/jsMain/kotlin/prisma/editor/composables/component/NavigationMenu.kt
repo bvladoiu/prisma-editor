@@ -3,37 +3,19 @@ package prisma.editor.composables.component
 import androidx.compose.runtime.*
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.*
-import prisma.editor.Navigation
+import prisma.editor.styles.NavigationMenuStyles
+import prisma.editor.model.Navigation
 
 @Composable
 fun NavigationMenu(navigation: Navigation? = null) {
     Nav(attrs = {
-        style {
-            position(Position.Fixed)
-            top(0.px)
-            left(0.px)
-            right(0.px)
-            backgroundColor(Color("#56b2f0"))
-            property("z-index", "100")
-        }
+        style(NavigationMenuStyles.container)
     }) {
         Div(attrs = {
-            style {
-                display(DisplayStyle.Flex)
-                alignItems(AlignItems.Center)
-                padding(0.px, 16.px)
-                maxWidth(1200.px)
-                property("margin", "0 auto")
-                height(56.px)
-            }
+            style(NavigationMenuStyles.content)
         }) {
             A(attrs = {
-                style {
-                    color(Color.white)
-                    fontWeight("bold")
-                    textDecoration("none")
-                    marginRight(24.px)
-                }
+                style(NavigationMenuStyles.brand)
             }) {
                 Text(navigation?.brand ?: "Prisma-Software")
             }
@@ -48,28 +30,14 @@ fun NavigationMenu(navigation: Navigation? = null) {
 @Composable
 fun NavItems(items: List<String>) {
     Ul(attrs = {
-        style {
-            display(DisplayStyle.Flex)
-            listStyleType("none")
-            margin(0.px)
-            padding(0.px)
-        }
+        style(NavigationMenuStyles.navList)
     }) {
         items.forEach { item ->
             Li(attrs = {
-                style {
-                    margin(0.px, 4.px)
-                }
+                style(NavigationMenuStyles.navItem)
             }) {
                 A(attrs = {
-                    style {
-                        color(Color.white)
-                        textDecoration("none")
-                        padding(8.px, 16.px)
-                        display(DisplayStyle.Block)
-                        backgroundColor(Color("#7112a1"))
-                        borderRadius(4.px)
-                    }
+                    style(NavigationMenuStyles.navLink)
                 }) {
                     Text(item)
                 }

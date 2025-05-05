@@ -3,25 +3,16 @@ package prisma.editor.composables.component
 import androidx.compose.runtime.*
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.*
-import prisma.editor.Footer as FooterData
+import prisma.editor.styles.FooterStyles
+import prisma.editor.model.Footer as FooterModel
 
 @Composable
-fun Footer(footer: FooterData? = null) {
+fun Footer(footer: FooterModel? = null) {
     Footer(attrs = {
-        style {
-            backgroundColor(Color("#101010"))
-            padding(32.px, 0.px)
-            color(Color("#cccccc"))
-            textAlign("center")
-            marginTop(32.px)
-        }
+        style(FooterStyles.container)
     }) {
         Div(attrs = {
-            style {
-                maxWidth(1200.px)
-                property("margin", "0 auto")
-                padding(0.px, 16.px)
-            }
+            style(FooterStyles.content)
         }) {
             P {
                 Text(footer?.copyright ?: "Prisma-Software © 2024, All rights reserved.")
@@ -31,10 +22,7 @@ fun Footer(footer: FooterData? = null) {
                 val links = footer?.links ?: listOf("Privacy Policy", "Terms of Service")
                 links.forEachIndexed { index, link ->
                     A(attrs = {
-                        style {
-                            color(Color.white)
-                            textDecoration("underline")
-                        }
+                        style(FooterStyles.link)
                     }) {
                         Text(link)
                     }

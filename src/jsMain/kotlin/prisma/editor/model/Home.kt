@@ -1,4 +1,4 @@
-package prisma.editor
+package prisma.editor.model
 
 import kotlinx.browser.window
 import kotlinx.coroutines.*
@@ -9,58 +9,25 @@ import kotlin.coroutines.suspendCoroutine
 import kotlin.js.Json
 import kotlin.js.json
 
-// Data models for home page content
-data class HomeData(
+@JsName("undefined")
+external val undefined: dynamic
+
+// Data model for home page content
+data class Home(
     val navigation: Navigation,
     val hero: Hero,
     val sections: List<Section>,
     val footer: Footer
 )
 
-data class Navigation(
-    val brand: String,
-    val items: List<String>
-)
-
-data class Hero(
-    val title: String,
-    val description: String,
-    val buttonText: String
-)
-
-data class Section(
-    val title: String?,
-    val isDivider: Boolean,
-    val items: List<SectionItem>? = null,
-    val keywordStrip: List<String>? = null,
-    val updates: List<UpdateItem>? = null,
-    val buttonText: String? = null
-)
-
-data class SectionItem(
-    val title: String,
-    val description: String
-)
-
-data class UpdateItem(
-    val title: String,
-    val author: String,
-    val date: String
-)
-
-data class Footer(
-    val copyright: String,
-    val links: List<String>
-)
-
 // Function to load home data from JSON file
-suspend fun loadHomeData(language: String = "en"): HomeData {
+suspend fun loadHome(language: String = "en"): Home {
     val jsonString = fetchResource("/data/$language/home.json")
-    return parseHomeData(jsonString)
+    return parseHome(jsonString)
 }
 
-// Parse JSON string to HomeData object
-private fun parseHomeData(jsonString: String): HomeData {
+// Parse JSON string to Home object
+private fun parseHome(jsonString: String): Home {
     val jsonObj = JSON.parse<Json>(jsonString)
 
     // Parse navigation
@@ -85,7 +52,7 @@ private fun parseHomeData(jsonString: String): HomeData {
         val isDivider = sectionObj["isDivider"].unsafeCast<Boolean>()
 
         // Parse items if present
-        val items = if (sectionObj["items"] != undefined) {
+        val items = if (sectionObj["items"] !== undefined) {
             sectionObj["items"].unsafeCast<Array<Json>>().map { itemObj ->
                 SectionItem(
                     title = itemObj["title"].toString(),
@@ -95,14 +62,14 @@ private fun parseHomeData(jsonString: String): HomeData {
         } else null
 
         // Parse keywordStrip if present
-        val keywordStrip = if (sectionObj["keywordStrip"] != undefined) {
+        val keywordStrip = if (sectionObj["keywordStrip"] !== undefined) {
             sectionObj["keywordStrip"].unsafeCast<Array<String>>().toList()
         } else null
 
         // Parse updates if present
-        val updates = if (sectionObj["updates"] != undefined) {
+        val updates = if (sectionObj["updates"] !== undefined) {
             sectionObj["updates"].unsafeCast<Array<Json>>().map { updateObj ->
-                UpdateItem(
+                Update(
                     title = updateObj["title"].toString(),
                     author = updateObj["author"].toString(),
                     date = updateObj["date"].toString()
@@ -111,12 +78,12 @@ private fun parseHomeData(jsonString: String): HomeData {
         } else null
 
         // Parse buttonText if present
-        val buttonText = if (sectionObj["buttonText"] != undefined) {
+        val buttonText = if (sectionObj["buttonText"] !== undefined) {
             sectionObj["buttonText"].toString()
         } else null
 
         Section(
-            title = if (title != undefined) title.toString() else null,
+            title = if (title !== undefined) title.toString() else null,
             isDivider = isDivider,
             items = items,
             keywordStrip = keywordStrip,
@@ -132,7 +99,7 @@ private fun parseHomeData(jsonString: String): HomeData {
         links = footerObj["links"].unsafeCast<Array<String>>().toList()
     )
 
-    return HomeData(
+    return Home(
         navigation = navigation,
         hero = hero,
         sections = sections,

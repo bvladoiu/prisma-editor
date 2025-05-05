@@ -3,12 +3,15 @@ package prisma.editor.composables.pages
 import androidx.compose.runtime.*
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.*
-import prisma.editor.HomeData
-import prisma.editor.loadHomeData
+import prisma.editor.model.Home
+import prisma.editor.model.loadHome
+import prisma.editor.model.Update
 import prisma.editor.composables.component.*
+import prisma.editor.styles.HomeStyles
+import prisma.editor.styles.ButtonStyles
 
 @Composable
-fun Home(homeData: HomeData? = null) {
+fun Home(homeData: Home? = null) {
     // Use a mutable state to hold the loaded data
     var data by remember { mutableStateOf(homeData) }
     var isLoading by remember { mutableStateOf(homeData == null) }
@@ -18,7 +21,7 @@ fun Home(homeData: HomeData? = null) {
     LaunchedEffect(Unit) {
         if (data == null) {
             try {
-                data = loadHomeData()
+                data = loadHome()
                 isLoading = false
             } catch (e: Exception) {
                 error = e.message ?: "Failed to load home data"
@@ -28,24 +31,13 @@ fun Home(homeData: HomeData? = null) {
     }
 
     Div(attrs = {
-        style {
-            backgroundColor(Color("#56b2f0"))
-            color(Color.white)
-            fontFamily("'Poppins', sans-serif")
-            margin(0.px)
-            padding(0.px)
-        }
+        style(HomeStyles.container)
     }) {
         when {
             isLoading -> {
                 // Show loading indicator
                 Div(attrs = {
-                    style {
-                        display(DisplayStyle.Flex)
-                        justifyContent(JustifyContent.Center)
-                        alignItems(AlignItems.Center)
-                        height(100.vh)
-                    }
+                    style(HomeStyles.loadingContainer)
                 }) {
                     Text("Loading...")
                 }
@@ -53,13 +45,7 @@ fun Home(homeData: HomeData? = null) {
             error != null -> {
                 // Show error message
                 Div(attrs = {
-                    style {
-                        display(DisplayStyle.Flex)
-                        justifyContent(JustifyContent.Center)
-                        alignItems(AlignItems.Center)
-                        height(100.vh)
-                        color(Color.red)
-                    }
+                    style(HomeStyles.errorContainer)
                 }) {
                     Text("Error: $error")
                 }
@@ -70,10 +56,7 @@ fun Home(homeData: HomeData? = null) {
 
                 // Main content container
                 Div(attrs = {
-                    style {
-                        marginTop(5.cssRem)
-                        marginBottom(2.cssRem)
-                    }
+                    style(HomeStyles.mainContent)
                 }) {
                     // Hero Section
                     Section(

@@ -3,6 +3,7 @@ package prisma.editor.composables.component
 import androidx.compose.runtime.*
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.*
+import prisma.editor.styles.ExpertiseItemStyles
 
 @Composable
 fun ExpertiseItem(
@@ -10,28 +11,16 @@ fun ExpertiseItem(
     description: String
 ) {
     Div(attrs = {
-        style {
-            padding(16.px)
-            backgroundColor(rgba(255, 255, 255, 0.1))
-            borderRadius(4.px)
-            height(100.percent)
-        }
+        style(ExpertiseItemStyles.container)
     }) {
         H3(attrs = {
-            style {
-                fontSize(20.px)
-                marginBottom(8.px)
-                color(Color.white)
-            }
+            style(ExpertiseItemStyles.title)
         }) {
             Text(title)
         }
 
         P(attrs = {
-            style {
-                margin(0.px)
-                lineHeight("1.5")
-            }
+            style(ExpertiseItemStyles.description)
         }) {
             Text(description)
         }

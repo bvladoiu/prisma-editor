@@ -3,6 +3,7 @@ package prisma.editor.composables.component
 import androidx.compose.runtime.*
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.*
+import prisma.editor.styles.ReasonItemStyles
 
 @Composable
 fun ReasonItem(
@@ -10,18 +11,10 @@ fun ReasonItem(
     description: String
 ) {
     Div(attrs = {
-        style {
-            padding(16.px)
-            backgroundColor(rgba(255, 255, 255, 0.1))
-            borderRadius(4.px)
-        }
+        style(ReasonItemStyles.container)
     }) {
         Span(attrs = {
-            style {
-                fontWeight("bold")
-                display(DisplayStyle.Block)
-                marginBottom(8.px)
-            }
+            style(ReasonItemStyles.title)
         }) {
             Text(title)
         }

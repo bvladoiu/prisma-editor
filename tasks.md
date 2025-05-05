@@ -1,5 +1,8 @@
 # Tasks
 
+## Refactor model classes into separate files - 05/15/2025
+Created a model package and moved each data model class from HomeData.kt into its own file. Renamed HomeData to Home, removing the "Data" suffix as requested. Updated all references in the composables to use the new model classes. This improves code organization by following the single responsibility principle and makes the model classes more maintainable.
+
 ## Refactor HomeComposables into separate files - 05/14/2025
 Extracted each composable from HomeComposables.kt into its own file within a new package structure. Moved Home() composable to composables/pages/Home.kt and all other component composables to composables/component/ directory. Updated imports in Editor.kt to reference the new location. This improves code organization and maintainability by following the single responsibility principle.
 
