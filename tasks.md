@@ -1,5 +1,23 @@
 # Tasks
 
+## Refactor HomeComposables into separate files - 05/14/2025
+Extracted each composable from HomeComposables.kt into its own file within a new package structure. Moved Home() composable to composables/pages/Home.kt and all other component composables to composables/component/ directory. Updated imports in Editor.kt to reference the new location. This improves code organization and maintainability by following the single responsibility principle.
+
+## Refactor composables to semantic HTML - 05/13/2025
+Refactored all composables to use appropriate semantic HTML tags instead of generic Div elements. Replaced Div with Header in AppBar, Nav in NavigationMenu, Section in Section composable, and Footer in Footer composable. Also improved list structures by using Ul and Li elements in NavItems, UpdatesList, and DrawerItem. Added Article elements for content containers and proper Header elements for section titles. These changes improve accessibility and SEO while maintaining the same visual appearance.
+
+## Implement JSON-driven home content - 05/12/2025
+Created a data model and loading mechanism for the home page content from JSON files. Modified the Home composable to dynamically load and display content from the resources/data directory, supporting both English and German languages. Updated NavigationMenu and Footer composables to accept data parameters, making the entire page content configurable through JSON.
+
+## Add multilingual JSON data - 05/11/2025
+Created a data directory structure in resources with en and de subdirectories for English and German content. Extracted content from home6.html in resources/samples and created structured home.json files for both languages. The JSON structure includes navigation, hero section, content sections, and footer with all text properly localized.
+
+## Fix AppBar isDrawerOpen parameter - 05/10/2025
+Fixed a compilation error by implementing the isDrawerOpen parameter in the AppBar composable. Added the parameter to the function signature and updated the menu button to show different icons based on the drawer state (X when open, hamburger menu when closed).
+
+## Implement Home composable from mock - 05/09/2025
+Created a Home() composable based on the home6.html mock in resources/samples. Implemented Section and various Item composables with appropriate parameters to make all content configurable. Used Compose Web DSL-style programming with modifiers instead of direct HTML/CSS, following idiomatic Compose patterns.
+
 ## Purged project of MUI. Now only using Compose for Web/Html 05/05/2025
 
 ## Create todo list for HTML/CSS editor - 05/05/2025

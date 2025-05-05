@@ -6,6 +6,7 @@ import kotlinx.browser.window
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.*
 import org.jetbrains.compose.web.renderComposable
+import prisma.editor.composables.pages.Home
 
 object Editor {
     fun openPage(name: String) {
@@ -71,8 +72,8 @@ fun EditorScaffold(content: @Composable () -> Unit) {
 }
 
 @Composable
-fun AppBar(onMenuClick: () -> Unit) {
-    Div(attrs = {
+fun AppBar(isDrawerOpen: Boolean, onMenuClick: () -> Unit) {
+    Header(attrs = {
         style {
             display(DisplayStyle.Flex)
             alignItems(AlignItems.Center)
@@ -95,30 +96,35 @@ fun AppBar(onMenuClick: () -> Unit) {
             }
             onClick { onMenuClick() }
         }) {
-            // Menu icon (simplified)
-            Div(attrs = {
-                style {
-                    width(24.px)
-                    height(3.px)
-                    backgroundColor(Color.white)
-                    marginBottom(5.px)
-                }
-            })
-            Div(attrs = {
-                style {
-                    width(24.px)
-                    height(3.px)
-                    backgroundColor(Color.white)
-                    marginBottom(5.px)
-                }
-            })
-            Div(attrs = {
-                style {
-                    width(24.px)
-                    height(3.px)
-                    backgroundColor(Color.white)
-                }
-            })
+            if (isDrawerOpen) {
+                // Close icon (simplified)
+                Text("✕") // Unicode X symbol
+            } else {
+                // Menu icon (simplified)
+                Div(attrs = {
+                    style {
+                        width(24.px)
+                        height(3.px)
+                        backgroundColor(Color.white)
+                        marginBottom(5.px)
+                    }
+                })
+                Div(attrs = {
+                    style {
+                        width(24.px)
+                        height(3.px)
+                        backgroundColor(Color.white)
+                        marginBottom(5.px)
+                    }
+                })
+                Div(attrs = {
+                    style {
+                        width(24.px)
+                        height(3.px)
+                        backgroundColor(Color.white)
+                    }
+                })
+            }
         }
 
         // Title
@@ -136,7 +142,7 @@ fun AppBar(onMenuClick: () -> Unit) {
 
 @Composable
 fun Drawer(onNavigate: (String) -> Unit) {
-    Div(attrs = {
+    Nav(attrs = {
         style {
             width(240.px)
             height(100.percent)
@@ -146,7 +152,7 @@ fun Drawer(onNavigate: (String) -> Unit) {
         }
     }) {
         // Drawer header
-        Div(attrs = {
+        Header(attrs = {
             style {
                 padding(16.px)
                 backgroundColor(Color("#7D3DF3"))
@@ -164,29 +170,46 @@ fun Drawer(onNavigate: (String) -> Unit) {
         }
 
         // Drawer items
-        DrawerItem("Home", onClick = { onNavigate("home") })
+        Ul(attrs = {
+            style {
+                listStyleType("none")
+                padding(0.px)
+                margin(0.px)
+            }
+        }) {
+            DrawerItem("Home", onClick = { onNavigate("home") })
+        }
     }
 }
 
 @Composable
 fun DrawerItem(text: String, onClick: () -> Unit) {
-    Div(attrs = {
+    Li(attrs = {
         style {
-            padding(16.px)
-            cursor("pointer")
-            backgroundColor(Color("#FFFFFF"))
-            // Simple styling without hover effects
+            padding(0.px)
+            margin(0.px)
         }
-        onClick { onClick() }
     }) {
-        Text(text)
+        A(attrs = {
+            style {
+                padding(16.px)
+                cursor("pointer")
+                backgroundColor(Color("#FFFFFF"))
+                display(DisplayStyle.Block)
+                textDecoration("none")
+                color(Color.black)
+                // Simple styling without hover effects
+            }
+            onClick { onClick() }
+        }) {
+            Text(text)
+        }
     }
 }
 
 @Composable
 fun HomePage() {
-    H2 { Text("Home Page") }
-    P { Text("Welcome to the Prisma Editor!") }
+    Home()
 }
 
 fun main() {

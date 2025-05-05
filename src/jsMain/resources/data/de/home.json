@@ -1,0 +1,94 @@
+{
+  "navigation": {
+    "brand": "Prisma-Software",
+    "items": [
+      "Startseite",
+      "Neuigkeiten",
+      "Blog",
+      "Unternehmen"
+    ]
+  },
+  "hero": {
+    "title": "Embedded-Software-Lösungen — Sicher für jede Branche",
+    "description": "Über 20 Jahre Embedded-Expertise in unternehmenskritischen Systemen, von Fahrzeugplattformen bis hin zu robusten, cloudverbundenen Anwendungen. Wir konzentrieren uns auf Qualität, Compliance und eine benutzerorientierte Erfahrung, um sicherzustellen, dass Ihre Produkte in wettbewerbsintensiven Märkten hervorragen.",
+    "buttonText": "Kontakt aufnehmen"
+  },
+  "sections": [
+    {
+      "title": "Unsere Kernkompetenzen",
+      "isDivider": true,
+      "items": [
+        {
+          "title": "Automobilindustrie",
+          "description": "ISO 26262, ASPICE, AUTOSAR — Wir überzeugen bei funktionaler Sicherheit, Antriebssteuerung, Batteriemanagement und ADAS. Von OTA-Updates bis hin zu sicherer Diagnose kombinieren unsere Lösungen Präzision und Compliance für die Fahrzeuge von morgen."
+        },
+        {
+          "title": "MedTech & Industrie 4.0",
+          "description": "Mit ausgewählter Erfahrung in IEC 62304 und intelligenter Fertigung bettet unser Team Konnektivität (BLE, Wi-Fi und industrielle Protokolle) ein, um sichere, datengesteuerte Lösungen zu entwickeln. Wir helfen Ihnen, strenge Compliance-Anforderungen zu erfüllen, ohne auf Innovation zu verzichten."
+        },
+        {
+          "title": "Cloud & Anwendungsentwicklung",
+          "description": "Wir entwickeln Multi-Plattform-Apps mit Kotlin, Flutter oder React — offline-first, sicher und in Ihr Backend integriert. Durch den Einsatz von CI/CD-Pipelines (Jenkins, GitLab, GitHub Actions) gewährleisten wir reibungslose Builds, schnelle Bereitstellung und skalierbare Cloud-Architekturen."
+        }
+      ]
+    },
+    {
+      "title": null,
+      "isDivider": false,
+      "keywordStrip": [
+        "ISO 26262", "ASPICE", "AUTOSAR", "Modellbasierte Entwicklung",
+        "MATLAB/Simulink", "TargetLink", "IBM Rhapsody",
+        "Agile/V-Zyklus", "Kotlin", "Flutter", "React",
+        "Jenkins", "GitLab", "GitHub Actions", "C/C++",
+        "BLE, Wi-Fi, NFC", "IEC 62304", "OTA-Updates",
+        "Kryptographie", "Asynchrone Programmierung", "Leistungsoptimierung"
+      ]
+    },
+    {
+      "title": "Warum mit uns arbeiten?",
+      "isDivider": true,
+      "items": [
+        {
+          "title": "Bewährte Expertise",
+          "description": "Über 20 Jahre Erfahrung in komplexen Compliance-Umgebungen, mit einer umfangreichen Erfolgsbilanz im Bereich Automotive Embedded."
+        },
+        {
+          "title": "Kontinuierliche Verbesserung",
+          "description": "Agile Methoden, TDD, Code-Reviews und enge Feedback-Schleifen."
+        },
+        {
+          "title": "End-to-End-Perspektive",
+          "description": "Von Firmware über mobile Apps bis hin zu Cloud-Backends — unser ganzheitlicher Ansatz hält alles synchron."
+        },
+        {
+          "title": "Skalierbare Zusammenarbeit",
+          "description": "Ob Machbarkeitsstudie oder mehrjähriges Engagement, wir passen uns Ihrer Roadmap in jedem Schritt an."
+        }
+      ],
+      "buttonText": "Lassen Sie uns etwas Großartiges aufbauen"
+    },
+    {
+      "title": "Neueste Updates",
+      "isDivider": true,
+      "updates": [
+        {
+          "title": "Expansion über die Automobilindustrie hinaus",
+          "author": "David",
+          "date": "3. Apr 2024"
+        },
+        {
+          "title": "Wie kann Marketing Ihrem Unternehmen helfen?",
+          "author": "Allen",
+          "date": "3. Apr 2024"
+        }
+      ]
+    }
+  ],
+  "footer": {
+    "copyright": "Prisma-Software © 2024, Alle Rechte vorbehalten.",
+    "links": [
+      "Datenschutzrichtlinie",
+      "Nutzungsbedingungen"
+    ]
+  }
+}

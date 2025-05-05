@@ -1,0 +1,94 @@
+{
+  "navigation": {
+    "brand": "Prisma-Software",
+    "items": [
+      "Home",
+      "News",
+      "Blog",
+      "Company"
+    ]
+  },
+  "hero": {
+    "title": "Embedded Software Solutions — Secure for Every Industry",
+    "description": "Over 20 years of embedded expertise in mission-critical systems, from in-vehicle platforms to robust, cloud-connected applications. We focus on quality, compliance, and a user-first experience to ensure your products excel in competitive markets.",
+    "buttonText": "Get in Touch"
+  },
+  "sections": [
+    {
+      "title": "Our Core Expertise",
+      "isDivider": true,
+      "items": [
+        {
+          "title": "Automotive",
+          "description": "ISO 26262, ASPICE, AUTOSAR — We excel at functional safety, powertrain control, battery management, and ADAS. From OTA updates to secure diagnostics, our solutions combine precision and compliance for tomorrow's vehicles."
+        },
+        {
+          "title": "MedTech & Industry 4.0",
+          "description": "With select experience in IEC 62304 and smart manufacturing, our team embeds connectivity (BLE, Wi-Fi, and industrial protocols) to drive secure, data-driven solutions. We help you meet strict compliance without sacrificing innovation."
+        },
+        {
+          "title": "Cloud & Application Engineering",
+          "description": "We build multi-platform apps with Kotlin, Flutter, or React — offline-first, secure, and integrated with your backend. Leveraging CI/CD pipelines (Jenkins, GitLab, GitHub Actions), we ensure smooth builds, rapid deployment, and scalable cloud architectures."
+        }
+      ]
+    },
+    {
+      "title": null,
+      "isDivider": false,
+      "keywordStrip": [
+        "ISO 26262", "ASPICE", "AUTOSAR", "Model-Based Development",
+        "MATLAB/Simulink", "TargetLink", "IBM Rhapsody",
+        "Agile/V-Cycle", "Kotlin", "Flutter", "React",
+        "Jenkins", "GitLab", "GitHub Actions", "C/C++",
+        "BLE, Wi-Fi, NFC", "IEC 62304", "OTA Updates",
+        "Cryptography", "Asynchronous Programming", "Performance Optimization"
+      ]
+    },
+    {
+      "title": "Why Work With Us?",
+      "isDivider": true,
+      "items": [
+        {
+          "title": "Proven Expertise",
+          "description": "20+ years delivering in complex compliance environments, with a deep record in automotive embedded."
+        },
+        {
+          "title": "Continuous Improvement",
+          "description": "Agile methodologies, TDD, code reviews, and tight feedback loops."
+        },
+        {
+          "title": "End-to-End Perspective",
+          "description": "From firmware to mobile apps to cloud backends—our holistic approach keeps everything in sync."
+        },
+        {
+          "title": "Scalable Collaboration",
+          "description": "Whether a feasibility study or multi-year engagement, we match your roadmap at every step."
+        }
+      ],
+      "buttonText": "Let's Build Something Great"
+    },
+    {
+      "title": "Latest Updates",
+      "isDivider": true,
+      "updates": [
+        {
+          "title": "Expanding Beyond Automotive",
+          "author": "David",
+          "date": "Apr 3, 2024"
+        },
+        {
+          "title": "How Can Marketing Help Your Business?",
+          "author": "Allen",
+          "date": "Apr 3, 2024"
+        }
+      ]
+    }
+  ],
+  "footer": {
+    "copyright": "Prisma-Software © 2024, All rights reserved.",
+    "links": [
+      "Privacy Policy",
+      "Terms of Service"
+    ]
+  }
+}
