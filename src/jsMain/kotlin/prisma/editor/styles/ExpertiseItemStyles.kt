@@ -1,30 +1,31 @@
 package prisma.editor.styles
 
-import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.css.StyleScope
+import org.w3c.dom.HTMLElement
 
 object ExpertiseItemStyles {
-    val container: StyleScope.() -> Unit = {
-        padding(Theme.Spacing.md)
-        backgroundColor(Theme.Colors.lightTransparent)
-        borderRadius(Theme.Spacing.borderRadius)
-        height(Theme.Spacing.fullWidth)
-    }
-
-    val title: StyleScope.() -> Unit = {
-        with(Theme.Typography) {
-            fontSize(fontMd)
-            fontFamily(defaultFontFamily)
+    fun applyContainerStyle(element: HTMLElement) {
+        element.style.apply {
+            padding = Theme.Spacing.md
+            backgroundColor = Theme.Colors.lightTransparent
+            borderRadius = Theme.Spacing.borderRadius
+            height = Theme.Spacing.fullWidth
         }
-        marginBottom(Theme.Spacing.sm)
-        color(Theme.Colors.white)
     }
 
-    val description: StyleScope.() -> Unit = {
-        margin(Theme.Spacing.none)
-        with(Theme.Typography) {
-            lineHeight(lineHeightNormal)
-            fontFamily(defaultFontFamily)
+    fun applyTitleStyle(element: HTMLElement) {
+        element.style.apply {
+            fontSize = Theme.Typography.fontMd
+            fontFamily = Theme.Typography.defaultFontFamily
+            marginBottom = Theme.Spacing.sm
+            color = Theme.Colors.white
+        }
+    }
+
+    fun applyDescriptionStyle(element: HTMLElement) {
+        element.style.apply {
+            margin = Theme.Spacing.none
+            lineHeight = Theme.Typography.lineHeightNormal
+            fontFamily = Theme.Typography.defaultFontFamily
         }
     }
 }

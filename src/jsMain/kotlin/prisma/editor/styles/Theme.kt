@@ -1,7 +1,8 @@
 package prisma.editor.styles
 
-import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.css.StyleScope
+import kotlinx.browser.document
+import org.w3c.dom.css.*
+import org.w3c.dom.HTMLElement
 
 /**
  * Theme object containing all colors, spacings, and typography used throughout the application.
@@ -12,22 +13,22 @@ object Theme {
      */
     object Colors {
         // Primary colors
-        val primary = Color("#56b2f0")
-        val secondary = Color("#7112a1")
+        val primary = "#56b2f0"
+        val secondary = "#7112a1"
 
         // Text colors
-        val white = Color.white
-        val lightGray = Color("#cccccc")
-        val red = Color.red
+        val white = "#ffffff"
+        val lightGray = "#cccccc"
+        val red = "#ff0000"
 
         // Background colors
-        val darkBackground = Color("#101010")
-        val mediumGray = Color("#666666")
+        val darkBackground = "#101010"
+        val mediumGray = "#666666"
 
         // Transparent colors
-        val lightTransparent = rgba(255, 255, 255, 0.1)
-        val veryLightTransparent = rgba(255, 255, 255, 0.03)
-        val mediumTransparent = rgba(255, 255, 255, 0.7)
+        val lightTransparent = "rgba(255, 255, 255, 0.1)"
+        val veryLightTransparent = "rgba(255, 255, 255, 0.03)"
+        val mediumTransparent = "rgba(255, 255, 255, 0.7)"
     }
 
     /**
@@ -35,25 +36,25 @@ object Theme {
      */
     object Spacing {
         // Base spacings
-        val none = 0.px
-        val xs = 4.px
-        val sm = 8.px
-        val md = 16.px
-        val lg = 24.px
-        val xl = 32.px
+        val none = "0px"
+        val xs = "4px"
+        val sm = "8px"
+        val md = "16px"
+        val lg = "24px"
+        val xl = "32px"
 
         // Rem values
-        val rem2 = 2.cssRem
-        val rem5 = 5.cssRem
+        val rem2 = "2rem"
+        val rem5 = "5rem"
 
         // Layout values
-        val maxContentWidth = 1200.px
-        val navHeight = 56.px
-        val fullHeight = 100.vh
-        val fullWidth = 100.percent
+        val maxContentWidth = "1200px"
+        val navHeight = "56px"
+        val fullHeight = "100vh"
+        val fullWidth = "100%"
 
         // Border radius
-        val borderRadius = 4.px
+        val borderRadius = "4px"
     }
 
     /**
@@ -61,11 +62,11 @@ object Theme {
      */
     object Typography {
         // Font sizes
-        val fontXs = 14.px
-        val fontSm = 18.px
-        val fontMd = 20.px
-        val fontLg = 24.px
-        val fontXl = 36.px
+        val fontXs = "14px"
+        val fontSm = "18px"
+        val fontMd = "20px"
+        val fontLg = "24px"
+        val fontXl = "36px"
 
         // Font family
         val defaultFontFamily = "'Poppins', sans-serif"
@@ -80,39 +81,49 @@ object Theme {
         val fontWeightBold = "bold"
 
         // Common text styles
-        val h1: StyleScope.() -> Unit = {
-            fontSize(fontXl)
-            fontWeight(fontWeightNormal)
-            lineHeight(lineHeightNormal)
-            fontFamily(defaultFontFamily)
+        fun applyH1Style(element: HTMLElement) {
+            element.style.apply {
+                fontSize = fontXl
+                fontWeight = fontWeightNormal
+                lineHeight = lineHeightNormal
+                fontFamily = defaultFontFamily
+            }
         }
 
-        val h2: StyleScope.() -> Unit = {
-            fontSize(fontLg)
-            fontWeight(fontWeightBold)
-            lineHeight(lineHeightNormal)
-            fontFamily(defaultFontFamily)
+        fun applyH2Style(element: HTMLElement) {
+            element.style.apply {
+                fontSize = fontLg
+                fontWeight = fontWeightBold
+                lineHeight = lineHeightNormal
+                fontFamily = defaultFontFamily
+            }
         }
 
-        val body1: StyleScope.() -> Unit = {
-            fontSize(fontMd)
-            fontWeight(fontWeightNormal)
-            lineHeight(lineHeightNormal)
-            fontFamily(defaultFontFamily)
+        fun applyBody1Style(element: HTMLElement) {
+            element.style.apply {
+                fontSize = fontMd
+                fontWeight = fontWeightNormal
+                lineHeight = lineHeightNormal
+                fontFamily = defaultFontFamily
+            }
         }
 
-        val body2: StyleScope.() -> Unit = {
-            fontSize(fontSm)
-            fontWeight(fontWeightNormal)
-            lineHeight(lineHeightLarge)
-            fontFamily(defaultFontFamily)
+        fun applyBody2Style(element: HTMLElement) {
+            element.style.apply {
+                fontSize = fontSm
+                fontWeight = fontWeightNormal
+                lineHeight = lineHeightLarge
+                fontFamily = defaultFontFamily
+            }
         }
 
-        val caption: StyleScope.() -> Unit = {
-            fontSize(fontXs)
-            fontWeight(fontWeightNormal)
-            lineHeight(lineHeightNormal)
-            fontFamily(defaultFontFamily)
+        fun applyCaptionStyle(element: HTMLElement) {
+            element.style.apply {
+                fontSize = fontXs
+                fontWeight = fontWeightNormal
+                lineHeight = lineHeightNormal
+                fontFamily = defaultFontFamily
+            }
         }
     }
 

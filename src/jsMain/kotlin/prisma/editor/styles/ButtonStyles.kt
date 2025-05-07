@@ -1,17 +1,18 @@
 package prisma.editor.styles
 
-import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.css.StyleScope
+import org.w3c.dom.HTMLElement
 
 object ButtonStyles {
-    val primary: StyleScope.() -> Unit = {
-        backgroundColor(Theme.Colors.secondary)
-        color(Theme.Colors.primary)
-        padding(Theme.Spacing.sm, Theme.Spacing.md)
-        border(Theme.Spacing.none)
-        borderRadius(Theme.Spacing.borderRadius)
-        cursor("pointer")
-        fontFamily(Theme.Typography.defaultFontFamily)
-        fontWeight(Theme.Typography.fontWeightBold)
+    fun applyPrimaryStyle(element: HTMLElement) {
+        element.style.apply {
+            backgroundColor = Theme.Colors.secondary
+            color = Theme.Colors.primary
+            padding = "${Theme.Spacing.sm} ${Theme.Spacing.md}"
+            border = Theme.Spacing.none
+            borderRadius = Theme.Spacing.borderRadius
+            cursor = "pointer"
+            fontFamily = Theme.Typography.defaultFontFamily
+            fontWeight = Theme.Typography.fontWeightBold
+        }
     }
 }

@@ -1,44 +1,49 @@
 package prisma.editor.styles
 
-import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.css.StyleScope
+import org.w3c.dom.HTMLElement
 
 object SectionStyles {
-    fun container(marginTop: CSSNumeric): StyleScope.() -> Unit = {
-        marginTop(marginTop)
-        marginBottom(Theme.Spacing.rem2)
-        padding(Theme.Spacing.none, Theme.Spacing.md)
-        maxWidth(Theme.Spacing.maxContentWidth)
-        property("margin", "0 auto")
-    }
-
-    val article: StyleScope.() -> Unit = {
-        padding(Theme.Spacing.md)
-        backgroundColor(Theme.Colors.veryLightTransparent)
-        borderRadius(Theme.Spacing.borderRadius)
-    }
-
-    val headerWithDivider: StyleScope.() -> Unit = {
-        with(Theme.Typography) {
-            fontSize(fontLg)
-            fontWeight(fontWeightBold)
-            fontFamily(defaultFontFamily)
+    fun applyContainerStyle(element: HTMLElement, marginTop: String) {
+        element.style.apply {
+            this.marginTop = marginTop
+            marginBottom = Theme.Spacing.rem2
+            padding = "${Theme.Spacing.none} ${Theme.Spacing.md}"
+            maxWidth = Theme.Spacing.maxContentWidth
+            margin = "0 auto"
         }
-        marginBottom(Theme.Spacing.md)
-        paddingBottom(Theme.Spacing.sm)
-        property("border-bottom", "1px solid ${Theme.Colors.mediumGray}")
     }
 
-    val headerWithoutDivider: StyleScope.() -> Unit = {
-        marginBottom(Theme.Spacing.md)
-    }
-
-    val heading: StyleScope.() -> Unit = {
-        with(Theme.Typography) {
-            fontSize(fontLg)
-            fontWeight(fontWeightBold)
-            fontFamily(defaultFontFamily)
+    fun applyArticleStyle(element: HTMLElement) {
+        element.style.apply {
+            padding = Theme.Spacing.md
+            backgroundColor = Theme.Colors.veryLightTransparent
+            borderRadius = Theme.Spacing.borderRadius
         }
-        margin(Theme.Spacing.none)
+    }
+
+    fun applyHeaderWithDividerStyle(element: HTMLElement) {
+        element.style.apply {
+            fontSize = Theme.Typography.fontLg
+            fontWeight = Theme.Typography.fontWeightBold
+            fontFamily = Theme.Typography.defaultFontFamily
+            marginBottom = Theme.Spacing.md
+            paddingBottom = Theme.Spacing.sm
+            borderBottom = "1px solid ${Theme.Colors.mediumGray}"
+        }
+    }
+
+    fun applyHeaderWithoutDividerStyle(element: HTMLElement) {
+        element.style.apply {
+            marginBottom = Theme.Spacing.md
+        }
+    }
+
+    fun applyHeadingStyle(element: HTMLElement) {
+        element.style.apply {
+            fontSize = Theme.Typography.fontLg
+            fontWeight = Theme.Typography.fontWeightBold
+            fontFamily = Theme.Typography.defaultFontFamily
+            margin = Theme.Spacing.none
+        }
     }
 }

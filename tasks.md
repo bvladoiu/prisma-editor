@@ -1,5 +1,23 @@
 # Tasks
 
+## Create Main stylesheet aggregator - 05/07/2025
+Created a Main.kt file in the styles package that aggregates all styles from the styles package into a single stylesheet. The Main object provides two main functions: initialize() to create a stylesheet and add all styles to it, and exportStylesheet() to export the stylesheet as a CSS string that can be downloaded. Updated HeroStyles.kt to include container and button styles that were previously hardcoded in the Hero component. This prepares the application for a future export button functionality that will allow users to download the aggregated stylesheet.
+
+## Migrate styles to direct DOM API - 05/22/2025
+Removed compose styles API from all files in the prisma.editor.styles package, following the pattern established in ButtonStyles.kt. Migrated FooterStyles, HeroStyles, KeywordStripStyles, NavigationMenuStyles, PageStyles, ReasonItemStyles, SectionStyles, and UpdatesListStyles to use direct style properties on HTMLElement instead of StyleScope lambda functions. Used dynamic approach for non-standard CSS properties like gap and gridTemplateColumns. This completes the migration of all style files to use the direct DOM API.
+
+## Complete UI component migration - 05/21/2025
+Migrated all remaining UI components from Compose to kotlinx.html+kotlin browser wrapper. Converted ExpertiseItem, ReasonItem, Footer, HeroContent, KeywordStrip, NavigationMenu, and UpdatesList components to use kotlinx.html DSL instead of Compose. Updated Home.kt to use the new components and removed redundant private functions. This completes the migration of all UI components to kotlinx.html while maintaining the compose-style naming convention (using Page() and Section() instead of buildPage() and buildSection()).
+
+## Complete migration to kotlinx.html - 05/20/2025
+Completed the migration from Compose Web to kotlinx.html by removing all *Kotlinx.kt files and updating the original files to use kotlinx.html and inline CSS. Updated Editor.kt, Home.kt, and Section.kt to use kotlinx.html APIs instead of Compose Web, maintaining the same functionality and appearance. This eliminates the duplication of code and completes the migration to kotlinx.html.
+
+## Remove kotlin.css dependency - 05/19/2025
+Removed kotlin.css dependency from build.gradle.kts and updated all files that were using it to use inline CSS strings instead. This includes EditorKotlinx.kt and SectionKotlinx.kt. Also updated EditorKotlinx.kt to use the HomeKotlinx implementation instead of a placeholder. This completes the migration from compose-web to kotlinx.html and ensures that all styling is done using inline CSS strings.
+
+## Replace compose with kotlinx.html - 05/18/2025
+Updated build.gradle.kts to remove compose.html.core dependency and uncomment kotlin.wrappers.browser and kotlin.css dependencies. Created new implementation of the UI using kotlinx.html instead of compose-web, maintaining a compose-like style with functions like Page() and Section(). The new implementation includes EditorKotlinx.kt, SectionKotlinx.kt, and HomeKotlinx.kt files that provide the same functionality as the original compose-based implementation.
+
 ## Extract typography styles to Typography - 05/17/2025
 Created a Typography object in the Theme.kt file to centralize all typography-related styles. Moved font sizes from Spacing and font properties from Styles to the Typography object, and added common text styles (h1, h2, body1, body2, caption). Refactored all 10 style files to use the Typography object, ensuring consistent typography across the application and making it easier to maintain and update text styles.
 

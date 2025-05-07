@@ -1,40 +1,43 @@
 package prisma.editor.styles
 
-import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.css.StyleScope
+import org.w3c.dom.HTMLElement
 
 object UpdatesListStyles {
-    val list: StyleScope.() -> Unit = {
-        display(DisplayStyle.Flex)
-        flexDirection(FlexDirection.Column)
-        gap(Theme.Spacing.md)
-        listStyleType("none")
-        padding(Theme.Spacing.none)
-        margin(Theme.Spacing.none)
-    }
-
-    val listItem: StyleScope.() -> Unit = {
-        padding(Theme.Spacing.sm, Theme.Spacing.none)
-        property("border-bottom", "1px solid ${Theme.Colors.lightTransparent}")
-        fontFamily(Theme.Typography.defaultFontFamily)
-    }
-
-    val updateLink: StyleScope.() -> Unit = {
-        color(Theme.Colors.white)
-        textDecoration("none")
-        with(Theme.Typography) {
-            fontSize(fontSm)
-            fontFamily(defaultFontFamily)
+    fun applyListStyle(element: HTMLElement) {
+        element.style.apply {
+            display = "flex"
+            flexDirection = "column"
+            this.asDynamic().gap = Theme.Spacing.md
+            listStyleType = "none"
+            padding = Theme.Spacing.none
+            margin = Theme.Spacing.none
         }
-        display(DisplayStyle.Block)
-        marginBottom(Theme.Spacing.xs)
     }
 
-    val metadata: StyleScope.() -> Unit = {
-        with(Theme.Typography) {
-            fontSize(fontXs)
-            fontFamily(defaultFontFamily)
+    fun applyListItemStyle(element: HTMLElement) {
+        element.style.apply {
+            padding = "${Theme.Spacing.sm} ${Theme.Spacing.none}"
+            borderBottom = "1px solid ${Theme.Colors.lightTransparent}"
+            fontFamily = Theme.Typography.defaultFontFamily
         }
-        color(Theme.Colors.mediumTransparent)
+    }
+
+    fun applyUpdateLinkStyle(element: HTMLElement) {
+        element.style.apply {
+            color = Theme.Colors.white
+            textDecoration = "none"
+            fontSize = Theme.Typography.fontSm
+            fontFamily = Theme.Typography.defaultFontFamily
+            display = "block"
+            marginBottom = Theme.Spacing.xs
+        }
+    }
+
+    fun applyMetadataStyle(element: HTMLElement) {
+        element.style.apply {
+            fontSize = Theme.Typography.fontXs
+            fontFamily = Theme.Typography.defaultFontFamily
+            color = Theme.Colors.mediumTransparent
+        }
     }
 }

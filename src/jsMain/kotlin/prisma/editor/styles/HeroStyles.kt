@@ -1,25 +1,47 @@
 package prisma.editor.styles
 
-import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.css.StyleScope
+import org.w3c.dom.HTMLElement
 
 object HeroStyles {
-    val title: StyleScope.() -> Unit = {
-        with(Theme.Typography) {
-            fontSize(fontXl)
-            fontWeight(fontWeightNormal)
-            fontFamily(defaultFontFamily)
+    fun applyContainerStyle(element: HTMLElement) {
+        element.style.apply {
+            textAlign = "center"
+            padding = "${Theme.Spacing.xl} ${Theme.Spacing.md}"
         }
-        marginTop(Theme.Spacing.rem2)
-        marginBottom(Theme.Spacing.md)
     }
 
-    val description: StyleScope.() -> Unit = {
-        with(Theme.Typography) {
-            fontSize(fontSm)
-            lineHeight(lineHeightLarge)
-            fontFamily(defaultFontFamily)
+    fun applyTitleStyle(element: HTMLElement) {
+        element.style.apply {
+            fontSize = Theme.Typography.fontXl
+            fontWeight = Theme.Typography.fontWeightNormal
+            fontFamily = Theme.Typography.defaultFontFamily
+            marginTop = Theme.Spacing.rem2
+            marginBottom = Theme.Spacing.md
+            color = Theme.Colors.primary
         }
-        marginBottom(Theme.Spacing.lg)
+    }
+
+    fun applyDescriptionStyle(element: HTMLElement) {
+        element.style.apply {
+            fontSize = Theme.Typography.fontSm
+            lineHeight = Theme.Typography.lineHeightLarge
+            fontFamily = Theme.Typography.defaultFontFamily
+            marginBottom = Theme.Spacing.lg
+            maxWidth = "600px"
+            marginLeft = "auto"
+            marginRight = "auto"
+        }
+    }
+
+    fun applyButtonStyle(element: HTMLElement) {
+        element.style.apply {
+            backgroundColor = Theme.Colors.secondary
+            color = Theme.Colors.white
+            padding = "${Theme.Spacing.sm} ${Theme.Spacing.md}"
+            border = Theme.Spacing.none
+            borderRadius = Theme.Spacing.borderRadius
+            fontSize = Theme.Typography.fontSm
+            cursor = "pointer"
+        }
     }
 }

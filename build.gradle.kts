@@ -44,9 +44,8 @@ kotlin {
         }
         val jsMain by getting {
             dependencies {
-//                implementation(libs.kotlin.wrappers.browser)
-//                implementation(libs.kotlin.css)
-                implementation(compose.html.core)
+                implementation(libs.kotlin.wrappers.browser)
+                implementation(libs.kotlinx.html)
             }
         }
     }

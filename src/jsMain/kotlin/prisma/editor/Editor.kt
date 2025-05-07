@@ -1,217 +1,227 @@
 package prisma.editor
 
-import androidx.compose.runtime.*
 import kotlinx.browser.document
 import kotlinx.browser.window
-import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.dom.*
-import org.jetbrains.compose.web.renderComposable
-import prisma.editor.composables.pages.Home
+import kotlinx.html.*
+import kotlinx.html.dom.append
+import kotlinx.html.js.onClickFunction
+import org.w3c.dom.HTMLElement
+import prisma.editor.ui.pages.Home
 
+/**
+ * Main entry point for the Prisma Editor using kotlinx.html.
+ */
 object Editor {
+    /**
+     * Opens a page with the specified name.
+     */
     fun openPage(name: String) {
-        renderComposable(rootElementId = "root") {
-            EditorScaffold {
-                when (name.lowercase()) {
-                    "home" -> HomePage()
-                    else -> Text("Page not found")
-                }
-            }
-        }
-    }
-}
+        val root = document.getElementById("root") as HTMLElement
+        root.innerHTML = ""
+        root.append {
+            div {
+                id = "editor-scaffold"
+                attributes["style"] = """
+                    display: flex;
+                    flex-direction: column;
+                    height: 100vh;
+                    width: 100%;
+                """
 
-@Composable
-fun EditorScaffold(content: @Composable () -> Unit) {
-    var isDrawerOpen by remember { mutableStateOf(false) }
+                // AppBar
+                appBar()
 
-    Div(attrs = {
-        style {
-            display(DisplayStyle.Flex)
-            flexDirection(FlexDirection.Column)
-            height(100.vh)
-            width(100.percent)
-        }
-    }) {
-        // AppBar
-        AppBar(
-            isDrawerOpen = isDrawerOpen,
-            onMenuClick = { isDrawerOpen = !isDrawerOpen }
-        )
+                // Content area
+                div {
+                    id = "content-area"
+                    attributes["style"] = """
+                        display: flex;
+                        flex-grow: 1;
+                        overflow: hidden;
+                    """
 
-        // Content area with drawer
-        Div(attrs = {
-            style {
-                display(DisplayStyle.Flex)
-                flexGrow(1)
-                overflow("hidden")
-            }
-        }) {
-            // Drawer
-            if (isDrawerOpen) {
-                Drawer(
-                    onNavigate = { route ->
-                        isDrawerOpen = false
-                        Editor.openPage(route)
+                    // Drawer (initially hidden with CSS)
+                    drawer()
+
+                    // Main content
+                    div {
+                        id = "main-content"
+                        attributes["style"] = """
+                            flex-grow: 1;
+                            padding: 16px;
+                            overflow: auto;
+                        """
+
+                        when (name.lowercase()) {
+                            "home" -> homePage()
+                            else -> p { +"Page not found" }
+                        }
                     }
-                )
-            }
-
-            // Main content
-            Div(attrs = {
-                style {
-                    flexGrow(1)
-                    padding(16.px)
-                    overflow("auto")
                 }
-            }) {
-                content()
             }
         }
+
+        // Add JavaScript for drawer toggle
+        val script = document.createElement("script") as HTMLElement
+        script.innerHTML = """
+            function toggleDrawer() {
+                const drawer = document.getElementById('drawer');
+                drawer.style.transform = drawer.style.transform === 'translateX(0px)' 
+                    ? 'translateX(-240px)' 
+                    : 'translateX(0px)';
+
+                const menuIcon = document.getElementById('menu-icon');
+                if (drawer.style.transform === 'translateX(0px)') {
+                    menuIcon.innerHTML = '✕';
+                } else {
+                    menuIcon.innerHTML = '☰';
+                }
+            }
+
+            function navigateTo(route) {
+                toggleDrawer();
+                setTimeout(() => {
+                    prisma.editor.Editor.openPage(route);
+                }, 300);
+            }
+        """
+        document.body?.appendChild(script)
     }
 }
 
-@Composable
-fun AppBar(isDrawerOpen: Boolean, onMenuClick: () -> Unit) {
-    Header(attrs = {
-        style {
-            display(DisplayStyle.Flex)
-            alignItems(AlignItems.Center)
-            padding(8.px, 16.px)
-            backgroundColor(Color("#6200EE"))
-            color(Color.white)
-            height(56.px)
-            property("box-shadow", "0 2px 4px rgba(0,0,0,0.2)")
-        }
-    }) {
+/**
+ * Creates the app bar at the top of the page.
+ */
+private fun FlowContent.appBar() {
+    header {
+        attributes["style"] = """
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            background-color: #6200EE;
+            color: white;
+            height: 56px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        """
+
         // Menu button
-        Button(attrs = {
-            style {
-                backgroundColor(Color.transparent)
-                border(0.px)
-                color(Color.white)
-                cursor("pointer")
-                padding(8.px)
-                marginRight(16.px)
+        button {
+            attributes["style"] = """
+                background-color: transparent;
+                border: 0;
+                color: white;
+                cursor: pointer;
+                padding: 8px;
+                margin-right: 16px;
+            """
+            id = "menu-button"
+            onClickFunction = { 
+                js("toggleDrawer()")
             }
-            onClick { onMenuClick() }
-        }) {
-            if (isDrawerOpen) {
-                // Close icon (simplified)
-                Text("✕") // Unicode X symbol
-            } else {
-                // Menu icon (simplified)
-                Div(attrs = {
-                    style {
-                        width(24.px)
-                        height(3.px)
-                        backgroundColor(Color.white)
-                        marginBottom(5.px)
-                    }
-                })
-                Div(attrs = {
-                    style {
-                        width(24.px)
-                        height(3.px)
-                        backgroundColor(Color.white)
-                        marginBottom(5.px)
-                    }
-                })
-                Div(attrs = {
-                    style {
-                        width(24.px)
-                        height(3.px)
-                        backgroundColor(Color.white)
-                    }
-                })
+
+            // Menu icon
+            span {
+                id = "menu-icon"
+                attributes["style"] = """
+                    font-size: 24px;
+                    line-height: 1;
+                """
+                +"☰"
             }
         }
 
         // Title
-        H1(attrs = {
-            style {
-                margin(0.px)
-                fontSize(20.px)
-                fontWeight("500")
-            }
-        }) {
-            Text("Prisma Editor")
+        h1 {
+            attributes["style"] = """
+                margin: 0;
+                font-size: 20px;
+                font-weight: 500;
+            """
+            +"Prisma Editor"
         }
     }
 }
 
-@Composable
-fun Drawer(onNavigate: (String) -> Unit) {
-    Nav(attrs = {
-        style {
-            width(240.px)
-            height(100.percent)
-            backgroundColor(Color.white)
-            property("box-shadow", "2px 0 4px rgba(0,0,0,0.2)")
-            overflow("auto")
-        }
-    }) {
+/**
+ * Creates the navigation drawer.
+ */
+private fun FlowContent.drawer() {
+    nav {
+        id = "drawer"
+        attributes["style"] = """
+            width: 240px;
+            height: 100%;
+            background-color: white;
+            box-shadow: 2px 0 4px rgba(0,0,0,0.2);
+            overflow: auto;
+            transform: translateX(-240px);
+            transition: transform 0.3s ease-in-out;
+        """
+
         // Drawer header
-        Header(attrs = {
-            style {
-                padding(16.px)
-                backgroundColor(Color("#7D3DF3"))
-                color(Color.white)
-            }
-        }) {
-            H2(attrs = {
-                style {
-                    margin(0.px)
-                    fontSize(18.px)
-                }
-            }) {
-                Text("Navigation")
+        header {
+            attributes["style"] = """
+                padding: 16px;
+                background-color: #7D3DF3;
+                color: white;
+            """
+            h2 {
+                attributes["style"] = """
+                    margin: 0;
+                    font-size: 18px;
+                """
+                +"Navigation"
             }
         }
 
         // Drawer items
-        Ul(attrs = {
-            style {
-                listStyleType("none")
-                padding(0.px)
-                margin(0.px)
-            }
-        }) {
-            DrawerItem("Home", onClick = { onNavigate("home") })
+        ul {
+            attributes["style"] = """
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+            """
+            drawerItem("Home", "home")
         }
     }
 }
 
-@Composable
-fun DrawerItem(text: String, onClick: () -> Unit) {
-    Li(attrs = {
-        style {
-            padding(0.px)
-            margin(0.px)
-        }
-    }) {
-        A(attrs = {
-            style {
-                padding(16.px)
-                cursor("pointer")
-                backgroundColor(Color("#FFFFFF"))
-                display(DisplayStyle.Block)
-                textDecoration("none")
-                color(Color.black)
-                // Simple styling without hover effects
+/**
+ * Creates a drawer item.
+ */
+private fun UL.drawerItem(text: String, route: String) {
+    li {
+        attributes["style"] = "padding: 0; margin: 0;"
+        a {
+            attributes["style"] = """
+                padding: 16px;
+                cursor: pointer;
+                background-color: #FFFFFF;
+                display: block;
+                text-decoration: none;
+                color: black;
+            """
+            href = "#"
+            onClickFunction = { event ->
+                event.preventDefault()
+                val routeJs = route // Capture the route in a local variable
+                js("navigateTo(arguments[0])")(routeJs)
             }
-            onClick { onClick() }
-        }) {
-            Text(text)
+            +text
         }
     }
 }
 
-@Composable
-fun HomePage() {
-    Home()
+/**
+ * Creates the home page.
+ */
+private fun FlowContent.homePage() {
+    Home(null)
 }
 
+/**
+ * Main function that initializes the application.
+ */
 fun main() {
     window.onload = {
         Editor.openPage("home")

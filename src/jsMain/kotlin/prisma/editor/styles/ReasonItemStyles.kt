@@ -1,22 +1,23 @@
 package prisma.editor.styles
 
-import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.css.StyleScope
+import org.w3c.dom.HTMLElement
 
 object ReasonItemStyles {
-    val container: StyleScope.() -> Unit = {
-        padding(Theme.Spacing.md)
-        backgroundColor(Theme.Colors.lightTransparent)
-        borderRadius(Theme.Spacing.borderRadius)
-        fontFamily(Theme.Typography.defaultFontFamily)
+    fun applyContainerStyle(element: HTMLElement) {
+        element.style.apply {
+            padding = Theme.Spacing.md
+            backgroundColor = Theme.Colors.lightTransparent
+            borderRadius = Theme.Spacing.borderRadius
+            fontFamily = Theme.Typography.defaultFontFamily
+        }
     }
 
-    val title: StyleScope.() -> Unit = {
-        with(Theme.Typography) {
-            fontWeight(fontWeightBold)
-            fontFamily(defaultFontFamily)
+    fun applyTitleStyle(element: HTMLElement) {
+        element.style.apply {
+            fontWeight = Theme.Typography.fontWeightBold
+            fontFamily = Theme.Typography.defaultFontFamily
+            display = "block"
+            marginBottom = Theme.Spacing.sm
         }
-        display(DisplayStyle.Block)
-        marginBottom(Theme.Spacing.sm)
     }
 }
