@@ -5,6 +5,8 @@ import kotlinx.browser.window
 import kotlinx.html.*
 import kotlinx.html.dom.append
 import kotlinx.html.js.onClickFunction
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.w3c.dom.HTMLElement
 import prisma.editor.ui.pages.Home
 
@@ -216,7 +218,14 @@ private fun UL.drawerItem(text: String, route: String) {
  * Creates the home page.
  */
 private fun FlowContent.homePage() {
-    Home(null)
+    // Launch a coroutine to load and create the home page
+    kotlinx.browser.window.setTimeout({
+        kotlinx.coroutines.GlobalScope.launch {
+            val homeComponent = Home()
+            val homeElement = homeComponent.create()
+            document.getElementById("main-content")?.appendChild(homeElement)
+        }
+    }, 0)
 }
 
 /**

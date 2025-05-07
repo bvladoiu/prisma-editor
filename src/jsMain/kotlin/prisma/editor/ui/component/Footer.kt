@@ -1,39 +1,34 @@
 package prisma.editor.ui.component
 
+import kotlinx.browser.document
 import kotlinx.html.*
+import kotlinx.html.dom.*
+import web.html.HTMLElement
+import org.w3c.dom.HTMLElement as W3CHTMLElement
 
 /**
- * Creates a footer.
+ * Creates a footer with the 'footer' attribute.
  */
-fun FlowContent.Footer(
-    copyright: String = "Prisma-Software © 2024, All rights reserved.",
-    links: List<String> = listOf("Privacy Policy", "Terms of Service")
-) {
-    footer {
-        attributes["style"] = """
-            margin-top: 32px;
-            padding-top: 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-            font-size: 14px;
-            color: #cccccc;
-        """
+class Footer(
+    var copyright: String = "Prisma-Software © 2024, All rights reserved.",
+    var links: List<String> = listOf("Privacy Policy", "Terms of Service")
+) : HTMLElement {
+    fun create(): W3CHTMLElement {
+        return document.create.footer {
+            // Add the 'footer' attribute for CSS targeting
+            attributes["footer"] = ""
 
-        p { +copyright }
+            p { +copyright }
 
-        div {
-            attributes["style"] = """
-                display: flex;
-                justify-content: center;
-                gap: 16px;
-                margin-top: 8px;
-            """
+            div {
+                // Add the 'content' class for CSS targeting
+                classes = setOf("content")
 
-            links.forEach { link ->
-                a {
-                    href = "#"
-                    attributes["style"] = "color: #56b2f0; text-decoration: none;"
-                    +link
+                links.forEach { link ->
+                    a {
+                        href = "#"
+                        +link
+                    }
                 }
             }
         }

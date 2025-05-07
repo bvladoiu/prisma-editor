@@ -1,13 +1,10 @@
 package prisma.editor.model
 
-import kotlinx.browser.window
-import kotlinx.coroutines.*
 import org.w3c.xhr.XMLHttpRequest
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 import kotlin.js.Json
-import kotlin.js.json
 
 @JsName("undefined")
 external val undefined: dynamic
@@ -40,7 +37,7 @@ private fun parseHome(jsonString: String): Home {
     // Parse hero
     val heroObj = jsonObj["hero"].unsafeCast<Json>()
     val hero = Hero(
-        title = heroObj["title"].toString(),
+        name = heroObj["title"].toString(),
         description = heroObj["description"].toString(),
         buttonText = heroObj["buttonText"].toString()
     )
@@ -54,8 +51,8 @@ private fun parseHome(jsonString: String): Home {
         // Parse items if present
         val items = if (sectionObj["items"] !== undefined) {
             sectionObj["items"].unsafeCast<Array<Json>>().map { itemObj ->
-                SectionItem(
-                    title = itemObj["title"].toString(),
+                Expertise(
+                    name = itemObj["title"].toString(),
                     description = itemObj["description"].toString()
                 )
             }

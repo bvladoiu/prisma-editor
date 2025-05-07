@@ -2,7 +2,11 @@ package prisma.editor.styles
 
 import org.w3c.dom.HTMLElement
 
+/**
+ * Styles for the Hero component.
+ */
 object HeroStyles {
+    // Style methods for direct manipulation (legacy support)
     fun applyContainerStyle(element: HTMLElement) {
         element.style.apply {
             textAlign = "center"
@@ -44,4 +48,41 @@ object HeroStyles {
             cursor = "pointer"
         }
     }
+
+    // CSS Stylesheet for the Hero component
+    val stylesheet: String get() = """
+        [hero] {
+            text-align: center;
+            padding: ${Theme.Spacing.xl} ${Theme.Spacing.md};
+        }
+
+        [hero] h1 {
+            font-size: ${Theme.Typography.fontXl};
+            font-weight: ${Theme.Typography.fontWeightNormal};
+            font-family: ${Theme.Typography.defaultFontFamily};
+            margin-top: ${Theme.Spacing.rem2};
+            margin-bottom: ${Theme.Spacing.md};
+            color: ${Theme.Colors.primary};
+        }
+
+        [hero] p {
+            font-size: ${Theme.Typography.fontSm};
+            line-height: ${Theme.Typography.lineHeightLarge};
+            font-family: ${Theme.Typography.defaultFontFamily};
+            margin-bottom: ${Theme.Spacing.lg};
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        [hero] button {
+            background-color: ${Theme.Colors.secondary};
+            color: ${Theme.Colors.white};
+            padding: ${Theme.Spacing.sm} ${Theme.Spacing.md};
+            border: ${Theme.Spacing.none};
+            border-radius: ${Theme.Spacing.borderRadius};
+            font-size: ${Theme.Typography.fontSm};
+            cursor: pointer;
+        }
+    """.trimIndent()
 }

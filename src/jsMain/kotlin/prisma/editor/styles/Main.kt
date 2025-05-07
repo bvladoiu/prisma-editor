@@ -2,7 +2,6 @@ package prisma.editor.styles
 
 import kotlinx.browser.document
 import org.w3c.dom.HTMLElement
-import org.w3c.dom.css.CSSStyleSheet
 
 /**
  * Main stylesheet that aggregates all styles from the styles package.
@@ -24,34 +23,20 @@ object Main {
         // Add styles from ButtonStyles
         cssRules.add(".button-primary { ${getCssFromStyle { ButtonStyles.applyPrimaryStyle(it) }} }")
         
-        // Add styles from ExpertiseItemStyles
-        cssRules.add(".expertise-item-container { ${getCssFromStyle { ExpertiseItemStyles.applyContainerStyle(it) }} }")
-        cssRules.add(".expertise-item-title { ${getCssFromStyle { ExpertiseItemStyles.applyTitleStyle(it) }} }")
-        cssRules.add(".expertise-item-description { ${getCssFromStyle { ExpertiseItemStyles.applyDescriptionStyle(it) }} }")
+        // Add styles from ExpertiseStyles
+        cssRules.add(ExpertiseStyles.stylesheet)
         
         // Add styles from FooterStyles
-        cssRules.add(".footer-container { ${getCssFromStyle { FooterStyles.applyContainerStyle(it) }} }")
-        cssRules.add(".footer-content { ${getCssFromStyle { FooterStyles.applyContentStyle(it) }} }")
-        cssRules.add(".footer-link { ${getCssFromStyle { FooterStyles.applyLinkStyle(it) }} }")
+        cssRules.add(FooterStyles.stylesheet)
         
         // Add styles from HeroStyles
-        cssRules.add(".hero-container { ${getCssFromStyle { HeroStyles.applyContainerStyle(it) }} }")
-        cssRules.add(".hero-title { ${getCssFromStyle { HeroStyles.applyTitleStyle(it) }} }")
-        cssRules.add(".hero-description { ${getCssFromStyle { HeroStyles.applyDescriptionStyle(it) }} }")
-        cssRules.add(".hero-button { ${getCssFromStyle { HeroStyles.applyButtonStyle(it) }} }")
+        cssRules.add(HeroStyles.stylesheet)
         
         // Add styles from KeywordStripStyles
-        cssRules.add(".keyword-strip-container { ${getCssFromStyle { KeywordStripStyles.applyContainerStyle(it) }} }")
-        cssRules.add(".keyword-strip-paragraph { ${getCssFromStyle { KeywordStripStyles.applyParagraphStyle(it) }} }")
-        cssRules.add(".keyword-strip-separator { ${getCssFromStyle { KeywordStripStyles.applySeparatorStyle(it) }} }")
+        cssRules.add(KeywordStripStyles.stylesheet)
         
         // Add styles from NavigationMenuStyles
-        cssRules.add(".nav-container { ${getCssFromStyle { NavigationMenuStyles.applyContainerStyle(it) }} }")
-        cssRules.add(".nav-content { ${getCssFromStyle { NavigationMenuStyles.applyContentStyle(it) }} }")
-        cssRules.add(".nav-brand { ${getCssFromStyle { NavigationMenuStyles.applyBrandStyle(it) }} }")
-        cssRules.add(".nav-list { ${getCssFromStyle { NavigationMenuStyles.applyNavListStyle(it) }} }")
-        cssRules.add(".nav-item { ${getCssFromStyle { NavigationMenuStyles.applyNavItemStyle(it) }} }")
-        cssRules.add(".nav-link { ${getCssFromStyle { NavigationMenuStyles.applyNavLinkStyle(it) }} }")
+        cssRules.add(NavigationMenuStyles.stylesheet)
         
         // Add styles from PageStyles
         cssRules.add(".page-container { ${getCssFromStyle { PageStyles.applyContainerStyle(it) }} }")
@@ -100,34 +85,20 @@ object Main {
         // Add styles from ButtonStyles
         cssRules.add(".button-primary { ${getCssFromStyle { ButtonStyles.applyPrimaryStyle(it) }} }")
         
-        // Add styles from ExpertiseItemStyles
-        cssRules.add(".expertise-item-container { ${getCssFromStyle { ExpertiseItemStyles.applyContainerStyle(it) }} }")
-        cssRules.add(".expertise-item-title { ${getCssFromStyle { ExpertiseItemStyles.applyTitleStyle(it) }} }")
-        cssRules.add(".expertise-item-description { ${getCssFromStyle { ExpertiseItemStyles.applyDescriptionStyle(it) }} }")
+        // Add styles from ExpertiseStyles
+        cssRules.add(ExpertiseStyles.stylesheet)
         
         // Add styles from FooterStyles
-        cssRules.add(".footer-container { ${getCssFromStyle { FooterStyles.applyContainerStyle(it) }} }")
-        cssRules.add(".footer-content { ${getCssFromStyle { FooterStyles.applyContentStyle(it) }} }")
-        cssRules.add(".footer-link { ${getCssFromStyle { FooterStyles.applyLinkStyle(it) }} }")
+        cssRules.add(FooterStyles.stylesheet)
         
         // Add styles from HeroStyles
-        cssRules.add(".hero-container { ${getCssFromStyle { HeroStyles.applyContainerStyle(it) }} }")
-        cssRules.add(".hero-title { ${getCssFromStyle { HeroStyles.applyTitleStyle(it) }} }")
-        cssRules.add(".hero-description { ${getCssFromStyle { HeroStyles.applyDescriptionStyle(it) }} }")
-        cssRules.add(".hero-button { ${getCssFromStyle { HeroStyles.applyButtonStyle(it) }} }")
+        cssRules.add(HeroStyles.stylesheet)
         
         // Add styles from KeywordStripStyles
-        cssRules.add(".keyword-strip-container { ${getCssFromStyle { KeywordStripStyles.applyContainerStyle(it) }} }")
-        cssRules.add(".keyword-strip-paragraph { ${getCssFromStyle { KeywordStripStyles.applyParagraphStyle(it) }} }")
-        cssRules.add(".keyword-strip-separator { ${getCssFromStyle { KeywordStripStyles.applySeparatorStyle(it) }} }")
+        cssRules.add(KeywordStripStyles.stylesheet)
         
         // Add styles from NavigationMenuStyles
-        cssRules.add(".nav-container { ${getCssFromStyle { NavigationMenuStyles.applyContainerStyle(it) }} }")
-        cssRules.add(".nav-content { ${getCssFromStyle { NavigationMenuStyles.applyContentStyle(it) }} }")
-        cssRules.add(".nav-brand { ${getCssFromStyle { NavigationMenuStyles.applyBrandStyle(it) }} }")
-        cssRules.add(".nav-list { ${getCssFromStyle { NavigationMenuStyles.applyNavListStyle(it) }} }")
-        cssRules.add(".nav-item { ${getCssFromStyle { NavigationMenuStyles.applyNavItemStyle(it) }} }")
-        cssRules.add(".nav-link { ${getCssFromStyle { NavigationMenuStyles.applyNavLinkStyle(it) }} }")
+        cssRules.add(NavigationMenuStyles.stylesheet)
         
         // Add styles from PageStyles
         cssRules.add(".page-container { ${getCssFromStyle { PageStyles.applyContainerStyle(it) }} }")

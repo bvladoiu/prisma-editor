@@ -1,31 +1,27 @@
 package prisma.editor.ui.component
 
+import kotlinx.browser.document
 import kotlinx.html.*
+import kotlinx.html.dom.*
+import web.html.HTMLElement
+import org.w3c.dom.HTMLElement as W3CHTMLElement
+import prisma.editor.styles.KeywordStripStyles
 
 /**
- * Creates a keyword strip.
+ * Creates a keyword strip with the 'keyword-strip' attribute.
  */
-fun FlowContent.KeywordStrip(
-    keywords: List<String>
-) {
-    div {
-        attributes["style"] = """
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-        """
+class KeywordStrip : HTMLElement {
+    fun create(
+        keywords: List<String>
+    ): W3CHTMLElement {
+        return document.create.div {
+            // Add the 'keyword-strip' attribute for CSS targeting
+            attributes["keyword-strip"] = ""
 
-        keywords.forEach { keyword ->
-            span {
-                attributes["style"] = """
-                    background-color: rgba(255, 255, 255, 0.1);
-                    color: #56b2f0;
-                    padding: 4px 12px;
-                    border-radius: 16px;
-                    font-size: 14px;
-                """
-                +keyword
+            keywords.forEach { keyword ->
+                span {
+                    +keyword
+                }
             }
         }
     }

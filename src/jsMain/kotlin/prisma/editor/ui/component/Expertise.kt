@@ -1,32 +1,25 @@
 package prisma.editor.ui.component
 
+import kotlinx.browser.document
 import kotlinx.html.*
-import prisma.editor.styles.ExpertiseItemStyles
+import kotlinx.html.dom.*
+import org.w3c.dom.HTMLElement
 
-/**
- * Creates an expertise item.
- */
-fun FlowContent.Expertise(
-    title: String,
-    description: String
-) {
-    div {
-        consumer.onTagContentUnsafe { 
-            ExpertiseItemStyles.applyContainerStyle(it)
-        }
 
-        h3 {
-            consumer.onTagContentUnsafe { 
-                ExpertiseItemStyles.applyTitleStyle(it)
+class Expertise(var name: String, var description: String){
+
+    fun preview(): HTMLElement {
+        return document.create.div {
+            {
+                attributes["expertise"] = ""
+                h3 {
+                    +name
+                }
+                p {
+                    +description
+                }
             }
-            +title
-        }
-
-        p {
-            consumer.onTagContentUnsafe { 
-                ExpertiseItemStyles.applyDescriptionStyle(it)
-            }
-            +description
         }
     }
 }
+

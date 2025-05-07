@@ -1,5 +1,14 @@
 # Tasks
 
+## Merge model properties into UI components - 06/19/2025
+Merged the properties of data classes in the prisma.editor.model package into their counterparts in the prisma.editor.ui package, following the pattern established in the Expertise component. Updated NavigationMenu, Hero, and Footer components to include the properties from their respective model classes. For the Home component, implemented the state logic directly in the Home UI component instead of using a separate model class. This simplifies the architecture by reducing the number of classes and making the UI components more self-contained.
+
+## Implement Home as component with composite pattern - 06/18/2025
+Refactored Home.kt in the prisma.editor.ui.pages package to follow the component pattern used by other UI components. Implemented Home as a class that extends HTMLElement with a create() method that aggregates other components. Used the composite pattern where the Home component's create() method calls create() on child components (Hero, Section, Footer, etc.). This standardizes the architecture across the application and improves maintainability.
+
+## Refactor UI components to use kotlinx.html - 06/17/2025
+Refactored all components in the prisma.editor.ui.component package to match the Expertise component pattern using kotlinx.html APIs. Converted Footer, Hero, KeywordStrip, NavigationMenu, Pitch, Section, Page, and Updates components from FlowContent extension functions to classes extending HTMLElement with create() methods. This standardizes the component architecture across the application, making it more consistent and maintainable.
+
 ## Create Main stylesheet aggregator - 05/07/2025
 Created a Main.kt file in the styles package that aggregates all styles from the styles package into a single stylesheet. The Main object provides two main functions: initialize() to create a stylesheet and add all styles to it, and exportStylesheet() to export the stylesheet as a CSS string that can be downloaded. Updated HeroStyles.kt to include container and button styles that were previously hardcoded in the Hero component. This prepares the application for a future export button functionality that will allow users to download the aggregated stylesheet.
 
@@ -88,6 +97,12 @@ Removed all content from the header except the drawer toggle button, creating a 
 
 ## Replace TopBar with MUI AppBar - 05/08/2025
 Replaced the custom TopBarComponent with a new MuiAppBarComponent that uses Material UI AppBar styling. The new component provides a cleaner implementation that only contains the drawer menu button as required. Updated all references to TopBarComponent in the EditorComponent class and added a DSL-style function for creating MUI AppBar components.
+
+## Refactor Expertise component with attribute-based styling - 06/15/2025
+Refactored the Expertise component in the prisma.editor.ui.component package to use attribute-based styling. Updated the component to add an 'expertise' attribute to the root element for CSS targeting. Enhanced ExpertiseStyles.kt to use CSSOM APIs with selectors targeting the 'expertise' attribute, while maintaining backward compatibility with direct style manipulation methods. Added a method to create and add a stylesheet to the document, improving the component's styling architecture.
+
+## Extend HTMLElement with HtmlExpertiseElement - 06/16/2025
+Created a new HtmlExpertiseElement class that extends HTMLElement directly, following the example of HtmlDivElement. Implemented the necessary methods and properties for the class to work correctly. Updated the Expertise function to use the new HtmlExpertiseElement class while maintaining the 'expertise' attribute for CSS targeting. This improves the component architecture by using proper HTML element extension instead of wrapping elements.
 
 ## Implement Compose Web scaffold - 05/05/2025
 Implemented Editor.kt as a scaffold-like composition with AppBar/Toolbar and Drawer using compose web/html. Added a menu button to the AppBar and a Home entry to the Drawer in an idiomatic way. Used DSL-style programming with Compose for Web components instead of direct HTML/CSS.

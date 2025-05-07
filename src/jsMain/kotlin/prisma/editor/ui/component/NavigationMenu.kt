@@ -1,74 +1,41 @@
 package prisma.editor.ui.component
 
+import kotlinx.browser.document
 import kotlinx.html.*
-import prisma.editor.model.Navigation
+import kotlinx.html.dom.*
+import web.html.HTMLElement
+import org.w3c.dom.HTMLElement as W3CHTMLElement
+import prisma.editor.styles.NavigationMenuStyles
 
 /**
- * Creates a navigation menu.
+ * Creates a navigation menu with the 'navigation-menu' attribute.
  */
-fun FlowContent.NavigationMenu(
-    brand: String = "Prisma-Software",
-    items: List<String> = listOf("Home", "News", "Blog", "Company")
-) {
-    nav {
-        attributes["style"] = """
-            background-color: rgba(0, 0, 0, 0.8);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-        """
+class NavigationMenu(
+    var brand: String = "Prisma-Software",
+    var items: List<String> = listOf("Home", "News", "Blog", "Company")
+) : HTMLElement {
+    fun create(): W3CHTMLElement {
+        return document.create.nav {
+            // Add the 'navigation-menu' attribute for CSS targeting
+            attributes["navigation-menu"] = ""
 
-        div {
-            attributes["style"] = """
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 16px;
-                max-width: 1200px;
-                margin: 0 auto;
-            """
-
-            a {
-                href = "#"
-                attributes["style"] = """
-                    color: #56b2f0;
-                    font-size: 20px;
-                    font-weight: bold;
-                    text-decoration: none;
-                """
-                +brand
-            }
-
-            navItems(items)
-        }
-    }
-}
-
-/**
- * Creates navigation items.
- */
-private fun FlowContent.navItems(items: List<String>) {
-    ul {
-        attributes["style"] = """
-            display: flex;
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            gap: 16px;
-        """
-
-        items.forEach { item ->
-            li {
+            div {
                 a {
                     href = "#"
-                    attributes["style"] = """
-                        color: white;
-                        text-decoration: none;
-                        font-size: 16px;
-                    """
-                    +item
+                    // Add the 'brand' class for CSS targeting
+                    classes = setOf("brand")
+                    +brand
+                }
+
+                ul {
+                    items.forEach { item ->
+                        li {
+                            a {
+                                href = "#"
+                                +item
+                            }
+                        }
+                    }
                 }
             }
         }
