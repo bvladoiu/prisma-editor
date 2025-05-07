@@ -11,20 +11,23 @@ import prisma.editor.styles.Theme
 /**
  * Represents a navigation link component for the drawer.
  */
-class NavLink(var text: String, var route: String, var icon: String = "") {
+class NavLink(var text: String, var route: String, var icon: String = "", var selected: Boolean = false) {
     fun preview(): HTMLElement {
         return document.create.li {
             attributes["nav-item"] = ""
-            
+
             a {
                 attributes["nav-link"] = ""
+                if (selected) {
+                    attributes["nav-link-selected"] = ""
+                }
                 href = "#"
                 onClickFunction = { event ->
                     event.preventDefault()
                     val routeJs = route // Capture the route in a local variable
                     js("navigateTo(arguments[0])")(routeJs)
                 }
-                
+
                 if (icon.isNotEmpty()) {
                     span {
                         attributes["nav-icon"] = ""
@@ -32,7 +35,7 @@ class NavLink(var text: String, var route: String, var icon: String = "") {
                         +icon
                     }
                 }
-                
+
                 span {
                     attributes["nav-text"] = ""
                     +text
@@ -54,7 +57,7 @@ class NavLink(var text: String, var route: String, var icon: String = "") {
         val stylesheet = document.styleSheets[document.styleSheets.length - 1] as CSSStyleSheet
 
         // Add rules to the stylesheet
-        
+
         // List item rule
         val listItemRule = """
             [nav-item] {
@@ -63,7 +66,7 @@ class NavLink(var text: String, var route: String, var icon: String = "") {
             }
         """.trimIndent()
         stylesheet.insertRule(listItemRule, stylesheet.cssRules.length)
-        
+
         // Link rule
         val linkRule = """
             [nav-link] {
@@ -79,7 +82,7 @@ class NavLink(var text: String, var route: String, var icon: String = "") {
             }
         """.trimIndent()
         stylesheet.insertRule(linkRule, stylesheet.cssRules.length)
-        
+
         // Link hover rule
         val linkHoverRule = """
             [nav-link]:hover {
@@ -87,7 +90,16 @@ class NavLink(var text: String, var route: String, var icon: String = "") {
             }
         """.trimIndent()
         stylesheet.insertRule(linkHoverRule, stylesheet.cssRules.length)
-        
+
+        // Selected link rule
+        val selectedLinkRule = """
+            [nav-link-selected] {
+                background-color: ${Theme.Colors.primary} !important;
+                color: ${Theme.Colors.white} !important;
+            }
+        """.trimIndent()
+        stylesheet.insertRule(selectedLinkRule, stylesheet.cssRules.length)
+
         // Icon rule
         val iconRule = """
             [nav-icon] {
@@ -98,7 +110,7 @@ class NavLink(var text: String, var route: String, var icon: String = "") {
             }
         """.trimIndent()
         stylesheet.insertRule(iconRule, stylesheet.cssRules.length)
-        
+
         // Text rule
         val textRule = """
             [nav-text] {

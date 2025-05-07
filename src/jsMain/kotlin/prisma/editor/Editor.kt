@@ -141,8 +141,8 @@ object Editor {
  * Adds the navigation drawer to the content area.
  */
 private fun addDrawer(contentArea: HTMLElement) {
-    // Create NavLink for Home
-    val homeLink = prisma.editor.component.NavLink("Home", "home", "home")
+    // Create NavLink for Home with selected state
+    val homeLink = prisma.editor.component.NavLink("Home", "home", "home", true)
 
     // Create Drawer with NavLinks
     val drawer = prisma.editor.component.Drawer(listOf(homeLink))

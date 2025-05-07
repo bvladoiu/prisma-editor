@@ -113,6 +113,9 @@ Removed all content from the header except the drawer toggle button, creating a 
 ## Replace TopBar with MUI AppBar - 05/08/2025
 Replaced the custom TopBarComponent with a new MuiAppBarComponent that uses Material UI AppBar styling. The new component provides a cleaner implementation that only contains the drawer menu button as required. Updated all references to TopBarComponent in the EditorComponent class and added a DSL-style function for creating MUI AppBar components.
 
+## Implement Home page from home6.html - 06/25/2025
+Implemented a new Home page based on the content from resources/samples/home6.html using existing components. Enhanced the NavLink component to support a selected state for navigation items. Updated the Drawer implementation to mark the Home entry as selected. Created a clean implementation with proper sections for Hero/Intro, Core Expertise, Keyword Strip, Why Work With Us, and Latest Updates. Used attribute-based styling and Theme tokens for consistent styling without hardcoding values.
+
 ## Refactor Expertise component with attribute-based styling - 06/15/2025
 Refactored the Expertise component in the prisma.editor.component package to use attribute-based styling. Updated the component to add an 'expertise' attribute to the root element for CSS targeting. Enhanced ExpertiseStyles.kt to use CSSOM APIs with selectors targeting the 'expertise' attribute, while maintaining backward compatibility with direct style manipulation methods. Added a method to create and add a stylesheet to the document, improving the component's styling architecture.
 

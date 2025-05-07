@@ -5,7 +5,6 @@ import kotlinx.html.*
 import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
 import prisma.editor.component.*
-import prisma.editor.Editor
 import prisma.editor.styles.Theme
 
 /**
@@ -19,185 +18,194 @@ class Home {
         // Create the main container
         val container = document.create.div {
             attributes["home-page"] = ""
-            attributes["style"] = """
-                max-width: ${Theme.Spacing.maxContentWidth};
-                margin: 0 auto;
-                padding: 0 16px;
-            """
         }
 
-        // Welcome Section
-        val welcomeSection = Section(
-            title = "Welcome to Prisma Editor",
-            isDivider = true
+        // Hero / Intro Section
+        val heroSection = Section(
+            title = "Embedded Software Solutions — Secure for Every Industry",
+            isDivider = false
         )
-        val welcomeElement = welcomeSection.preview()
-        
-        // Add content to the welcome section
-        val welcomeContent = document.create.div {
+        val heroElement = heroSection.preview()
+
+        // Add content to the hero section
+        val heroContent = document.create.div {
             p {
-                attributes["style"] = """
-                    font-size: ${Theme.Typography.fontMd};
-                    line-height: ${Theme.Typography.lineHeightLarge};
-                    margin-bottom: ${Theme.Spacing.md};
-                """
-                +"Welcome to Prisma Editor, a powerful tool for editing and managing your content."
+                +"Over 20 years of embedded expertise in mission-critical systems, from in-vehicle platforms to robust, cloud-connected applications. We focus on quality, compliance, and a user-first experience to ensure your products excel in competitive markets."
             }
-            
-            p {
-                attributes["style"] = """
-                    font-size: ${Theme.Typography.fontMd};
-                    line-height: ${Theme.Typography.lineHeightLarge};
-                """
-                +"Use the import and export functions to save and load your settings."
+
+            div {
+                button {
+                    attributes["class"] = "primary-button"
+                    +"Get in Touch"
+                }
             }
         }
-        
-        // Find the content div in the section and append the welcome content
-        welcomeElement.querySelector("div")?.appendChild(welcomeContent)
-        
-        // Append welcome section to the container
-        container.appendChild(welcomeElement)
-        
-        // Features Section
-        val featuresSection = Section(
-            title = "Features",
+
+        // Find the content div in the section and append the hero content
+        heroElement.querySelector("div")?.appendChild(heroContent)
+
+        // Append hero section to the container
+        container.appendChild(heroElement)
+
+        // Core Expertise Section
+        val expertiseSection = Section(
+            title = "Our Core Expertise",
             isDivider = true
         )
-        val featuresElement = featuresSection.preview()
-        
-        // Create a grid container for the features
-        val featuresContainer = document.create.div {
-            attributes["style"] = """
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 16px;
-            """
+        val expertiseElement = expertiseSection.preview()
+
+        // Create a grid container for the expertise cards
+        val expertiseContainer = document.create.div {
+            attributes["expertise-grid"] = ""
         }
-        
-        // Add features
-        val features = listOf(
-            Pair("Import/Export", "Save and load your settings with the import and export functions."),
-            Pair("Customization", "Customize your editor with various settings and options."),
-            Pair("Responsive Design", "The editor works on all devices and screen sizes.")
+
+        // Add expertise cards
+        val expertiseItems = listOf(
+            Pair("Automotive", "ISO 26262, ASPICE, AUTOSAR — We excel at functional safety, powertrain control, battery management, and ADAS. From OTA updates to secure diagnostics, our solutions combine precision and compliance for tomorrow's vehicles."),
+            Pair("MedTech & Industry 4.0", "With select experience in IEC 62304 and smart manufacturing, our team embeds connectivity (BLE, Wi-Fi, and industrial protocols) to drive secure, data-driven solutions. We help you meet strict compliance without sacrificing innovation."),
+            Pair("Cloud & Application Engineering", "We build multi-platform apps with Kotlin, Flutter, or React — offline-first, secure, and integrated with your backend. Leveraging CI/CD pipelines (Jenkins, GitLab, GitHub Actions), we ensure smooth builds, rapid deployment, and scalable cloud architectures.")
         )
-        
-        features.forEach { (title, description) ->
+
+        expertiseItems.forEach { (title, description) ->
             val expertiseComponent = Expertise(title, description)
             val expertiseElement = expertiseComponent.preview()
-            featuresContainer.appendChild(expertiseElement)
+            expertiseContainer.appendChild(expertiseElement)
         }
-        
+
         // Append the grid to the section content div
-        featuresElement.querySelector("div")?.appendChild(featuresContainer)
-        
-        // Append features section to the container
-        container.appendChild(featuresElement)
-        
+        expertiseElement.querySelector("div")?.appendChild(expertiseContainer)
+
+        // Append expertise section to the container
+        container.appendChild(expertiseElement)
+
+        // Keyword Strip Section
+        val keywordSection = Section(
+            isDivider = false
+        )
+        val keywordElement = keywordSection.preview()
+
+        // Create keywords list
+        val keywords = listOf(
+            "ISO 26262", "ASPICE", "AUTOSAR", "Model-Based Development",
+            "MATLAB/Simulink", "TargetLink", "IBM Rhapsody",
+            "Agile/V-Cycle", "Kotlin", "Flutter", "React",
+            "Jenkins", "GitLab", "GitHub Actions", "C/C++",
+            "BLE, Wi-Fi, NFC", "IEC 62304", "OTA Updates",
+            "Cryptography", "Asynchronous Programming", "Performance Optimization"
+        )
+
+        // Create KeywordStrip component with the keywords
+        val keywordStrip = KeywordStrip(keywords)
+        val keywordStripElement = keywordStrip.preview()
+
+        // Apply the stylesheet
+        keywordStrip.stylesheet()
+
+        // Append the keyword strip to the section content div
+        keywordElement.querySelector("div")?.appendChild(keywordStripElement)
+
+        // Append keyword section to the container
+        container.appendChild(keywordElement)
+
+        // Why Work With Us Section
+        val whySection = Section(
+            title = "Why Work With Us?",
+            isDivider = true
+        )
+        val whyElement = whySection.preview()
+
+        // Create a grid container for the reasons
+        val reasonsContainer = document.create.div {
+            attributes["reasons-grid"] = ""
+        }
+
+        // Add reasons
+        val reasons = listOf(
+            Pair("Proven Expertise", "20+ years delivering in complex compliance environments, with a deep record in automotive embedded."),
+            Pair("Continuous Improvement", "Agile methodologies, TDD, code reviews, and tight feedback loops."),
+            Pair("End-to-End Perspective", "From firmware to mobile apps to cloud backends—our holistic approach keeps everything in sync."),
+            Pair("Scalable Collaboration", "Whether a feasibility study or multi-year engagement, we match your roadmap at every step.")
+        )
+
+        reasons.forEach { (title, description) ->
+            val reasonComponent = Expertise(title, description)
+            val reasonElement = reasonComponent.preview()
+            reasonsContainer.appendChild(reasonElement)
+        }
+
+        // Append the grid to the section content div
+        whyElement.querySelector("div")?.appendChild(reasonsContainer)
+
+        // Add button
+        val buttonContainer = document.create.div {
+            button {
+                attributes["class"] = "primary-button"
+                +"Let's Build Something Great"
+            }
+        }
+
+        // Append the button to the section content div
+        whyElement.querySelector("div")?.appendChild(buttonContainer)
+
+        // Append why section to the container
+        container.appendChild(whyElement)
+
         // Latest Updates Section
         val latestSection = Section(
             title = "Latest Updates",
             isDivider = true
         )
         val latestElement = latestSection.preview()
-        
+
         // Create article cards
         val articles = listOf(
-            ArticleCard("New Import/Export Feature", "Admin", "Today"),
-            ArticleCard("Improved UI Design", "Designer", "Yesterday"),
-            ArticleCard("Bug Fixes and Performance Improvements", "Developer", "Last Week")
+            ArticleCard("Expanding Beyond Automotive", "David", "Apr 3, 2024"),
+            ArticleCard("How Can Marketing Help Your Business?", "Allen", "Apr 3, 2024")
         )
-        
+
         // Create Latest component with the articles
         val latestComponent = Latest(articles)
         val latestListElement = latestComponent.preview()
-        
+
+        // Apply the stylesheet
+        latestComponent.stylesheet()
+        articles.forEach { it.stylesheet() }
+
         // Append the latest list to the section content div
         latestElement.querySelector("div")?.appendChild(latestListElement)
-        
+
         // Append latest section to the container
         container.appendChild(latestElement)
-        
-        // Settings Section
-        val settingsSection = Section(
-            title = "Settings",
-            isDivider = true
-        )
-        val settingsElement = settingsSection.preview()
-        
-        // Create settings content
-        val settingsContent = document.create.div {
-            p {
-                attributes["style"] = """
-                    font-size: ${Theme.Typography.fontMd};
-                    line-height: ${Theme.Typography.lineHeightLarge};
-                    margin-bottom: ${Theme.Spacing.md};
-                """
-                +"You can import and export your settings using the buttons below."
+
+        // Add CSS for the page
+        val styleElement = document.createElement("style") as HTMLElement
+        styleElement.textContent = """
+            [home-page] {
+                max-width: ${Theme.Spacing.maxContentWidth};
+                margin: 0 auto;
+                padding: 0 16px;
             }
-            
-            // Import/Export buttons
-            div {
-                attributes["style"] = """
-                    display: flex;
-                    gap: ${Theme.Spacing.md};
-                    margin-top: ${Theme.Spacing.md};
-                """
-                
-                button {
-                    attributes["style"] = """
-                        background-color: ${Theme.Colors.secondary};
-                        color: ${Theme.Colors.white};
-                        padding: ${Theme.Spacing.sm} ${Theme.Spacing.md};
-                        border: 0;
-                        border-radius: ${Theme.Spacing.borderRadius};
-                        cursor: pointer;
-                        font-size: ${Theme.Typography.fontSm};
-                    """
-                    attributes["id"] = "import-button"
-                    +"Import Settings"
-                }
-                
-                button {
-                    attributes["style"] = """
-                        background-color: ${Theme.Colors.primary};
-                        color: ${Theme.Colors.white};
-                        padding: ${Theme.Spacing.sm} ${Theme.Spacing.md};
-                        border: 0;
-                        border-radius: ${Theme.Spacing.borderRadius};
-                        cursor: pointer;
-                        font-size: ${Theme.Typography.fontSm};
-                    """
-                    attributes["id"] = "export-button"
-                    +"Export Settings"
-                }
+
+            [expertise-grid], [reasons-grid] {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 16px;
+                margin-bottom: 16px;
             }
-        }
-        
-        // Append the settings content to the section content div
-        settingsElement.querySelector("div")?.appendChild(settingsContent)
-        
-        // Append settings section to the container
-        container.appendChild(settingsElement)
-        
-        // Add JavaScript for import/export buttons
-        val script = document.createElement("script") as HTMLElement
-        script.innerHTML = """
-            document.getElementById('import-button').addEventListener('click', function() {
-                const jsonString = prompt('Paste your settings JSON:');
-                if (jsonString) {
-                    prisma.editor.Editor.import(jsonString);
-                    alert('Settings imported successfully!');
-                }
-            });
-            
-            document.getElementById('export-button').addEventListener('click', function() {
-                const jsonString = prisma.editor.Editor.export();
-                prompt('Copy your settings JSON:', jsonString);
-            });
+
+            .primary-button {
+                background-color: ${Theme.Colors.primary};
+                color: ${Theme.Colors.white};
+                padding: ${Theme.Spacing.sm} ${Theme.Spacing.md};
+                border: 0;
+                border-radius: ${Theme.Spacing.borderRadius};
+                cursor: pointer;
+                font-size: ${Theme.Typography.fontSm};
+                margin-top: 16px;
+            }
         """
-        container.appendChild(script)
-        
+        document.head?.appendChild(styleElement)
+
         return container
     }
 }
