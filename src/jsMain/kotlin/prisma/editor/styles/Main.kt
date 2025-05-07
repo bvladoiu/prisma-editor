@@ -1,154 +1,62 @@
 package prisma.editor.styles
 
 import kotlinx.browser.document
-import org.w3c.dom.HTMLElement
+import org.w3c.dom.css.*
+import prisma.editor.component.*
 
 /**
- * Main stylesheet that aggregates all styles from the styles package.
+ * Main stylesheet that aggregates all styles from components and Theme.
  * This is used to provide a single stylesheet for the application.
  */
 object Main {
     /**
-     * Initializes the main stylesheet by aggregating all styles from the styles package.
+     * Creates and returns a stylesheet for the application.
+     * This method uses CSSOM API to create a stylesheet with all styles.
+     */
+    fun stylesheet(): CSSStyleSheet {
+        // Create a new style element
+        val styleElement = document.createElement("style")
+        document.head?.appendChild(styleElement)
+
+        // Get the stylesheet from the document's styleSheets collection
+        val stylesheet = document.styleSheets[document.styleSheets.length - 1] as CSSStyleSheet
+
+        // Add Theme stylesheet
+        // This will add typography and global styles
+        Theme.stylesheet()
+
+        // Add component stylesheets
+        ArticleCard("", "", "").stylesheet()
+        Latest().stylesheet()
+        Footer().stylesheet()
+        Hero().stylesheet()
+        KeywordStrip().stylesheet()
+        NavigationMenu().stylesheet()
+        Pitch().stylesheet()
+        Section().stylesheet()
+        Expertise("", "").stylesheet()
+        EditorScaffold().stylesheet()
+
+        return stylesheet
+    }
+
+    /**
+     * Initializes the main stylesheet by calling the stylesheet() method.
      * This should be called once when the application starts.
      */
     fun initialize() {
-        // Create a new stylesheet
-        val styleSheet = document.createElement("style")
-        document.head?.appendChild(styleSheet)
-        
-        // Add all styles to the stylesheet
-        val cssRules = mutableListOf<String>()
-        
-        // Add styles from ButtonStyles
-        cssRules.add(".button-primary { ${getCssFromStyle { ButtonStyles.applyPrimaryStyle(it) }} }")
-        
-        // Add styles from ExpertiseStyles
-        cssRules.add(ExpertiseStyles.stylesheet)
-        
-        // Add styles from FooterStyles
-        cssRules.add(FooterStyles.stylesheet)
-        
-        // Add styles from HeroStyles
-        cssRules.add(HeroStyles.stylesheet)
-        
-        // Add styles from KeywordStripStyles
-        cssRules.add(KeywordStripStyles.stylesheet)
-        
-        // Add styles from NavigationMenuStyles
-        cssRules.add(NavigationMenuStyles.stylesheet)
-        
-        // Add styles from PageStyles
-        cssRules.add(".page-container { ${getCssFromStyle { PageStyles.applyContainerStyle(it) }} }")
-        cssRules.add(".page-loading-container { ${getCssFromStyle { PageStyles.applyLoadingContainerStyle(it) }} }")
-        cssRules.add(".page-error-container { ${getCssFromStyle { PageStyles.applyErrorContainerStyle(it) }} }")
-        cssRules.add(".page-main-content { ${getCssFromStyle { PageStyles.applyMainContentStyle(it) }} }")
-        cssRules.add(".page-button-container { ${getCssFromStyle { PageStyles.applyButtonContainerStyle(it) }} }")
-        cssRules.add(".page-button { ${getCssFromStyle { PageStyles.applyButtonStyle(it) }} }")
-        
-        // Add styles from ReasonItemStyles
-        cssRules.add(".reason-item-container { ${getCssFromStyle { ReasonItemStyles.applyContainerStyle(it) }} }")
-        cssRules.add(".reason-item-title { ${getCssFromStyle { ReasonItemStyles.applyTitleStyle(it) }} }")
-        
-        // Add styles from SectionStyles
-        cssRules.add(".section-container { ${getCssFromStyle { SectionStyles.applyContainerStyle(it, Theme.Spacing.rem2) }} }")
-        cssRules.add(".section-article { ${getCssFromStyle { SectionStyles.applyArticleStyle(it) }} }")
-        cssRules.add(".section-header-with-divider { ${getCssFromStyle { SectionStyles.applyHeaderWithDividerStyle(it) }} }")
-        cssRules.add(".section-header-without-divider { ${getCssFromStyle { SectionStyles.applyHeaderWithoutDividerStyle(it) }} }")
-        cssRules.add(".section-heading { ${getCssFromStyle { SectionStyles.applyHeadingStyle(it) }} }")
-        
-        // Add styles from UpdatesListStyles
-        cssRules.add(".updates-list { ${getCssFromStyle { UpdatesListStyles.applyListStyle(it) }} }")
-        cssRules.add(".updates-list-item { ${getCssFromStyle { UpdatesListStyles.applyListItemStyle(it) }} }")
-        cssRules.add(".updates-link { ${getCssFromStyle { UpdatesListStyles.applyUpdateLinkStyle(it) }} }")
-        cssRules.add(".updates-metadata { ${getCssFromStyle { UpdatesListStyles.applyMetadataStyle(it) }} }")
-        
-        // Add styles from Theme.Typography
-        cssRules.add(".typography-h1 { ${getCssFromStyle { Theme.Typography.applyH1Style(it) }} }")
-        cssRules.add(".typography-h2 { ${getCssFromStyle { Theme.Typography.applyH2Style(it) }} }")
-        cssRules.add(".typography-body1 { ${getCssFromStyle { Theme.Typography.applyBody1Style(it) }} }")
-        cssRules.add(".typography-body2 { ${getCssFromStyle { Theme.Typography.applyBody2Style(it) }} }")
-        cssRules.add(".typography-caption { ${getCssFromStyle { Theme.Typography.applyCaptionStyle(it) }} }")
-        
-        // Add the CSS rules to the stylesheet
-        val cssText = cssRules.joinToString("\n")
-        (styleSheet as? HTMLElement)?.innerHTML = cssText
+        stylesheet()
     }
-    
+
     /**
      * Exports the main stylesheet as a CSS string.
      * This can be used to download the stylesheet.
+     * 
+     * Note: This method is not implemented yet as it requires access to the stylesheet rules
+     * which is not straightforward with CSSOM API. We'll implement it later if needed.
      */
     fun exportStylesheet(): String {
-        val cssRules = mutableListOf<String>()
-        
-        // Add styles from ButtonStyles
-        cssRules.add(".button-primary { ${getCssFromStyle { ButtonStyles.applyPrimaryStyle(it) }} }")
-        
-        // Add styles from ExpertiseStyles
-        cssRules.add(ExpertiseStyles.stylesheet)
-        
-        // Add styles from FooterStyles
-        cssRules.add(FooterStyles.stylesheet)
-        
-        // Add styles from HeroStyles
-        cssRules.add(HeroStyles.stylesheet)
-        
-        // Add styles from KeywordStripStyles
-        cssRules.add(KeywordStripStyles.stylesheet)
-        
-        // Add styles from NavigationMenuStyles
-        cssRules.add(NavigationMenuStyles.stylesheet)
-        
-        // Add styles from PageStyles
-        cssRules.add(".page-container { ${getCssFromStyle { PageStyles.applyContainerStyle(it) }} }")
-        cssRules.add(".page-loading-container { ${getCssFromStyle { PageStyles.applyLoadingContainerStyle(it) }} }")
-        cssRules.add(".page-error-container { ${getCssFromStyle { PageStyles.applyErrorContainerStyle(it) }} }")
-        cssRules.add(".page-main-content { ${getCssFromStyle { PageStyles.applyMainContentStyle(it) }} }")
-        cssRules.add(".page-button-container { ${getCssFromStyle { PageStyles.applyButtonContainerStyle(it) }} }")
-        cssRules.add(".page-button { ${getCssFromStyle { PageStyles.applyButtonStyle(it) }} }")
-        
-        // Add styles from ReasonItemStyles
-        cssRules.add(".reason-item-container { ${getCssFromStyle { ReasonItemStyles.applyContainerStyle(it) }} }")
-        cssRules.add(".reason-item-title { ${getCssFromStyle { ReasonItemStyles.applyTitleStyle(it) }} }")
-        
-        // Add styles from SectionStyles
-        cssRules.add(".section-container { ${getCssFromStyle { SectionStyles.applyContainerStyle(it, Theme.Spacing.rem2) }} }")
-        cssRules.add(".section-article { ${getCssFromStyle { SectionStyles.applyArticleStyle(it) }} }")
-        cssRules.add(".section-header-with-divider { ${getCssFromStyle { SectionStyles.applyHeaderWithDividerStyle(it) }} }")
-        cssRules.add(".section-header-without-divider { ${getCssFromStyle { SectionStyles.applyHeaderWithoutDividerStyle(it) }} }")
-        cssRules.add(".section-heading { ${getCssFromStyle { SectionStyles.applyHeadingStyle(it) }} }")
-        
-        // Add styles from UpdatesListStyles
-        cssRules.add(".updates-list { ${getCssFromStyle { UpdatesListStyles.applyListStyle(it) }} }")
-        cssRules.add(".updates-list-item { ${getCssFromStyle { UpdatesListStyles.applyListItemStyle(it) }} }")
-        cssRules.add(".updates-link { ${getCssFromStyle { UpdatesListStyles.applyUpdateLinkStyle(it) }} }")
-        cssRules.add(".updates-metadata { ${getCssFromStyle { UpdatesListStyles.applyMetadataStyle(it) }} }")
-        
-        // Add styles from Theme.Typography
-        cssRules.add(".typography-h1 { ${getCssFromStyle { Theme.Typography.applyH1Style(it) }} }")
-        cssRules.add(".typography-h2 { ${getCssFromStyle { Theme.Typography.applyH2Style(it) }} }")
-        cssRules.add(".typography-body1 { ${getCssFromStyle { Theme.Typography.applyBody1Style(it) }} }")
-        cssRules.add(".typography-body2 { ${getCssFromStyle { Theme.Typography.applyBody2Style(it) }} }")
-        cssRules.add(".typography-caption { ${getCssFromStyle { Theme.Typography.applyCaptionStyle(it) }} }")
-        
-        return cssRules.joinToString("\n")
-    }
-    
-    /**
-     * Helper function to extract CSS from a style function.
-     */
-    private fun getCssFromStyle(styleFunction: (HTMLElement) -> Unit): String {
-        val element = document.createElement("div") as HTMLElement
-        styleFunction(element)
-        
-        val cssProperties = mutableListOf<String>()
-        for (i in 0 until element.style.length) {
-            val property = element.style.item(i)
-            val value = element.style.getPropertyValue(property)
-            cssProperties.add("$property: $value;")
-        }
-        
-        return cssProperties.joinToString(" ")
+        // This is a placeholder for now
+        return "/* Stylesheet export not implemented yet */"
     }
 }

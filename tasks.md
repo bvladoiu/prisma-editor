@@ -1,5 +1,20 @@
 # Tasks
 
+## Remove hardcoded styles - 06/24/2025
+Created a new EditorScaffold component to replace hardcoded styles in the Editor.kt file. Moved all inline styles from the editor scaffold, app bar, content area, and main content to the EditorScaffold's stylesheet method. Updated the Editor.kt file to use the new component and its stylesheet. Added the EditorScaffold to the Main stylesheet aggregator to ensure all styles are included in the main stylesheet. This improves caching by centralizing all styles in stylesheets rather than using inline styles.
+
+## Extract Drawer Component - 06/23/2025
+Extracted the drawer code from Editor.kt into a separate Drawer component with preview and stylesheet methods. Created a NavLink component for drawer items, following the component pattern used in the project. Updated the drawer toggle to use Material Symbols icons instead of text icons. Added Google Fonts links to index.html for Roboto Flex, Poppins, and Material Symbols fonts. This improves the component architecture by making the drawer more modular and reusable, and enhances the UI with proper Material Design iconography.
+
+## Implement Import/Export and Reimplement Home - 06/22/2025
+Reimplemented the Home page using existing components and styles, following the composite pattern. Added import/export methods to the Editor object for persisting data, exposed to the JVM playwright logic. Updated the JVM code to use a settings map and connect to the JS import/export methods, with functions to load settings from a file on startup and save settings to a file on shutdown. The new Home page includes sections for welcome, features, latest updates, and settings, with buttons for importing and exporting settings.
+
+## Refactor Latest component with ArticleCard - 06/21/2025
+Deleted the Update class from the Latest component and created a new ArticleCard component. Refactored the Latest component to use ArticleCard instead of Update, implementing the composite pattern where Latest.preview() calls ArticleCard.preview() for each article. This improves the component architecture by separating the article card rendering logic from the list rendering logic, making the components more modular and maintainable.
+
+## Simplify UI components to match Expertise pattern - 06/20/2025
+Refactored components in the ui package to more closely match the Expertise component pattern. Updated KeywordStrip, Pitch, and Section components to store data as properties of the class instead of taking them as parameters to the create() method. Renamed create() methods to preview() for consistency with the Expertise component. Created an Update class within the Updates.kt file to replace the model.Update class, following the principle that components themselves are model classes. This simplifies the architecture by reducing the number of classes and making the components more self-contained.
+
 ## Merge model properties into UI components - 06/19/2025
 Merged the properties of data classes in the prisma.editor.model package into their counterparts in the prisma.editor.ui package, following the pattern established in the Expertise component. Updated NavigationMenu, Hero, and Footer components to include the properties from their respective model classes. For the Home component, implemented the state logic directly in the Home UI component instead of using a separate model class. This simplifies the architecture by reducing the number of classes and making the UI components more self-contained.
 
@@ -7,7 +22,7 @@ Merged the properties of data classes in the prisma.editor.model package into th
 Refactored Home.kt in the prisma.editor.ui.pages package to follow the component pattern used by other UI components. Implemented Home as a class that extends HTMLElement with a create() method that aggregates other components. Used the composite pattern where the Home component's create() method calls create() on child components (Hero, Section, Footer, etc.). This standardizes the architecture across the application and improves maintainability.
 
 ## Refactor UI components to use kotlinx.html - 06/17/2025
-Refactored all components in the prisma.editor.ui.component package to match the Expertise component pattern using kotlinx.html APIs. Converted Footer, Hero, KeywordStrip, NavigationMenu, Pitch, Section, Page, and Updates components from FlowContent extension functions to classes extending HTMLElement with create() methods. This standardizes the component architecture across the application, making it more consistent and maintainable.
+Refactored all components in the prisma.editor.component package to match the Expertise component pattern using kotlinx.html APIs. Converted Footer, Hero, KeywordStrip, NavigationMenu, Pitch, Section, Page, and Updates components from FlowContent extension functions to classes extending HTMLElement with create() methods. This standardizes the component architecture across the application, making it more consistent and maintainable.
 
 ## Create Main stylesheet aggregator - 05/07/2025
 Created a Main.kt file in the styles package that aggregates all styles from the styles package into a single stylesheet. The Main object provides two main functions: initialize() to create a stylesheet and add all styles to it, and exportStylesheet() to export the stylesheet as a CSS string that can be downloaded. Updated HeroStyles.kt to include container and button styles that were previously hardcoded in the Hero component. This prepares the application for a future export button functionality that will allow users to download the aggregated stylesheet.
@@ -99,7 +114,7 @@ Removed all content from the header except the drawer toggle button, creating a 
 Replaced the custom TopBarComponent with a new MuiAppBarComponent that uses Material UI AppBar styling. The new component provides a cleaner implementation that only contains the drawer menu button as required. Updated all references to TopBarComponent in the EditorComponent class and added a DSL-style function for creating MUI AppBar components.
 
 ## Refactor Expertise component with attribute-based styling - 06/15/2025
-Refactored the Expertise component in the prisma.editor.ui.component package to use attribute-based styling. Updated the component to add an 'expertise' attribute to the root element for CSS targeting. Enhanced ExpertiseStyles.kt to use CSSOM APIs with selectors targeting the 'expertise' attribute, while maintaining backward compatibility with direct style manipulation methods. Added a method to create and add a stylesheet to the document, improving the component's styling architecture.
+Refactored the Expertise component in the prisma.editor.component package to use attribute-based styling. Updated the component to add an 'expertise' attribute to the root element for CSS targeting. Enhanced ExpertiseStyles.kt to use CSSOM APIs with selectors targeting the 'expertise' attribute, while maintaining backward compatibility with direct style manipulation methods. Added a method to create and add a stylesheet to the document, improving the component's styling architecture.
 
 ## Extend HTMLElement with HtmlExpertiseElement - 06/16/2025
 Created a new HtmlExpertiseElement class that extends HTMLElement directly, following the example of HtmlDivElement. Implemented the necessary methods and properties for the class to work correctly. Updated the Expertise function to use the new HtmlExpertiseElement class while maintaining the 'expertise' attribute for CSS targeting. This improves the component architecture by using proper HTML element extension instead of wrapping elements.

@@ -4,64 +4,110 @@ import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlinx.html.*
 import kotlinx.html.dom.append
+import kotlinx.html.dom.create
 import kotlinx.html.js.onClickFunction
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.w3c.dom.HTMLElement
-import prisma.editor.ui.pages.Home
+import prisma.editor.component.EditorScaffold
+import prisma.editor.pages.Home
+import kotlin.js.Json
+import kotlin.js.json
 
 /**
  * Main entry point for the Prisma Editor using kotlinx.html.
  */
 object Editor {
+    // Settings map for persisting data
+    private var settings: MutableMap<String, Any> = mutableMapOf()
+
+    /**
+     * Imports settings from a JSON string.
+     * This method is exposed to the JVM playwright logic.
+     */
+    @JsName("import")
+    fun import(jsonString: String) {
+        try {
+            val jsonObj = JSON.parse<Json>(jsonString)
+            val keys = js("Object.keys(jsonObj)")
+
+            settings.clear()
+            for (i in 0 until keys.length) {
+                val key = keys[i] as String
+                jsonObj[key]?.let { value ->
+                    settings[key] = value
+                }
+            }
+
+            console.log("Settings imported successfully")
+        } catch (e: Exception) {
+            console.error("Error importing settings: ${e.message}")
+        }
+    }
+
+    /**
+     * Exports settings as a JSON string.
+     * This method is exposed to the JVM playwright logic.
+     */
+    @JsName("export")
+    fun export(): String {
+        return try {
+            val jsonObj = json()
+            settings.forEach { (key, value) ->
+                jsonObj[key] = value
+            }
+            JSON.stringify(jsonObj)
+        } catch (e: Exception) {
+            console.error("Error exporting settings: ${e.message}")
+            "{}"
+        }
+    }
+
+    /**
+     * Gets a setting value by key.
+     */
+    fun getSetting(key: String): Any? {
+        return settings[key]
+    }
+
+    /**
+     * Sets a setting value by key.
+     */
+    fun setSetting(key: String, value: Any) {
+        settings[key] = value
+    }
     /**
      * Opens a page with the specified name.
      */
     fun openPage(name: String) {
         val root = document.getElementById("root") as HTMLElement
         root.innerHTML = ""
-        root.append {
-            div {
-                id = "editor-scaffold"
-                attributes["style"] = """
-                    display: flex;
-                    flex-direction: column;
-                    height: 100vh;
-                    width: 100%;
-                """
 
-                // AppBar
-                appBar()
+        // Create the editor scaffold
+        val editorScaffold = EditorScaffold()
+        val scaffoldElement = editorScaffold.create()
 
-                // Content area
-                div {
-                    id = "content-area"
-                    attributes["style"] = """
-                        display: flex;
-                        flex-grow: 1;
-                        overflow: hidden;
-                    """
+        // Apply the stylesheet
+        editorScaffold.stylesheet()
 
-                    // Drawer (initially hidden with CSS)
-                    drawer()
+        // Add the drawer to the content area
+        val contentArea = scaffoldElement.querySelector("[content-area]") as HTMLElement
+        addDrawer(contentArea)
 
-                    // Main content
-                    div {
-                        id = "main-content"
-                        attributes["style"] = """
-                            flex-grow: 1;
-                            padding: 16px;
-                            overflow: auto;
-                        """
+        // Get the main content area
+        val mainContent = scaffoldElement.querySelector("#main-content") as HTMLElement
 
-                        when (name.lowercase()) {
-                            "home" -> homePage()
-                            else -> p { +"Page not found" }
-                        }
-                    }
-                }
+        // Add page content based on the route
+        when (name.lowercase()) {
+            "home" -> addHomePage(mainContent)
+            else -> {
+                val notFound = document.create.p { +"Page not found" }
+                mainContent.appendChild(notFound)
             }
         }
+
+        // Add the scaffold to the root
+        root.appendChild(scaffoldElement)
 
         // Add JavaScript for drawer toggle
         val script = document.createElement("script") as HTMLElement
@@ -74,9 +120,9 @@ object Editor {
 
                 const menuIcon = document.getElementById('menu-icon');
                 if (drawer.style.transform === 'translateX(0px)') {
-                    menuIcon.innerHTML = '✕';
+                    menuIcon.innerHTML = 'close';
                 } else {
-                    menuIcon.innerHTML = '☰';
+                    menuIcon.innerHTML = 'menu';
                 }
             }
 
@@ -92,138 +138,34 @@ object Editor {
 }
 
 /**
- * Creates the app bar at the top of the page.
+ * Adds the navigation drawer to the content area.
  */
-private fun FlowContent.appBar() {
-    header {
-        attributes["style"] = """
-            display: flex;
-            align-items: center;
-            padding: 8px 16px;
-            background-color: #6200EE;
-            color: white;
-            height: 56px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        """
+private fun addDrawer(contentArea: HTMLElement) {
+    // Create NavLink for Home
+    val homeLink = prisma.editor.component.NavLink("Home", "home", "home")
 
-        // Menu button
-        button {
-            attributes["style"] = """
-                background-color: transparent;
-                border: 0;
-                color: white;
-                cursor: pointer;
-                padding: 8px;
-                margin-right: 16px;
-            """
-            id = "menu-button"
-            onClickFunction = { 
-                js("toggleDrawer()")
-            }
+    // Create Drawer with NavLinks
+    val drawer = prisma.editor.component.Drawer(listOf(homeLink))
 
-            // Menu icon
-            span {
-                id = "menu-icon"
-                attributes["style"] = """
-                    font-size: 24px;
-                    line-height: 1;
-                """
-                +"☰"
-            }
-        }
+    // Apply the stylesheet
+    drawer.stylesheet()
+    homeLink.stylesheet()
 
-        // Title
-        h1 {
-            attributes["style"] = """
-                margin: 0;
-                font-size: 20px;
-                font-weight: 500;
-            """
-            +"Prisma Editor"
-        }
-    }
+    // Append the drawer to the content area
+    val drawerElement = drawer.preview()
+    contentArea.appendChild(drawerElement)
 }
 
 /**
- * Creates the navigation drawer.
+ * Adds the home page to the main content area.
  */
-private fun FlowContent.drawer() {
-    nav {
-        id = "drawer"
-        attributes["style"] = """
-            width: 240px;
-            height: 100%;
-            background-color: white;
-            box-shadow: 2px 0 4px rgba(0,0,0,0.2);
-            overflow: auto;
-            transform: translateX(-240px);
-            transition: transform 0.3s ease-in-out;
-        """
-
-        // Drawer header
-        header {
-            attributes["style"] = """
-                padding: 16px;
-                background-color: #7D3DF3;
-                color: white;
-            """
-            h2 {
-                attributes["style"] = """
-                    margin: 0;
-                    font-size: 18px;
-                """
-                +"Navigation"
-            }
-        }
-
-        // Drawer items
-        ul {
-            attributes["style"] = """
-                list-style-type: none;
-                padding: 0;
-                margin: 0;
-            """
-            drawerItem("Home", "home")
-        }
-    }
-}
-
-/**
- * Creates a drawer item.
- */
-private fun UL.drawerItem(text: String, route: String) {
-    li {
-        attributes["style"] = "padding: 0; margin: 0;"
-        a {
-            attributes["style"] = """
-                padding: 16px;
-                cursor: pointer;
-                background-color: #FFFFFF;
-                display: block;
-                text-decoration: none;
-                color: black;
-            """
-            href = "#"
-            onClickFunction = { event ->
-                event.preventDefault()
-                val routeJs = route // Capture the route in a local variable
-                js("navigateTo(arguments[0])")(routeJs)
-            }
-            +text
-        }
-    }
-}
-
-/**
- * Creates the home page.
- */
-private fun FlowContent.homePage() {
+private fun addHomePage(mainContent: HTMLElement) {
     // Launch a coroutine to load and create the home page
     kotlinx.browser.window.setTimeout({
         kotlinx.coroutines.GlobalScope.launch {
             val homeComponent = Home()
             val homeElement = homeComponent.create()
-            document.getElementById("main-content")?.appendChild(homeElement)
+            mainContent.appendChild(homeElement)
         }
     }, 0)
 }

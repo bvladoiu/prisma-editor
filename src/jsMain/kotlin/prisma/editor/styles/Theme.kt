@@ -80,7 +80,7 @@ object Theme {
         val fontWeightNormal = "400"
         val fontWeightBold = "bold"
 
-        // Common text styles
+        // Common text styles (kept for backward compatibility)
         fun applyH1Style(element: HTMLElement) {
             element.style.apply {
                 fontSize = fontXl
@@ -132,5 +132,91 @@ object Theme {
      */
     object Styles {
         // Kept for backward compatibility
+    }
+
+    /**
+     * Creates and returns a stylesheet for the Theme.
+     * This method uses CSSOM API to create a stylesheet with theme-related styles.
+     */
+    fun stylesheet(): CSSStyleSheet {
+        // Create a new style element
+        val styleElement = document.createElement("style")
+        document.head?.appendChild(styleElement)
+
+        // Get the stylesheet from the document's styleSheets collection
+        val stylesheet = document.styleSheets[document.styleSheets.length - 1] as CSSStyleSheet
+
+        // Add typography rules to the stylesheet
+
+        // H1 style
+        val h1Rule = """
+            .typography-h1 {
+                font-size: ${Typography.fontXl};
+                font-weight: ${Typography.fontWeightNormal};
+                line-height: ${Typography.lineHeightNormal};
+                font-family: ${Typography.defaultFontFamily};
+            }
+        """.trimIndent()
+        stylesheet.insertRule(h1Rule, stylesheet.cssRules.length)
+
+        // H2 style
+        val h2Rule = """
+            .typography-h2 {
+                font-size: ${Typography.fontLg};
+                font-weight: ${Typography.fontWeightBold};
+                line-height: ${Typography.lineHeightNormal};
+                font-family: ${Typography.defaultFontFamily};
+            }
+        """.trimIndent()
+        stylesheet.insertRule(h2Rule, stylesheet.cssRules.length)
+
+        // Body1 style
+        val body1Rule = """
+            .typography-body1 {
+                font-size: ${Typography.fontMd};
+                font-weight: ${Typography.fontWeightNormal};
+                line-height: ${Typography.lineHeightNormal};
+                font-family: ${Typography.defaultFontFamily};
+            }
+        """.trimIndent()
+        stylesheet.insertRule(body1Rule, stylesheet.cssRules.length)
+
+        // Body2 style
+        val body2Rule = """
+            .typography-body2 {
+                font-size: ${Typography.fontSm};
+                font-weight: ${Typography.fontWeightNormal};
+                line-height: ${Typography.lineHeightLarge};
+                font-family: ${Typography.defaultFontFamily};
+            }
+        """.trimIndent()
+        stylesheet.insertRule(body2Rule, stylesheet.cssRules.length)
+
+        // Caption style
+        val captionRule = """
+            .typography-caption {
+                font-size: ${Typography.fontXs};
+                font-weight: ${Typography.fontWeightNormal};
+                line-height: ${Typography.lineHeightNormal};
+                font-family: ${Typography.defaultFontFamily};
+            }
+        """.trimIndent()
+        stylesheet.insertRule(captionRule, stylesheet.cssRules.length)
+
+        // Add global styles
+
+        // Body style
+        val bodyRule = """
+            body {
+                background-color: ${Colors.darkBackground};
+                color: ${Colors.white};
+                font-family: ${Typography.defaultFontFamily};
+                margin: 0;
+                padding: 0;
+            }
+        """.trimIndent()
+        stylesheet.insertRule(bodyRule, stylesheet.cssRules.length)
+
+        return stylesheet
     }
 }
