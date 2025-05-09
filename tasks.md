@@ -1,5 +1,11 @@
 # Tasks
 
+## Fix NavLink compilation errors - 06/27/2025
+Fixed compilation errors in NavLink.kt by refactoring the stylesheet() function to use string templates for CSS rules instead of the object-oriented approach with web.cssom classes. Replaced imports from web.cssom.* with org.w3c.dom.css.* and updated the code to match the pattern used in other components like Theme and ArticleCard. This ensures consistent use of Kotlin JS APIs across the project without introducing string hardcoding.
+
+## Improve NavLink component - 06/26/2025
+Refactored the NavLink component to use proper Kotlin APIs instead of hardcoded JavaScript. Replaced the raw JS navigation call with Kotlin's window.setTimeout and direct calls to Editor.openPage. Implemented the toggleDrawer function in Kotlin instead of relying on the JS function. Improved the CSS implementation by restructuring the CSS rules into a map for better organization and maintainability. These changes maintain the same functionality while using more idiomatic Kotlin code and better leveraging the available Kotlin wrappers for browser APIs.
+
 ## Remove hardcoded styles - 06/24/2025
 Created a new EditorScaffold component to replace hardcoded styles in the Editor.kt file. Moved all inline styles from the editor scaffold, app bar, content area, and main content to the EditorScaffold's stylesheet method. Updated the Editor.kt file to use the new component and its stylesheet. Added the EditorScaffold to the Main stylesheet aggregator to ensure all styles are included in the main stylesheet. This improves caching by centralizing all styles in stylesheets rather than using inline styles.
 

@@ -32,8 +32,6 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(libs.kotlinx.coroutines.core)
-                implementation(compose.runtime)
-                implementation(project.dependencies.platform(libs.compose.bom))
             }
         }
         val jvmMain by getting {

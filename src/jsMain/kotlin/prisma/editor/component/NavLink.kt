@@ -58,17 +58,17 @@ class NavLink(var text: String, var route: String, var icon: String = "", var se
 
         // Add rules to the stylesheet
 
-        // List item rule
-        val listItemRule = """
+        // Nav item rule
+        val navItemRule = """
             [nav-item] {
                 padding: 0;
                 margin: 0;
             }
         """.trimIndent()
-        stylesheet.insertRule(listItemRule, stylesheet.cssRules.length)
+        stylesheet.insertRule(navItemRule, stylesheet.cssRules.length)
 
-        // Link rule
-        val linkRule = """
+        // Nav link rule
+        val navLinkRule = """
             [nav-link] {
                 padding: ${Theme.Spacing.md};
                 cursor: pointer;
@@ -81,27 +81,27 @@ class NavLink(var text: String, var route: String, var icon: String = "", var se
                 transition: background-color 0.2s ease;
             }
         """.trimIndent()
-        stylesheet.insertRule(linkRule, stylesheet.cssRules.length)
+        stylesheet.insertRule(navLinkRule, stylesheet.cssRules.length)
 
-        // Link hover rule
-        val linkHoverRule = """
+        // Nav link hover rule
+        val navLinkHoverRule = """
             [nav-link]:hover {
                 background-color: ${Theme.Colors.lightGray};
             }
         """.trimIndent()
-        stylesheet.insertRule(linkHoverRule, stylesheet.cssRules.length)
+        stylesheet.insertRule(navLinkHoverRule, stylesheet.cssRules.length)
 
-        // Selected link rule
-        val selectedLinkRule = """
+        // Nav link selected rule
+        val navLinkSelectedRule = """
             [nav-link-selected] {
-                background-color: ${Theme.Colors.primary} !important;
-                color: ${Theme.Colors.white} !important;
+                background-color: ${Theme.Colors.primary};
+                color: ${Theme.Colors.white};
             }
         """.trimIndent()
-        stylesheet.insertRule(selectedLinkRule, stylesheet.cssRules.length)
+        stylesheet.insertRule(navLinkSelectedRule, stylesheet.cssRules.length)
 
-        // Icon rule
-        val iconRule = """
+        // Nav icon rule
+        val navIconRule = """
             [nav-icon] {
                 margin-right: ${Theme.Spacing.sm};
                 font-size: ${Theme.Typography.fontMd};
@@ -109,15 +109,15 @@ class NavLink(var text: String, var route: String, var icon: String = "", var se
                 align-items: center;
             }
         """.trimIndent()
-        stylesheet.insertRule(iconRule, stylesheet.cssRules.length)
+        stylesheet.insertRule(navIconRule, stylesheet.cssRules.length)
 
-        // Text rule
-        val textRule = """
+        // Nav text rule
+        val navTextRule = """
             [nav-text] {
                 font-size: ${Theme.Typography.fontSm};
             }
         """.trimIndent()
-        stylesheet.insertRule(textRule, stylesheet.cssRules.length)
+        stylesheet.insertRule(navTextRule, stylesheet.cssRules.length)
 
         return stylesheet
     }

@@ -20,15 +20,6 @@ class Drawer(var items: List<NavLink> = emptyList(), var opened: Boolean = false
             }
         }
 
-        // Drawer header
-        val header = document.create.header {
-            attributes["drawer-header"] = ""
-            h2 {
-                attributes["drawer-title"] = ""
-                +"Navigation"
-            }
-        }
-
         // Drawer items
         val itemsList = document.create.ul {
             attributes["drawer-items"] = ""
@@ -38,7 +29,6 @@ class Drawer(var items: List<NavLink> = emptyList(), var opened: Boolean = false
             itemsList.appendChild(navLink.preview())
         }
 
-        nav.appendChild(header)
         nav.appendChild(itemsList)
 
         return nav
