@@ -9,9 +9,7 @@ object Typography {
     val fontLg = "24px"
     val fontXl = "36px"
 
-
     val defaultFontFamily = "'Poppins', sans-serif"
-
 
     val lineHeightNormal = "1.5"
     val lineHeightLarge = "1.6"

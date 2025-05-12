@@ -8,19 +8,14 @@ import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
 import prisma.editor.css.Typography
 
-/**
- * Creates a reason item with the 'pitch' attribute.
- */
+
 class Pitch(var title: String = "", var description: String = "") {
     fun preview(): HTMLElement {
         return document.create.div {
-            // Add the 'pitch' attribute for CSS targeting
             attributes["pitch"] = ""
-
             h3 {
                 +title
             }
-
             p {
                 +description
             }

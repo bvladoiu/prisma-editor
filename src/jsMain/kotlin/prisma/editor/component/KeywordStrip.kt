@@ -8,16 +8,12 @@ import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
 import prisma.editor.css.Typography
 
-/**
- * Creates a keyword strip with the 'keyword-strip' attribute.
- */
+
 class KeywordStrip(var keywords: List<String> = emptyList()) {
 
     fun preview(): HTMLElement {
         return document.create.div {
-            // Add the 'keyword-strip' attribute for CSS targeting
             attributes["keyword-strip"] = ""
-
             keywords.forEach { keyword ->
                 span {
                     +keyword

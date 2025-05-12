@@ -1,4 +1,3 @@
-// :browser:src:jvmMain:JvmMain.kt
 package prisma.editor
 
 import com.microsoft.playwright.*
@@ -20,7 +19,6 @@ fun main() {
     page.navigate(devServerUrl)
 
     Runtime.getRuntime().addShutdownHook(thread(start = false) {
-        // TODO save everything in the Editor js context
     })
 }
 
@@ -29,8 +27,8 @@ fun setupCli(page: Page) {
     page.onConsoleMessage { message: ConsoleMessage ->
         val fullCommand = message.text()
         val parts = fullCommand.split(":", limit = 2)
-        val command = parts.getOrNull(0) // The command part (e.g., "save", "load")
-        val tag = parts.getOrNull(1) // The tag part (e.g., "hero")
+        val command = parts.getOrNull(0)
+        val tag = parts.getOrNull(1)
 
         when (command) {
             "save" -> {

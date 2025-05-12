@@ -1,8 +1,8 @@
 package prisma.editor.css
 
 import kotlinx.browser.document
-import org.w3c.dom.css.*
 import org.w3c.dom.*
+import org.w3c.dom.css.*
 import prisma.editor.component.Footer
 
 typealias StyleLambda = CSSStyleDeclaration.() -> Unit
@@ -21,18 +21,6 @@ object Main {
         rules.addAll(Theme.getCssRules())
         rules.addAll(Typography.getCssRules())
 
-        // Collect Component rules (assuming each Component.companion has getCssRules())
-        // Call each component companion object's method to get their rule definitions
-        // allRuleDefinitions.addAll(ArticleCard.getCssRules())
-        // allRuleDefinitions.addAll(Latest.getCssRules())
-        //  allRuleDefinitions.addAll(Footer.getCssRules())
-        // allRuleDefinitions.addAll(Hero.getCssRules()) // Use Hero.getCssRules()
-        // allRuleDefinitions.addAll(KeywordStrip.getCssRules())
-        // allRuleDefinitions.addAll(NavigationMenu.getCssRules())
-        // allRuleDefinitions.addAll(Pitch.getCssRules())
-        // allRuleDefinitions.addAll(Section.getCssRules())
-        // allRuleDefinitions.addAll(Expertise.getCssRules())
-        // allRuleDefinitions.addAll(EditorScaffold.getCssRules())
         rules.addAll(Footer.getCssRules())
 
         fun insertRuleInto(sheet: CSSStyleSheet, selector: String, css: StyleLambda) {

@@ -9,26 +9,20 @@ import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
 import prisma.editor.css.Typography
 
-/**
- * Creates a navigation menu with the 'navigation-menu' attribute.
- */
+
 class NavigationMenu(
     var brand: String = "Prisma-Software",
     var items: List<String> = listOf("Home", "News", "Blog", "Company")
 ) : HTMLElement {
     fun create(): W3CHTMLElement {
         return document.create.nav {
-            // Add the 'navigation-menu' attribute for CSS targeting
             attributes["navigation-menu"] = ""
-
             div {
                 a {
                     href = "#"
-                    // Add the 'brand' class for CSS targeting
                     classes = setOf("brand")
                     +brand
                 }
-
                 ul {
                     items.forEach { item ->
                         li {

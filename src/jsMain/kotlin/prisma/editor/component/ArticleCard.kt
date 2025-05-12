@@ -4,13 +4,8 @@ import kotlinx.browser.document
 import kotlinx.html.*
 import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
-import prisma.editor.css.CssRuleDefinition
-import prisma.editor.css.Theme
-import prisma.editor.css.Typography
+import prisma.editor.css.*
 
-/**
- * Represents an article card component.
- */
 class ArticleCard(var title: String, var author: String, var date: String) {
     fun preview(): HTMLElement {
         return document.create.li {

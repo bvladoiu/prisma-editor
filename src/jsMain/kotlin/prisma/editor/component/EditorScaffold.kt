@@ -4,35 +4,21 @@ import kotlinx.browser.document
 import kotlinx.html.*
 import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
-import prisma.editor.css.CssRuleDefinition
-import prisma.editor.css.Theme
-import prisma.editor.css.Typography
-
-/**
- * Represents the main editor scaffold component.
- * This component includes the app bar, drawer, and content area.
- */
+import prisma.editor.css.*
 class EditorScaffold {
-    /**
-     * Creates and returns the editor scaffold element.
-     */
     fun create(): HTMLElement {
         val scaffold = document.create.div {
             id = "editor-scaffold"
             attributes["editor-scaffold"] = ""
         }
 
-        // AppBar
         val appBar = createAppBar()
         scaffold.appendChild(appBar)
 
-        // Content area
         val contentArea = document.create.div {
             id = "content-area"
             attributes["content-area"] = ""
         }
-
-        // Main content
         val mainContent = document.create.div {
             id = "main-content"
             attributes["main-content"] = ""
@@ -44,19 +30,14 @@ class EditorScaffold {
         return scaffold
     }
 
-    /**
-     * Creates the app bar element.
-     */
     private fun createAppBar(): HTMLElement {
         val header = document.create.header {
             attributes["app-bar"] = ""
 
-            // Menu button
             button {
                 attributes["menu-button"] = ""
                 id = "menu-button"
 
-                // Menu icon
                 span {
                     id = "menu-icon"
                     attributes["class"] = "material-symbols-outlined"
@@ -64,8 +45,6 @@ class EditorScaffold {
                     +"menu"
                 }
             }
-
-            // Title
             h1 {
                 attributes["app-bar-title"] = ""
                 +"Prisma Editor"

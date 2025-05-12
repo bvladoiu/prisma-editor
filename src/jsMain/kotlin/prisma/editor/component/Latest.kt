@@ -7,9 +7,7 @@ import org.w3c.dom.HTMLElement
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
 
-/**
- * Creates an updates list.
- */
+
 class Latest(var articles: List<ArticleCard> = emptyList()) {
     fun preview(): HTMLElement {
         val ul = document.create.ul {

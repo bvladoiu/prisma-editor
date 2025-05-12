@@ -31,7 +31,6 @@ object Theme {
             },
 
             "body" to {
-                // Reference the CSS variables using var(--variable-name)
                 backgroundColor = "var(--color-dark-background)"
                 color = "var(--color-white)"
             },

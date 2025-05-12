@@ -9,9 +9,7 @@ import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
 import prisma.editor.css.Typography
 
-/**
- * Represents a navigation link component for the drawer.
- */
+
 class NavLink(var text: String, var route: String, var icon: String = "", var selected: Boolean = false) {
     fun preview(): HTMLElement {
         return document.create.li {
@@ -25,7 +23,7 @@ class NavLink(var text: String, var route: String, var icon: String = "", var se
                 href = "#"
                 onClickFunction = { event ->
                     event.preventDefault()
-                    val routeJs = route // Capture the route in a local variable
+                    val routeJs = route
                     js("navigateTo(arguments[0])")(routeJs)
                 }
 

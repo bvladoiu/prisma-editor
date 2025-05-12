@@ -8,9 +8,7 @@ import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
 import prisma.editor.css.Typography
 
-/**
- * Represents a navigation drawer component.
- */
+
 class Drawer(var items: List<NavLink> = emptyList(), var opened: Boolean = false) {
     fun preview(): HTMLElement {
         val nav = document.create.nav {
@@ -21,7 +19,6 @@ class Drawer(var items: List<NavLink> = emptyList(), var opened: Boolean = false
             }
         }
 
-        // Drawer items
         val itemsList = document.create.ul {
             attributes["drawer-items"] = ""
         }

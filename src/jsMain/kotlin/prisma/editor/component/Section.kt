@@ -8,9 +8,7 @@ import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
 import prisma.editor.css.Typography
 
-/**
- * Creates a section with a title and content.
- */
+
 class Section(
     var title: String? = null,
     var isDivider: Boolean = false,

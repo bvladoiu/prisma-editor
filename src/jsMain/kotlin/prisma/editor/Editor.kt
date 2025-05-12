@@ -1,22 +1,13 @@
 package prisma.editor
 
-import kotlinx.browser.document
-import kotlinx.browser.window
-import kotlinx.html.*
-import kotlinx.html.dom.append
+import kotlinx.browser.*
+import kotlinx.coroutines.*
 import kotlinx.html.dom.create
-import kotlinx.html.js.onClickFunction
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.html.p
 import org.w3c.dom.HTMLElement
 import prisma.editor.component.EditorScaffold
 import prisma.editor.pages.Home
-import kotlin.js.Json
-import kotlin.js.json
 
-/**
- * Main entry point for the Prisma Editor using kotlinx.html.
- */
 object Editor {
 
     fun openPage(name: String) {
@@ -77,9 +68,6 @@ private fun addDrawer(contentArea: HTMLElement) {
     contentArea.appendChild(drawerElement)
 }
 
-/**
- * Adds the home page to the main content area.
- */
 private fun addHomePage(mainContent: HTMLElement) {
     window.setTimeout({
         GlobalScope.launch {
