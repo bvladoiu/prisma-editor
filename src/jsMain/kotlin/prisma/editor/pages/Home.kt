@@ -98,9 +98,6 @@ class Home {
         val keywordStrip = KeywordStrip(keywords)
         val keywordStripElement = keywordStrip.preview()
 
-        // Apply the stylesheet
-        keywordStrip.stylesheet()
-
         // Append the keyword strip to the section content div
         keywordElement.querySelector("div")?.appendChild(keywordStripElement)
 
@@ -167,44 +164,12 @@ class Home {
         val latestComponent = Latest(articles)
         val latestListElement = latestComponent.preview()
 
-        // Apply the stylesheet
-        latestComponent.stylesheet()
-        articles.forEach { it.stylesheet() }
 
         // Append the latest list to the section content div
         latestElement.querySelector("div")?.appendChild(latestListElement)
 
         // Append latest section to the container
         container.appendChild(latestElement)
-
-        // Add CSS for the page
-        val styleElement = document.createElement("style") as HTMLElement
-        styleElement.textContent = """
-            [home-page] {
-                max-width: ${Theme.Spacing.maxContentWidth};
-                margin: 0 auto;
-                padding: 0 16px;
-            }
-
-            [expertise-grid], [reasons-grid] {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 16px;
-                margin-bottom: 16px;
-            }
-
-            .primary-button {
-                background-color: ${Theme.Colors.primary};
-                color: ${Theme.Colors.white};
-                padding: ${Theme.Spacing.sm} ${Theme.Spacing.md};
-                border: 0;
-                border-radius: ${Theme.Spacing.borderRadius};
-                cursor: pointer;
-                font-size: ${Theme.Typography.fontSm};
-                margin-top: 16px;
-            }
-        """
-        document.head?.appendChild(styleElement)
 
         return container
     }

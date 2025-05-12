@@ -25,43 +25,43 @@ class KeywordStrip(var keywords: List<String> = emptyList()) {
         }
     }
 
-    /**
-     * Creates and returns a stylesheet for the KeywordStrip component.
-     * This method uses CSSOM API to create a stylesheet with rules for the component.
-     */
-    fun stylesheet(): CSSStyleSheet {
-        // Create a new style element
-        val styleElement = document.createElement("style")
-        document.head?.appendChild(styleElement)
+    companion object {
+        /**
+         * Creates and returns a stylesheet for the KeywordStrip component.
+         * This method uses CSSOM API to create a stylesheet with rules for the component.
+         */
+        fun stylesheet(): CSSStyleSheet {
+            // Create a new style element
+            val styleElement = document.createElement("style")
+            document.head?.appendChild(styleElement)
 
-        // Get the stylesheet from the document's styleSheets collection
-        val stylesheet = document.styleSheets[document.styleSheets.length - 1] as CSSStyleSheet
+            // Get the stylesheet from the document's styleSheets collection
+            val stylesheet = document.styleSheets[document.styleSheets.length - 1] as CSSStyleSheet
 
-        // Add rules to the stylesheet
+            // Add rules to the stylesheet
 
-        // Container rule
-        val containerRule = """
-            [keyword-strip] {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 8px;
-                justify-content: center;
-            }
-        """.trimIndent()
-        stylesheet.insertRule(containerRule, stylesheet.cssRules.length)
+            // Container rule
+            val containerSelector = "[keyword-strip]"
+            val containerRuleIndex = stylesheet.cssRules.length
+            stylesheet.insertRule("$containerSelector { }", containerRuleIndex)
+            val containerCssRule = stylesheet.cssRules.item(containerRuleIndex) as CSSStyleRule
+            containerCssRule.style.display = "flex"
+            containerCssRule.style.flexWrap = "wrap"
+            containerCssRule.style.asDynamic().gap = Theme.Spacing.sm
+            containerCssRule.style.justifyContent = "center"
 
-        // Keyword rule
-        val keywordRule = """
-            [keyword-strip] span {
-                background-color: ${Theme.Colors.lightTransparent};
-                color: ${Theme.Colors.primary};
-                padding: ${Theme.Spacing.xs} 12px;
-                border-radius: 16px;
-                font-size: ${Theme.Typography.fontXs};
-            }
-        """.trimIndent()
-        stylesheet.insertRule(keywordRule, stylesheet.cssRules.length)
+            // Keyword rule
+            val keywordSelector = "$containerSelector span"
+            val keywordRuleIndex = stylesheet.cssRules.length
+            stylesheet.insertRule("$keywordSelector { }", keywordRuleIndex)
+            val keywordCssRule = stylesheet.cssRules.item(keywordRuleIndex) as CSSStyleRule
+            keywordCssRule.style.backgroundColor = Theme.Colors.lightTransparent
+            keywordCssRule.style.color = Theme.Colors.primary
+            keywordCssRule.style.padding = "${Theme.Spacing.xs} ${Theme.Spacing.sm}"
+            keywordCssRule.style.borderRadius = Theme.Spacing.borderRadius
+            keywordCssRule.style.fontSize = Theme.Typography.fontXs
 
-        return stylesheet
+            return stylesheet
+        }
     }
 }

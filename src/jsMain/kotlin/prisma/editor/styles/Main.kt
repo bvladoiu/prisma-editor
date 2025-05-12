@@ -26,16 +26,17 @@ object Main {
         Theme.stylesheet()
 
         // Add component stylesheets
-        ArticleCard("", "", "").stylesheet()
-        Latest().stylesheet()
-        Footer().stylesheet()
-        Hero().stylesheet()
-        KeywordStrip().stylesheet()
-        NavigationMenu().stylesheet()
-        Pitch().stylesheet()
-        Section().stylesheet()
-        Expertise("", "").stylesheet()
-        EditorScaffold().stylesheet()
+        ArticleCard.stylesheet()
+        Latest.stylesheet()
+        Footer.stylesheet()
+        Hero.stylesheet()
+        KeywordStrip.stylesheet()
+        NavigationMenu.stylesheet()
+        Pitch.stylesheet()
+        Section.stylesheet()
+        Expertise.stylesheet()
+        EditorScaffold.stylesheet()
+        HomeStyles.stylesheet()
 
         return stylesheet
     }
