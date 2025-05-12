@@ -8,8 +8,6 @@ val jsBrowserProductionWebpackTask = "jsBrowserProductionWebpack"
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.composeMultiplatform)
-    alias(libs.plugins.composeCompiler)
 }
 
 group = "prisma.editor"
@@ -37,7 +35,6 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(libs.microsoft.playwright)
-                implementation(compose.desktop.currentOs)
             }
         }
         val jsMain by getting {
@@ -49,21 +46,6 @@ kotlin {
     }
 }
 
-compose.desktop {
-    application {
-        mainClass = "prisma.editor.JvmMainKt"
-        nativeDistributions {
-            targetFormats(
-                org.jetbrains.compose.desktop.application.dsl.TargetFormat.Dmg,
-                org.jetbrains.compose.desktop.application.dsl.TargetFormat.Msi,
-                org.jetbrains.compose.desktop.application.dsl.TargetFormat.Deb
-            )
-            packageName = "Browser"
-            packageVersion = "1.0.0"
-        }
-        jvmArgs += listOf("-Xmx1G", "-Dfile.encoding=UTF-8")
-    }
-}
 
 /*
 gradle.projectsEvaluated {

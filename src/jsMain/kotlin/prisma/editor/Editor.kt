@@ -76,6 +76,7 @@ object Editor {
     fun setSetting(key: String, value: Any) {
         settings[key] = value
     }
+
     /**
      * Opens a page with the specified name.
      */
@@ -170,11 +171,25 @@ private fun addHomePage(mainContent: HTMLElement) {
     }, 0)
 }
 
+@JsName("receiveData")
+fun receiveData(tag: String, jsonString: String) {
+    val data = JSON.parse<dynamic>(jsonString)
+    val element = document.querySelector("[$tag]") as? HTMLElement
+
+    if (element != null) {
+        val component = element.asDynamic().kotlinComponent
+        if (component != null && jsTypeOf(component.set) == "function") {
+            component.set(data)
+        }
+    }
+}
+
 /**
  * Main function that initializes the application.
  */
 fun main() {
     window.onload = {
+        console.log("window.onload")
         Editor.openPage("home")
     }
 }

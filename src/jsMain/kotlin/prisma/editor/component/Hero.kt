@@ -3,35 +3,67 @@ package prisma.editor.component
 import kotlinx.browser.document
 import kotlinx.html.*
 import kotlinx.html.dom.*
-import web.html.HTMLElement
-import org.w3c.dom.HTMLElement as W3CHTMLElement
+import org.w3c.dom.HTMLElement
 import org.w3c.dom.css.*
 import prisma.editor.styles.Theme
 
-/**
- * Creates a hero content section with the 'hero' attribute.
- */
+@OptIn(ExperimentalJsExport::class)
+@JsExport
 class Hero(
     var name: String = "",
     var description: String = "",
     var buttonText: String = ""
-) : HTMLElement {
-    fun create(): W3CHTMLElement {
-        return document.create.div {
-            // Add the 'hero' attribute for CSS targeting
-            attributes["hero"] = ""
+) {
+    val TAG = "hero"
 
+    init {
+        load()
+    }
+
+    fun preview(): HTMLElement {
+        return document.create.div {
+            attributes[TAG] = ""
+            asDynamic().kotlinComponent = this@Hero
             h1 {
                 +name
             }
-
             p {
                 +description
             }
-
             button {
                 +buttonText
             }
+        }
+    }
+
+    fun commit() {
+        val data = mapOf(
+            "name" to name,
+            "description" to description,
+            "buttonText" to buttonText
+        )
+        val jsonData = JSON.stringify(data)
+        console.log("save:$TAG", jsonData)
+    }
+
+    fun load() {
+        console.log("load:$TAG")
+    }
+
+    fun set(data: dynamic) {
+        name = data.name ?: name
+        description = data.description ?: description
+        buttonText = data.buttonText ?: buttonText
+        refresh()
+    }
+
+    fun refresh() {
+        val existingElement = document.querySelector("[$TAG]")
+        if (existingElement != null) {
+            existingElement.parentElement?.replaceChild(preview(), existingElement)
+        } else {
+            console.warn("No existing element with attribute [$TAG] found to refresh.")
+            document.body?.appendChild(preview())
         }
     }
 
@@ -44,23 +76,18 @@ class Hero(
         val styleElement = document.createElement("style")
         document.head?.appendChild(styleElement)
 
-        // Get the stylesheet from the document's styleSheets collection
         val stylesheet = document.styleSheets[document.styleSheets.length - 1] as CSSStyleSheet
 
-        // Add rules to the stylesheet
-
-        // Container rule
         val containerRule = """
-            [hero] {
+            [$TAG] {
                 text-align: center;
                 padding: ${Theme.Spacing.xl} ${Theme.Spacing.md};
             }
         """.trimIndent()
         stylesheet.insertRule(containerRule, stylesheet.cssRules.length)
 
-        // Title rule
         val titleRule = """
-            [hero] h1 {
+            [$TAG] h1 {
                 font-size: ${Theme.Typography.fontXl};
                 font-weight: ${Theme.Typography.fontWeightNormal};
                 font-family: ${Theme.Typography.defaultFontFamily};
@@ -71,9 +98,8 @@ class Hero(
         """.trimIndent()
         stylesheet.insertRule(titleRule, stylesheet.cssRules.length)
 
-        // Description rule
         val descriptionRule = """
-            [hero] p {
+            [$TAG] p {
                 font-size: ${Theme.Typography.fontSm};
                 line-height: ${Theme.Typography.lineHeightLarge};
                 font-family: ${Theme.Typography.defaultFontFamily};
@@ -85,9 +111,8 @@ class Hero(
         """.trimIndent()
         stylesheet.insertRule(descriptionRule, stylesheet.cssRules.length)
 
-        // Button rule
         val buttonRule = """
-            [hero] button {
+            [$TAG] button {
                 background-color: ${Theme.Colors.secondary};
                 color: ${Theme.Colors.white};
                 padding: ${Theme.Spacing.sm} ${Theme.Spacing.md};

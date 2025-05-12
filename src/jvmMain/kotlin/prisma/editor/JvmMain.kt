@@ -1,17 +1,9 @@
 // :browser:src:jvmMain:JvmMain.kt
 package prisma.editor
 
-import com.microsoft.playwright.BrowserType
-import com.microsoft.playwright.ConsoleMessage
-import com.microsoft.playwright.Playwright
-import com.microsoft.playwright.Page
+import com.microsoft.playwright.*
 import java.io.File
-import java.nio.file.Files
-import java.nio.file.Paths
 import kotlin.concurrent.thread
-
-// Settings map for persisting data
-private val settings: MutableMap<String, Any> = mutableMapOf()
 
 fun main() {
     val playwright = Playwright.create()
@@ -21,22 +13,47 @@ fun main() {
     )
     val context = browser.newContext()
     val page = context.newPage()
-    page.onConsoleMessage { message ->
-        trace(message)
-    }
 
-    val devServerUrl = "http://localhost:8080/editor.html"
-    println("Navigating to editor page: $devServerUrl")
+    setupCli(page)
+
+    val devServerUrl = "http://localhost:8080"
     page.navigate(devServerUrl)
-    println("Editor page loaded successfully")
 
-    // Load settings from file if it exists
-    loadSettings(page)
-
-    // Add shutdown hook to save settings when the application is closed
     Runtime.getRuntime().addShutdownHook(thread(start = false) {
-        saveSettings(page)
+        // TODO save everything in the Editor js context
     })
+}
+
+
+fun setupCli(page: Page) {
+    page.onConsoleMessage { message: ConsoleMessage ->
+        val fullCommand = message.text()
+        val parts = fullCommand.split(":", limit = 2)
+        val command = parts.getOrNull(0) // The command part (e.g., "save", "load")
+        val tag = parts.getOrNull(1) // The tag part (e.g., "hero")
+
+        when (command) {
+            "save" -> {
+                if (tag != null) {
+                    val jsonData = message.args()[0].jsonValue().toString()
+                    File("$tag.json").writeText(jsonData)
+                }
+            }
+
+            "load" -> {
+                if (tag != null) {
+                    val jsonString = File("$tag.json").readText()
+                    val dataToPass = mapOf(
+                        "tag" to tag,
+                        "jsonString" to jsonString
+                    )
+                    page.evaluate("(data) => receiveData(data.tag, data.jsonString)", dataToPass)
+                }
+            }
+
+            else -> trace(message)
+        }
+    }
 }
 
 fun trace(message: ConsoleMessage) {
@@ -58,43 +75,4 @@ fun trace(message: ConsoleMessage) {
     }
     val location = message.location()
     println("[Browser $type @ $location]: $text")
-}
-
-/**
- * Loads settings from a file and imports them into the editor.
- */
-fun loadSettings(page: Page) {
-    try {
-        val settingsFile = File("settings.json")
-        if (settingsFile.exists()) {
-            val jsonString = settingsFile.readText()
-
-            // Import settings into the editor
-            page.evaluate("(jsonString) => prisma.editor.Editor.import(jsonString)", jsonString)
-
-            println("Settings loaded from file and imported into editor")
-        } else {
-            println("No settings file found, using default settings")
-        }
-    } catch (e: Exception) {
-        println("Error loading settings: ${e.message}")
-    }
-}
-
-/**
- * Exports settings from the editor and saves them to a file.
- */
-fun saveSettings(page: Page) {
-    try {
-        // Export settings from the editor
-        val jsonString = page.evaluate("() => prisma.editor.Editor.export()").toString()
-
-        // Save settings to file
-        val settingsFile = File("settings.json")
-        settingsFile.writeText(jsonString)
-
-        println("Settings exported from editor and saved to file")
-    } catch (e: Exception) {
-        println("Error saving settings: ${e.message}")
-    }
 }
