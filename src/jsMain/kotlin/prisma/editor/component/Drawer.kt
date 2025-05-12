@@ -4,8 +4,9 @@ import kotlinx.browser.document
 import kotlinx.html.*
 import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
-import org.w3c.dom.css.*
-import prisma.editor.styles.Theme
+import prisma.editor.css.CssRuleDefinition
+import prisma.editor.css.Theme
+import prisma.editor.css.Typography
 
 /**
  * Represents a navigation drawer component.
@@ -34,64 +35,39 @@ class Drawer(var items: List<NavLink> = emptyList(), var opened: Boolean = false
         return nav
     }
 
-    /**
-     * Creates and returns a stylesheet for the Drawer component.
-     * This method uses CSSOM API to create a stylesheet with rules for the component.
-     */
-    fun stylesheet(): CSSStyleSheet {
-        // Create a new style element
-        val styleElement = document.createElement("style")
-        document.head?.appendChild(styleElement)
+    companion object {
+        const val TAG = "drawer"
 
-        // Get the stylesheet from the document's styleSheets collection
-        val stylesheet = document.styleSheets[document.styleSheets.length - 1] as CSSStyleSheet
+        fun cssRules(): List<CssRuleDefinition> {
+            return listOf(
+                "[drawer]" to {
+                    width = "240px"
+                    height = "100%"
+                    backgroundColor = "white"
+                    boxShadow = "2px 0 4px rgba(0,0,0,0.2)"
+                    setProperty("overflow", "auto")
+                    setProperty("transform", "translateX(-240px)")
+                    setProperty("transition", "transform 0.3s ease-in-out")
+                },
 
-        // Add rules to the stylesheet
+                "[drawer-header]" to {
+                    padding = Theme.spacing
+                    backgroundColor = "#7D3DF3"
+                    color = Theme.white
+                },
 
-        // Drawer rule
-        val drawerRule = """
-            [drawer] {
-                width: 240px;
-                height: 100%;
-                background-color: white;
-                box-shadow: 2px 0 4px rgba(0,0,0,0.2);
-                overflow: auto;
-                transform: translateX(-240px);
-                transition: transform 0.3s ease-in-out;
-            }
-        """.trimIndent()
-        stylesheet.insertRule(drawerRule, stylesheet.cssRules.length)
+                "[drawer-title]" to {
+                    margin = "0"
+                    fontSize = Typography.fontSm
+                    fontFamily = Typography.defaultFontFamily
+                },
 
-        // Drawer header rule
-        val headerRule = """
-            [drawer-header] {
-                padding: ${Theme.Spacing.md};
-                background-color: #7D3DF3;
-                color: ${Theme.Colors.white};
-            }
-        """.trimIndent()
-        stylesheet.insertRule(headerRule, stylesheet.cssRules.length)
-
-        // Drawer title rule
-        val titleRule = """
-            [drawer-title] {
-                margin: 0;
-                font-size: ${Theme.Typography.fontSm};
-                font-family: ${Theme.Typography.defaultFontFamily};
-            }
-        """.trimIndent()
-        stylesheet.insertRule(titleRule, stylesheet.cssRules.length)
-
-        // Drawer items rule
-        val itemsRule = """
-            [drawer-items] {
-                list-style-type: none;
-                padding: 0;
-                margin: 0;
-            }
-        """.trimIndent()
-        stylesheet.insertRule(itemsRule, stylesheet.cssRules.length)
-
-        return stylesheet
+                "[drawer-items]" to {
+                    listStyleType = "none"
+                    padding = "0"
+                    margin = "0"
+                }
+            )
+        }
     }
 }

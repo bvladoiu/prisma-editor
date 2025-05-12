@@ -5,8 +5,9 @@ import kotlinx.html.*
 import kotlinx.html.dom.*
 import web.html.HTMLElement
 import org.w3c.dom.HTMLElement as W3CHTMLElement
-import org.w3c.dom.css.*
-import prisma.editor.styles.Theme
+import prisma.editor.css.CssRuleDefinition
+import prisma.editor.css.Theme
+import prisma.editor.css.Typography
 
 /**
  * Creates a navigation menu with the 'navigation-menu' attribute.
@@ -42,79 +43,50 @@ class NavigationMenu(
         }
     }
 
-    /**
-     * Creates and returns a stylesheet for the NavigationMenu component.
-     * This method uses CSSOM API to create a stylesheet with rules for the component.
-     */
-    fun stylesheet(): CSSStyleSheet {
-        // Create a new style element
-        val styleElement = document.createElement("style")
-        document.head?.appendChild(styleElement)
+    companion object {
+        const val TAG = "navigation-menu"
 
-        // Get the stylesheet from the document's styleSheets collection
-        val stylesheet = document.styleSheets[document.styleSheets.length - 1] as CSSStyleSheet
+        fun cssRules(): List<CssRuleDefinition> {
+            return listOf(
+                "[navigation-menu]" to {
+                    backgroundColor = "rgba(0, 0, 0, 0.8)"
+                    position = "fixed"
+                    top = "0"
+                    left = "0"
+                    right = "0"
+                    zIndex = "1000"
+                },
 
-        // Add rules to the stylesheet
+                "[navigation-menu] > div" to {
+                    display = "flex"
+                    justifyContent = "space-between"
+                    alignItems = "center"
+                    padding = Theme.spacing
+                    maxWidth = "1200px"
+                    margin = "0 auto"
+                },
 
-        // Container rule
-        val containerRule = """
-            [navigation-menu] {
-                background-color: rgba(0, 0, 0, 0.8);
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                z-index: 1000;
-            }
-        """.trimIndent()
-        stylesheet.insertRule(containerRule, stylesheet.cssRules.length)
+                "[navigation-menu] a.brand" to {
+                    color = Theme.primary
+                    fontSize = Typography.fontMd
+                    fontWeight = Typography.fontWeightBold
+                    textDecoration = "none"
+                },
 
-        // Content rule
-        val contentRule = """
-            [navigation-menu] > div {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: ${Theme.Spacing.md};
-                max-width: ${Theme.Spacing.maxContentWidth};
-                margin: 0 auto;
-            }
-        """.trimIndent()
-        stylesheet.insertRule(contentRule, stylesheet.cssRules.length)
+                "[navigation-menu] ul" to {
+                    display = "flex"
+                    listStyleType = "none"
+                    margin = "0"
+                    padding = "0"
+                    setProperty("gap", Theme.spacing)
+                },
 
-        // Brand rule
-        val brandRule = """
-            [navigation-menu] a.brand {
-                color: ${Theme.Colors.primary};
-                font-size: ${Theme.Typography.fontMd};
-                font-weight: ${Theme.Typography.fontWeightBold};
-                text-decoration: none;
-            }
-        """.trimIndent()
-        stylesheet.insertRule(brandRule, stylesheet.cssRules.length)
-
-        // Nav list rule
-        val navListRule = """
-            [navigation-menu] ul {
-                display: flex;
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                gap: ${Theme.Spacing.md};
-            }
-        """.trimIndent()
-        stylesheet.insertRule(navListRule, stylesheet.cssRules.length)
-
-        // Nav link rule
-        val navLinkRule = """
-            [navigation-menu] ul a {
-                color: ${Theme.Colors.white};
-                text-decoration: none;
-                font-size: ${Theme.Typography.fontSm};
-            }
-        """.trimIndent()
-        stylesheet.insertRule(navLinkRule, stylesheet.cssRules.length)
-
-        return stylesheet
+                "[navigation-menu] ul a" to {
+                    color = Theme.white
+                    textDecoration = "none"
+                    fontSize = Typography.fontSm
+                }
+            )
+        }
     }
 }

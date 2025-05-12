@@ -1,11 +1,3 @@
-@file:OptIn(ExperimentalKotlinGradlePluginApi::class)
-
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-
-// Task name constants
-val jvmRunTask = "jvmRun"
-val jsBrowserProductionWebpackTask = "jsBrowserProductionWebpack"
-
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
 }
@@ -30,7 +22,6 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(libs.kotlinx.coroutines.core)
-                implementation(compose.runtime)
             }
         }
         val jvmMain by getting {
@@ -46,12 +37,3 @@ kotlin {
         }
     }
 }
-
-
-/*
-gradle.projectsEvaluated {
-    tasks.matching { it.name == jvmRunTask }.configureEach {
-        dependsOn(jsBrowserProductionWebpackTask)
-    }
-}
-*/

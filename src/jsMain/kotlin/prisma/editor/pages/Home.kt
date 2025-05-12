@@ -5,7 +5,6 @@ import kotlinx.html.*
 import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
 import prisma.editor.component.*
-import prisma.editor.styles.Theme
 
 /**
  * Creates the home page component that aggregates other components.

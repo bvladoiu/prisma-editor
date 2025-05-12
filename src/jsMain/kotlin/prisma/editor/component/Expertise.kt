@@ -4,8 +4,9 @@ import kotlinx.browser.document
 import kotlinx.html.*
 import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
-import org.w3c.dom.css.*
-import prisma.editor.styles.Theme
+import prisma.editor.css.CssRuleDefinition
+import prisma.editor.css.Theme
+import prisma.editor.css.Typography
 
 class Expertise(var name: String, var description: String) {
 
@@ -23,52 +24,31 @@ class Expertise(var name: String, var description: String) {
         }
     }
 
-    /**
-     * Creates and returns a stylesheet for the Expertise component.
-     * This method uses CSSOM API to create a stylesheet with rules for the component.
-     */
-    fun stylesheet(): CSSStyleSheet {
-        // Create a new style element
-        val styleElement = document.createElement("style")
-        document.head?.appendChild(styleElement)
+    companion object {
+        const val TAG = "expertise"
 
-        // Get the stylesheet from the document's styleSheets collection
-        val stylesheet = document.styleSheets[document.styleSheets.length - 1] as CSSStyleSheet
+        fun cssRules(): List<CssRuleDefinition> {
+            return listOf(
+                "[expertise]" to {
+                    padding = Theme.spacing
+                    backgroundColor = "var(--color-light-transparent)"
+                    borderRadius = "4px"
+                    height = "100%"
+                },
 
-        // Add rules to the stylesheet
+                "[expertise] h3" to {
+                    fontSize = Typography.fontMd
+                    fontFamily = Typography.defaultFontFamily
+                    marginBottom = "8px"
+                    color = Theme.white
+                },
 
-        // Container rule
-        val containerRule = """
-            [expertise] {
-                padding: ${Theme.Spacing.md};
-                background-color: ${Theme.Colors.lightTransparent};
-                border-radius: ${Theme.Spacing.borderRadius};
-                height: ${Theme.Spacing.fullWidth};
-            }
-        """.trimIndent()
-        stylesheet.insertRule(containerRule, stylesheet.cssRules.length)
-
-        // Title rule
-        val titleRule = """
-            [expertise] h3 {
-                font-size: ${Theme.Typography.fontMd};
-                font-family: ${Theme.Typography.defaultFontFamily};
-                margin-bottom: ${Theme.Spacing.sm};
-                color: ${Theme.Colors.white};
-            }
-        """.trimIndent()
-        stylesheet.insertRule(titleRule, stylesheet.cssRules.length)
-
-        // Description rule
-        val descriptionRule = """
-            [expertise] p {
-                margin: ${Theme.Spacing.none};
-                line-height: ${Theme.Typography.lineHeightNormal};
-                font-family: ${Theme.Typography.defaultFontFamily};
-            }
-        """.trimIndent()
-        stylesheet.insertRule(descriptionRule, stylesheet.cssRules.length)
-
-        return stylesheet
+                "[expertise] p" to {
+                    margin = "0"
+                    lineHeight = Typography.lineHeightNormal
+                    fontFamily = Typography.defaultFontFamily
+                }
+            )
+        }
     }
 }

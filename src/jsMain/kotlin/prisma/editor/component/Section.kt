@@ -4,8 +4,9 @@ import kotlinx.browser.document
 import kotlinx.html.*
 import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
-import org.w3c.dom.css.*
-import prisma.editor.styles.Theme
+import prisma.editor.css.CssRuleDefinition
+import prisma.editor.css.Theme
+import prisma.editor.css.Typography
 
 /**
  * Creates a section with a title and content.
@@ -18,40 +19,31 @@ class Section(
 ) {
     fun preview(): HTMLElement {
         return document.create.section {
-            // Add the 'section-container' attribute for CSS targeting
             attributes["section-container"] = ""
-            // Add the margin-top as a data attribute for CSS targeting
             attributes["data-margin-top"] = marginTop
 
             article {
-                // Add the 'section-article' attribute for CSS targeting
                 attributes["section-article"] = ""
 
                 if (title != null) {
                     if (isDivider) {
                         header {
-                            // Add the 'section-header-with-divider' attribute for CSS targeting
                             attributes["section-header-with-divider"] = ""
-                            h2 { 
-                                // Add the 'section-heading' attribute for CSS targeting
+                            h2 {
                                 attributes["section-heading"] = ""
-                                +title 
+                                +title
                             }
                         }
                     } else {
                         header {
-                            // Add the 'section-header-without-divider' attribute for CSS targeting
                             attributes["section-header-without-divider"] = ""
-                            h2 { 
-                                // Add the 'section-heading' attribute for CSS targeting
+                            h2 {
                                 attributes["section-heading"] = ""
-                                +title 
+                                +title
                             }
                         }
                     }
                 }
-
-                // Content
                 div {
                     +content
                 }
@@ -59,75 +51,46 @@ class Section(
         }
     }
 
-    /**
-     * Creates and returns a stylesheet for the Section component.
-     * This method uses CSSOM API to create a stylesheet with rules for the component.
-     */
-    fun stylesheet(): CSSStyleSheet {
-        // Create a new style element
-        val styleElement = document.createElement("style")
-        document.head?.appendChild(styleElement)
+    companion object {
+        const val TAG = "section-container"
 
-        // Get the stylesheet from the document's styleSheets collection
-        val stylesheet = document.styleSheets[document.styleSheets.length - 1] as CSSStyleSheet
+        fun cssRules(): List<CssRuleDefinition> {
+            return listOf(
+                "[section-container]" to {
+                    marginTop = "2rem"
+                    marginBottom = "2rem"
+                    padding = "0 ${Theme.spacing}"
+                    maxWidth = "1200px"
+                    marginLeft = "auto"
+                    marginRight = "auto"
+                },
 
-        // Add rules to the stylesheet
+                "[section-article]" to {
+                    padding = Theme.spacing
+                    backgroundColor = "var(--color-very-light-transparent)"
+                    borderRadius = "4px"
+                },
 
-        // Container rule
-        val containerRule = """
-            [section-container] {
-                margin-top: ${Theme.Spacing.rem2};
-                margin-bottom: ${Theme.Spacing.rem2};
-                padding: ${Theme.Spacing.none} ${Theme.Spacing.md};
-                max-width: ${Theme.Spacing.maxContentWidth};
-                margin-left: auto;
-                margin-right: auto;
-            }
-        """.trimIndent()
-        stylesheet.insertRule(containerRule, stylesheet.cssRules.length)
+                "[section-header-with-divider]" to {
+                    fontSize = Typography.fontLg
+                    fontWeight = Typography.fontWeightBold
+                    fontFamily = Typography.defaultFontFamily
+                    marginBottom = Theme.spacing
+                    paddingBottom = "8px"
+                    borderBottom = "1px solid var(--color-medium-gray)"
+                },
 
-        // Article rule
-        val articleRule = """
-            [section-article] {
-                padding: ${Theme.Spacing.md};
-                background-color: ${Theme.Colors.veryLightTransparent};
-                border-radius: ${Theme.Spacing.borderRadius};
-            }
-        """.trimIndent()
-        stylesheet.insertRule(articleRule, stylesheet.cssRules.length)
+                "[section-header-without-divider]" to {
+                    marginBottom = Theme.spacing
+                },
 
-        // Header with divider rule
-        val headerWithDividerRule = """
-            [section-header-with-divider] {
-                font-size: ${Theme.Typography.fontLg};
-                font-weight: ${Theme.Typography.fontWeightBold};
-                font-family: ${Theme.Typography.defaultFontFamily};
-                margin-bottom: ${Theme.Spacing.md};
-                padding-bottom: ${Theme.Spacing.sm};
-                border-bottom: 1px solid ${Theme.Colors.mediumGray};
-            }
-        """.trimIndent()
-        stylesheet.insertRule(headerWithDividerRule, stylesheet.cssRules.length)
-
-        // Header without divider rule
-        val headerWithoutDividerRule = """
-            [section-header-without-divider] {
-                margin-bottom: ${Theme.Spacing.md};
-            }
-        """.trimIndent()
-        stylesheet.insertRule(headerWithoutDividerRule, stylesheet.cssRules.length)
-
-        // Heading rule
-        val headingRule = """
-            [section-heading] {
-                font-size: ${Theme.Typography.fontLg};
-                font-weight: ${Theme.Typography.fontWeightBold};
-                font-family: ${Theme.Typography.defaultFontFamily};
-                margin: ${Theme.Spacing.none};
-            }
-        """.trimIndent()
-        stylesheet.insertRule(headingRule, stylesheet.cssRules.length)
-
-        return stylesheet
+                "[section-heading]" to {
+                    fontSize = Typography.fontLg
+                    fontWeight = Typography.fontWeightBold
+                    fontFamily = Typography.defaultFontFamily
+                    margin = "0"
+                }
+            )
+        }
     }
 }

@@ -1,5 +1,11 @@
 # Tasks
 
+## Fix CSS compilation errors in components - 05/12/2025
+Refactored all components in the component package to fix CSS-related compilation errors. Replaced stylesheet() methods with cssRules() methods that return a List<CssRuleDefinition> following the pattern in Hero.kt. Updated all components to use the refactored CSS package APIs (Theme.spacing, Typography.fontMd, etc.) instead of the old Theme.Spacing, Theme.Colors, and Theme.Typography. Used setProperty() for CSS properties not directly available in the CSSStyleDeclaration. Added TAG constants to all components for consistent CSS targeting. This ensures all components use a consistent approach to CSS styling and fixes all CSS-related compilation errors.
+
+## Wrap component stylesheet methods in companion objects - 06/28/2025
+Refactored several component classes to move their stylesheet() methods into companion objects. Modified Footer, Hero, NavigationMenu, Pitch, Section, Expertise, and EditorScaffold components to ensure their stylesheet methods are accessible as static methods through the companion object. This change ensures that the Main.stylesheet() method can properly call each component's stylesheet method without requiring an instance of the component, maintaining a consistent pattern across all components.
+
 ## Fix NavLink compilation errors - 06/27/2025
 Fixed compilation errors in NavLink.kt by refactoring the stylesheet() function to use string templates for CSS rules instead of the object-oriented approach with web.cssom classes. Replaced imports from web.cssom.* with org.w3c.dom.css.* and updated the code to match the pattern used in other components like Theme and ArticleCard. This ensures consistent use of Kotlin JS APIs across the project without introducing string hardcoding.
 
@@ -34,7 +40,7 @@ Refactored all components in the prisma.editor.component package to match the Ex
 Created a Main.kt file in the styles package that aggregates all styles from the styles package into a single stylesheet. The Main object provides two main functions: initialize() to create a stylesheet and add all styles to it, and exportStylesheet() to export the stylesheet as a CSS string that can be downloaded. Updated HeroStyles.kt to include container and button styles that were previously hardcoded in the Hero component. This prepares the application for a future export button functionality that will allow users to download the aggregated stylesheet.
 
 ## Migrate styles to direct DOM API - 05/22/2025
-Removed compose styles API from all files in the prisma.editor.styles package, following the pattern established in ButtonStyles.kt. Migrated FooterStyles, HeroStyles, KeywordStripStyles, NavigationMenuStyles, PageStyles, ReasonItemStyles, SectionStyles, and UpdatesListStyles to use direct style properties on HTMLElement instead of StyleScope lambda functions. Used dynamic approach for non-standard CSS properties like gap and gridTemplateColumns. This completes the migration of all style files to use the direct DOM API.
+Removed compose styles API from all files in the prisma.editor.css package, following the pattern established in ButtonStyles.kt. Migrated FooterStyles, HeroStyles, KeywordStripStyles, NavigationMenuStyles, PageStyles, ReasonItemStyles, SectionStyles, and UpdatesListStyles to use direct style properties on HTMLElement instead of StyleScope lambda functions. Used dynamic approach for non-standard CSS properties like gap and gridTemplateColumns. This completes the migration of all style files to use the direct DOM API.
 
 ## Complete UI component migration - 05/21/2025
 Migrated all remaining UI components from Compose to kotlinx.html+kotlin browser wrapper. Converted ExpertiseItem, ReasonItem, Footer, HeroContent, KeywordStrip, NavigationMenu, and UpdatesList components to use kotlinx.html DSL instead of Compose. Updated Home.kt to use the new components and removed redundant private functions. This completes the migration of all UI components to kotlinx.html while maintaining the compose-style naming convention (using Page() and Section() instead of buildPage() and buildSection()).

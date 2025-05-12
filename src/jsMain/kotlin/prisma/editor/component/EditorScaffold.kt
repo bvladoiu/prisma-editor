@@ -4,8 +4,9 @@ import kotlinx.browser.document
 import kotlinx.html.*
 import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
-import org.w3c.dom.css.*
-import prisma.editor.styles.Theme
+import prisma.editor.css.CssRuleDefinition
+import prisma.editor.css.Theme
+import prisma.editor.css.Typography
 
 /**
  * Represents the main editor scaffold component.
@@ -54,7 +55,7 @@ class EditorScaffold {
             button {
                 attributes["menu-button"] = ""
                 id = "menu-button"
-                
+
                 // Menu icon
                 span {
                     id = "menu-icon"
@@ -74,97 +75,60 @@ class EditorScaffold {
         return header
     }
 
-    /**
-     * Creates and returns a stylesheet for the EditorScaffold component.
-     * This method uses CSSOM API to create a stylesheet with rules for the component.
-     */
-    fun stylesheet(): CSSStyleSheet {
-        // Create a new style element
-        val styleElement = document.createElement("style")
-        document.head?.appendChild(styleElement)
+    companion object {
+        const val TAG = "editor-scaffold"
 
-        // Get the stylesheet from the document's styleSheets collection
-        val stylesheet = document.styleSheets[document.styleSheets.length - 1] as CSSStyleSheet
+        fun cssRules(): List<CssRuleDefinition> {
+            return listOf(
+                "[editor-scaffold]" to {
+                    display = "flex"
+                    flexDirection = "column"
+                    height = "100vh"
+                    width = "100%"
+                },
 
-        // Add rules to the stylesheet
+                "[content-area]" to {
+                    display = "flex"
+                    flexGrow = "1"
+                    setProperty("overflow", "hidden")
+                },
 
-        // Editor scaffold rule
-        val scaffoldRule = """
-            [editor-scaffold] {
-                display: flex;
-                flex-direction: column;
-                height: 100vh;
-                width: 100%;
-            }
-        """.trimIndent()
-        stylesheet.insertRule(scaffoldRule, stylesheet.cssRules.length)
+                "[main-content]" to {
+                    flexGrow = "1"
+                    padding = Theme.spacing
+                    setProperty("overflow", "auto")
+                },
 
-        // Content area rule
-        val contentAreaRule = """
-            [content-area] {
-                display: flex;
-                flex-grow: 1;
-                overflow: hidden;
-            }
-        """.trimIndent()
-        stylesheet.insertRule(contentAreaRule, stylesheet.cssRules.length)
+                "[app-bar]" to {
+                    display = "flex"
+                    alignItems = "center"
+                    padding = "8px ${Theme.spacing}"
+                    backgroundColor = "#6200EE"
+                    color = Theme.white
+                    height = "56px"
+                    boxShadow = "0 2px 4px rgba(0,0,0,0.2)"
+                },
 
-        // Main content rule
-        val mainContentRule = """
-            [main-content] {
-                flex-grow: 1;
-                padding: ${Theme.Spacing.md};
-                overflow: auto;
-            }
-        """.trimIndent()
-        stylesheet.insertRule(mainContentRule, stylesheet.cssRules.length)
+                "[menu-button]" to {
+                    backgroundColor = "transparent"
+                    border = "0"
+                    color = Theme.white
+                    cursor = "pointer"
+                    padding = "8px"
+                    marginRight = Theme.spacing
+                },
 
-        // App bar rule
-        val appBarRule = """
-            [app-bar] {
-                display: flex;
-                align-items: center;
-                padding: ${Theme.Spacing.sm} ${Theme.Spacing.md};
-                background-color: #6200EE;
-                color: ${Theme.Colors.white};
-                height: ${Theme.Spacing.navHeight};
-                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            }
-        """.trimIndent()
-        stylesheet.insertRule(appBarRule, stylesheet.cssRules.length)
+                "[menu-icon]" to {
+                    fontSize = "24px"
+                    lineHeight = "1"
+                },
 
-        // Menu button rule
-        val menuButtonRule = """
-            [menu-button] {
-                background-color: transparent;
-                border: 0;
-                color: ${Theme.Colors.white};
-                cursor: pointer;
-                padding: ${Theme.Spacing.sm};
-                margin-right: ${Theme.Spacing.md};
-            }
-        """.trimIndent()
-        stylesheet.insertRule(menuButtonRule, stylesheet.cssRules.length)
-
-        // Menu icon rule
-        val menuIconRule = """
-            [menu-icon] {
-                font-size: 24px;
-                line-height: 1;
-            }
-        """.trimIndent()
-        stylesheet.insertRule(menuIconRule, stylesheet.cssRules.length)
-
-        // App bar title rule
-        val appBarTitleRule = """
-            [app-bar-title] {
-                margin: 0;
-                font-size: ${Theme.Typography.fontMd};
-                font-weight: 500;
-            }
-        """.trimIndent()
-        stylesheet.insertRule(appBarTitleRule, stylesheet.cssRules.length)
-
-        return stylesheet
+                "[app-bar-title]" to {
+                    margin = "0"
+                    fontSize = Typography.fontMd
+                    fontWeight = "500"
+                }
+            )
+        }
     }
 }

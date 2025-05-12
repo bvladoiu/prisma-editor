@@ -4,17 +4,15 @@ import kotlinx.browser.document
 import kotlinx.html.*
 import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
-import org.w3c.dom.css.*
-import prisma.editor.styles.Theme
+import prisma.editor.css.CssRuleDefinition
+import prisma.editor.css.Theme
+import prisma.editor.css.Theme.spacing
 
-@OptIn(ExperimentalJsExport::class)
-@JsExport
 class Hero(
     var name: String = "",
     var description: String = "",
     var buttonText: String = ""
 ) {
-    val TAG = "hero"
 
     init {
         load()
@@ -23,7 +21,7 @@ class Hero(
     fun preview(): HTMLElement {
         return document.create.div {
             attributes[TAG] = ""
-            asDynamic().kotlinComponent = this@Hero
+            asDynamic().kotlinInstance = this@Hero
             h1 {
                 +name
             }
@@ -67,63 +65,36 @@ class Hero(
         }
     }
 
-    /**
-     * Creates and returns a stylesheet for the Hero component.
-     * This method uses CSSOM API to create a stylesheet with rules for the component.
-     */
-    fun stylesheet(): CSSStyleSheet {
-        // Create a new style element
-        val styleElement = document.createElement("style")
-        document.head?.appendChild(styleElement)
+    companion object {
 
-        val stylesheet = document.styleSheets[document.styleSheets.length - 1] as CSSStyleSheet
+        const val TAG = "hero"
 
-        val containerRule = """
-            [$TAG] {
-                text-align: center;
-                padding: ${Theme.Spacing.xl} ${Theme.Spacing.md};
-            }
-        """.trimIndent()
-        stylesheet.insertRule(containerRule, stylesheet.cssRules.length)
+        fun cssRules(): List<CssRuleDefinition> {
+            return listOf(
 
-        val titleRule = """
-            [$TAG] h1 {
-                font-size: ${Theme.Typography.fontXl};
-                font-weight: ${Theme.Typography.fontWeightNormal};
-                font-family: ${Theme.Typography.defaultFontFamily};
-                margin-top: ${Theme.Spacing.rem2};
-                margin-bottom: ${Theme.Spacing.md};
-                color: ${Theme.Colors.primary};
-            }
-        """.trimIndent()
-        stylesheet.insertRule(titleRule, stylesheet.cssRules.length)
+                "[$TAG]" to {
+                    textAlign = "center"
+                    padding = spacing
+                },
 
-        val descriptionRule = """
-            [$TAG] p {
-                font-size: ${Theme.Typography.fontSm};
-                line-height: ${Theme.Typography.lineHeightLarge};
-                font-family: ${Theme.Typography.defaultFontFamily};
-                margin-bottom: ${Theme.Spacing.lg};
-                max-width: 600px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-        """.trimIndent()
-        stylesheet.insertRule(descriptionRule, stylesheet.cssRules.length)
+                "[$TAG] h1" to {
+                    margin = spacing
+                },
 
-        val buttonRule = """
-            [$TAG] button {
-                background-color: ${Theme.Colors.secondary};
-                color: ${Theme.Colors.white};
-                padding: ${Theme.Spacing.sm} ${Theme.Spacing.md};
-                border: ${Theme.Spacing.none};
-                border-radius: ${Theme.Spacing.borderRadius};
-                font-size: ${Theme.Typography.fontSm};
-                cursor: pointer;
-            }
-        """.trimIndent()
-        stylesheet.insertRule(buttonRule, stylesheet.cssRules.length)
+                "[$TAG] p" to {
+                    maxWidth = "600px"
+                    marginLeft = "auto"
+                    marginRight = "auto"
+                },
 
-        return stylesheet
+                "[$TAG] button" to {
+                    backgroundColor = Theme.secondary
+                    color = Theme.white
+                    padding = spacing
+                    borderRadius = "4px"
+                    cursor = "pointer"
+                }
+            )
+        }
     }
 }

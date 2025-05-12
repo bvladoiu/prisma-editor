@@ -5,8 +5,9 @@ import kotlinx.html.*
 import kotlinx.html.dom.*
 import kotlinx.html.js.onClickFunction
 import org.w3c.dom.HTMLElement
-import org.w3c.dom.css.*
-import prisma.editor.styles.Theme
+import prisma.editor.css.CssRuleDefinition
+import prisma.editor.css.Theme
+import prisma.editor.css.Typography
 
 /**
  * Represents a navigation link component for the drawer.
@@ -44,81 +45,48 @@ class NavLink(var text: String, var route: String, var icon: String = "", var se
         }
     }
 
-    /**
-     * Creates and returns a stylesheet for the NavLink component.
-     * This method uses CSSOM API to create a stylesheet with rules for the component.
-     */
-    fun stylesheet(): CSSStyleSheet {
-        // Create a new style element
-        val styleElement = document.createElement("style")
-        document.head?.appendChild(styleElement)
+    companion object {
+        const val TAG = "nav-link"
 
-        // Get the stylesheet from the document's styleSheets collection
-        val stylesheet = document.styleSheets[document.styleSheets.length - 1] as CSSStyleSheet
+        fun cssRules(): List<CssRuleDefinition> {
+            return listOf(
+                "[nav-item]" to {
+                    padding = "0"
+                    margin = "0"
+                },
 
-        // Add rules to the stylesheet
+                "[nav-link]" to {
+                    padding = Theme.spacing
+                    cursor = "pointer"
+                    backgroundColor = Theme.white
+                    display = "flex"
+                    alignItems = "center"
+                    textDecoration = "none"
+                    color = "black"
+                    fontFamily = Typography.defaultFontFamily
+                    setProperty("transition", "background-color 0.2s ease")
+                },
 
-        // Nav item rule
-        val navItemRule = """
-            [nav-item] {
-                padding: 0;
-                margin: 0;
-            }
-        """.trimIndent()
-        stylesheet.insertRule(navItemRule, stylesheet.cssRules.length)
+                "[nav-link]:hover" to {
+                    backgroundColor = Theme.lightGray
+                },
 
-        // Nav link rule
-        val navLinkRule = """
-            [nav-link] {
-                padding: ${Theme.Spacing.md};
-                cursor: pointer;
-                background-color: ${Theme.Colors.white};
-                display: flex;
-                align-items: center;
-                text-decoration: none;
-                color: black;
-                font-family: ${Theme.Typography.defaultFontFamily};
-                transition: background-color 0.2s ease;
-            }
-        """.trimIndent()
-        stylesheet.insertRule(navLinkRule, stylesheet.cssRules.length)
+                "[nav-link-selected]" to {
+                    backgroundColor = Theme.primary
+                    color = Theme.white
+                },
 
-        // Nav link hover rule
-        val navLinkHoverRule = """
-            [nav-link]:hover {
-                background-color: ${Theme.Colors.lightGray};
-            }
-        """.trimIndent()
-        stylesheet.insertRule(navLinkHoverRule, stylesheet.cssRules.length)
+                "[nav-icon]" to {
+                    marginRight = "8px"
+                    fontSize = Typography.fontMd
+                    display = "inline-flex"
+                    alignItems = "center"
+                },
 
-        // Nav link selected rule
-        val navLinkSelectedRule = """
-            [nav-link-selected] {
-                background-color: ${Theme.Colors.primary};
-                color: ${Theme.Colors.white};
-            }
-        """.trimIndent()
-        stylesheet.insertRule(navLinkSelectedRule, stylesheet.cssRules.length)
-
-        // Nav icon rule
-        val navIconRule = """
-            [nav-icon] {
-                margin-right: ${Theme.Spacing.sm};
-                font-size: ${Theme.Typography.fontMd};
-                display: inline-flex;
-                align-items: center;
-            }
-        """.trimIndent()
-        stylesheet.insertRule(navIconRule, stylesheet.cssRules.length)
-
-        // Nav text rule
-        val navTextRule = """
-            [nav-text] {
-                font-size: ${Theme.Typography.fontSm};
-            }
-        """.trimIndent()
-        stylesheet.insertRule(navTextRule, stylesheet.cssRules.length)
-
-        return stylesheet
+                "[nav-text]" to {
+                    fontSize = Typography.fontSm
+                }
+            )
+        }
     }
 }
