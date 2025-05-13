@@ -3,15 +3,15 @@ package prisma.editor.component
 import kotlinx.browser.document
 import kotlinx.html.*
 import kotlinx.html.dom.*
-import kotlinx.html.stream.createHTML
 import org.w3c.dom.HTMLElement
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
+import prisma.editor.css.Typography
 import kotlin.js.JSON
 
 /**
  * Section component that represents a section of a page.
- * Uses SectionHeader and SectionContent components for semantic clarity.
+ * Provides a flexible container with optional title, content, and grid layout.
  * @param title The title of the section (optional).
  * @param isDivider Whether to show a divider line below the header.
  * @param marginTop The top margin of the section.
@@ -21,34 +21,51 @@ class Section(
     var isDivider: Boolean = false,
     var marginTop: String = "2rem"
 ) {
-    private val content = SectionContent()
+    private val contentItems = mutableListOf<HTMLElement>()
+    private val gridItems = mutableListOf<HTMLElement>()
 
     init {
         load()
     }
 
     /**
-     * Adds a child element to the section content.
-     * @param element The element to add.
+     * Adds a content element to the section.
+     * @param element The element to add to the content area.
      */
-    fun addChild(element: HTMLElement) {
-        content.addChild(element)
+    fun addContent(element: HTMLElement) {
+        contentItems.add(element)
     }
 
     /**
      * Adds content using FlowContent to the section.
-     * @param content The FlowContent to add.
+     * @param content The FlowContent to add to the content area.
      */
     fun addContent(flowContent: FlowContent.() -> Unit) {
-        content.addContent(flowContent)
+        val element = document.create.div {
+            apply(flowContent)
+        }
+        // If the div only has one child, use that child directly
+        if (element.childElementCount == 1) {
+            contentItems.add(element.firstElementChild as HTMLElement)
+        } else {
+            contentItems.add(element)
+        }
     }
 
     /**
-     * Adds multiple child elements to the section content.
-     * @param elements The elements to add.
+     * Adds an item to the grid layout at the bottom of the section.
+     * @param element The element to add to the grid.
      */
-    fun addChildren(elements: List<HTMLElement>) {
-        content.addChildren(elements)
+    fun addGridItem(element: HTMLElement) {
+        gridItems.add(element)
+    }
+
+    /**
+     * Adds multiple items to the grid layout at the bottom of the section.
+     * @param elements The elements to add to the grid.
+     */
+    fun addGridItems(elements: List<HTMLElement>) {
+        gridItems.addAll(elements)
     }
 
     fun preview(): HTMLElement {
@@ -58,22 +75,46 @@ class Section(
             asDynamic().kotlinInstance = this@Section
         }
 
-        // Create article element
-        val articleElement = document.create.article {
-            attributes[ARTICLE_TAG] = ""
-        }
-
         // Add header if title is provided
         if (title != null) {
-            val header = SectionHeader(title!!, isDivider)
-            articleElement.appendChild(header.preview())
+            val headerElement = document.create.header {
+                attributes[HEADER_ATTR] = ""
+                attributes["data-divider"] = isDivider.toString()
+
+                h2 {
+                    classes = setOf(Typography.HEADLINE)
+                    +title!!
+                }
+            }
+            sectionElement.appendChild(headerElement)
         }
 
-        // Add content
-        articleElement.appendChild(content.preview())
+        // Add content items if any
+        if (contentItems.isNotEmpty()) {
+            val contentElement = document.create.div {
+                attributes[CONTENT_ATTR] = ""
+                attributes["role"] = "region"
+            }
 
-        // Add article to section
-        sectionElement.appendChild(articleElement)
+            contentItems.forEach { item ->
+                contentElement.appendChild(item)
+            }
+
+            sectionElement.appendChild(contentElement)
+        }
+
+        // Add grid items if any
+        if (gridItems.isNotEmpty()) {
+            val gridElement = document.create.div {
+                attributes[GRID_ATTR] = ""
+            }
+
+            gridItems.forEach { item ->
+                gridElement.appendChild(item)
+            }
+
+            sectionElement.appendChild(gridElement)
+        }
 
         return sectionElement
     }
@@ -82,13 +123,12 @@ class Section(
         val data = mapOf(
             "title" to title,
             "isDivider" to isDivider,
-            "marginTop" to marginTop
+            "marginTop" to marginTop,
+            "contentItemCount" to contentItems.size,
+            "gridItemCount" to gridItems.size
         )
         val jsonData = JSON.stringify(data)
         console.log("save:$TAG", jsonData)
-
-        // Also commit content
-        content.commit()
     }
 
     fun load() {
@@ -116,23 +156,41 @@ class Section(
 
     companion object {
         const val TAG = "section-container"
-        const val ARTICLE_TAG = "section-article"
+        const val HEADER_ATTR = "section-header"
+        const val CONTENT_ATTR = "section-content"
+        const val GRID_ATTR = "section-grid"
 
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
                 "[$TAG]" to {
                     marginTop = "2rem"
                     marginBottom = "2rem"
-                    padding = "0 ${Theme.spacing}"
+                    padding = Theme.spacing
                     maxWidth = "1200px"
                     marginLeft = "auto"
                     marginRight = "auto"
-                },
-
-                "[$ARTICLE_TAG]" to {
-                    padding = Theme.spacing
                     backgroundColor = "var(--color-very-light-transparent)"
                     borderRadius = "4px"
+                },
+
+                "[$HEADER_ATTR]" to {
+                    marginBottom = Theme.spacing
+                },
+
+                "[$HEADER_ATTR][data-divider='true']" to {
+                    paddingBottom = "8px"
+                    borderBottom = "1px solid var(--color-medium-gray)"
+                },
+
+                "[$CONTENT_ATTR]" to {
+                    padding = Theme.spacing
+                },
+
+                "[$GRID_ATTR]" to {
+                    display = "grid"
+                    setProperty("grid-template-columns", "repeat(auto-fill, minmax(250px, 1fr))")
+                    setProperty("gap", Theme.spacing)
+                    marginTop = Theme.spacing
                 }
             )
         }
