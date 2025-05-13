@@ -3,6 +3,7 @@ package prisma.editor.component
 import kotlinx.browser.document
 import kotlinx.html.*
 import kotlinx.html.dom.*
+import kotlinx.html.stream.createHTML
 import org.w3c.dom.HTMLElement
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
@@ -32,6 +33,14 @@ class Section(
      */
     fun addChild(element: HTMLElement) {
         content.addChild(element)
+    }
+
+    /**
+     * Adds content using FlowContent to the section.
+     * @param content The FlowContent to add.
+     */
+    fun addContent(flowContent: FlowContent.() -> Unit) {
+        content.addContent(flowContent)
     }
 
     /**

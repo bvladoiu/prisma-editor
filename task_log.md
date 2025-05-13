@@ -1,5 +1,8 @@
 # Tasks
 
+## Add FlowContent rendering methods to Text, Icon, and Image components - 07/09/2025
+Implemented new render() methods for Text, Icon, and Image components that return FlowContent instead of HTMLElement. This allows these components to be embedded in other components' preview() methods without creating duplicate wrappers. For the Text component, added parameters for display, headline, and regular to override the default text type. Updated SectionHeader to use the new render() method of the Text component. Added addContent() methods to SectionContent and Section components that accept FlowContent parameters, allowing them to work with the new render() methods. These changes improve component composition by eliminating the need to create and append intermediate HTMLElements, making the code cleaner and more efficient.
+
 ## Promote component rendering task from OUTSTANDING to TODO - 07/08/2025
 Promoted the item "Make sure all components render with Image, Icon and Text components and do not have duplicated wrappers" from the OUTSTANDING section to the TODO section in TODOS.md. Added it as Task1 to maintain the sequential order of tasks. This task is important for ensuring consistent component architecture across the application, as it will help eliminate duplicated wrapper code and standardize the use of basic building blocks (Image, Icon, and Text components) for rendering all other components.
 

@@ -22,21 +22,19 @@ class SectionHeader(
     }
 
     fun preview(): HTMLElement {
-        val headerElement = document.create.header {
+        return document.create.header {
             attributes[TAG] = ""
             attributes["data-divider"] = isDivider.toString()
             asDynamic().kotlinInstance = this@SectionHeader
+
+            // Use Text component's render method for the heading
+            val headingText = Text(
+                content = title,
+                type = Text.TextType.HEADLINE,
+                tag = "h2"
+            )
+            apply(headingText.render())
         }
-
-        // Use Text component for the heading
-        val headingText = Text(
-            content = title,
-            type = Text.TextType.HEADLINE,
-            tag = "h2"
-        )
-        headerElement.appendChild(headingText.preview())
-
-        return headerElement
     }
 
     fun commit() {

@@ -3,6 +3,7 @@ package prisma.editor.component
 import kotlinx.browser.document
 import kotlinx.html.*
 import kotlinx.html.dom.*
+import kotlinx.html.stream.createHTML
 import org.w3c.dom.HTMLElement
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
@@ -31,6 +32,29 @@ class Image(
         return document.create.figure {
             attributes[TAG] = ""
             asDynamic().kotlinInstance = this@Image
+
+            img {
+                attributes["src"] = src
+                attributes["alt"] = alt
+                attributes["width"] = width
+                attributes["height"] = height
+            }
+
+            if (caption.isNotEmpty()) {
+                figcaption {
+                    +caption
+                }
+            }
+        }
+    }
+
+    /**
+     * Renders the image component as FlowContent that can be embedded in other components.
+     * @return FlowContent that can be embedded in other components
+     */
+    fun render(): FlowContent.() -> Unit = {
+        figure {
+            attributes[TAG] = ""
 
             img {
                 attributes["src"] = src

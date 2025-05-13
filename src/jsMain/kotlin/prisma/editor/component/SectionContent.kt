@@ -3,6 +3,7 @@ package prisma.editor.component
 import kotlinx.browser.document
 import kotlinx.html.*
 import kotlinx.html.dom.*
+import kotlinx.html.stream.createHTML
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.Node
 import prisma.editor.css.CssRuleDefinition
@@ -15,7 +16,7 @@ import kotlin.js.JSON
  */
 class SectionContent {
     private val children = mutableListOf<HTMLElement>()
-    
+
     init {
         load()
     }
@@ -27,7 +28,23 @@ class SectionContent {
     fun addChild(element: HTMLElement) {
         children.add(element)
     }
-    
+
+    /**
+     * Adds a child component using its FlowContent render method.
+     * @param content The FlowContent to add.
+     */
+    fun addContent(content: FlowContent.() -> Unit) {
+        val element = document.create.div {
+            apply(content)
+        }
+        // If the div only has one child, use that child directly
+        if (element.childElementCount == 1) {
+            children.add(element.firstElementChild as HTMLElement)
+        } else {
+            children.add(element)
+        }
+    }
+
     /**
      * Adds multiple child elements to the section content.
      * @param elements The elements to add.
@@ -41,12 +58,12 @@ class SectionContent {
             attributes[TAG] = ""
             asDynamic().kotlinInstance = this@SectionContent
         }
-        
+
         // Add all child elements
         children.forEach { child ->
             contentElement.appendChild(child)
         }
-        
+
         return contentElement
     }
 

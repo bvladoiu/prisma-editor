@@ -3,6 +3,7 @@ package prisma.editor.component
 import kotlinx.browser.document
 import kotlinx.html.*
 import kotlinx.html.dom.*
+import kotlinx.html.stream.createHTML
 import org.w3c.dom.HTMLElement
 import prisma.editor.css.CssRuleDefinition
 
@@ -31,6 +32,19 @@ class Icon(
             attributes["class"] = "material-symbols-outlined"
             attributes["style"] = "font-variation-settings: 'FILL' $fill, 'wght' $weight, 'GRAD' $grade, 'opsz' $size;"
             asDynamic().kotlinInstance = this@Icon
+            +name
+        }
+    }
+
+    /**
+     * Renders the icon component as FlowContent that can be embedded in other components.
+     * @return FlowContent that can be embedded in other components
+     */
+    fun render(): FlowContent.() -> Unit = {
+        span {
+            attributes[TAG] = ""
+            attributes["class"] = "material-symbols-outlined"
+            attributes["style"] = "font-variation-settings: 'FILL' $fill, 'wght' $weight, 'GRAD' $grade, 'opsz' $size;"
             +name
         }
     }
