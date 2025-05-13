@@ -1,6 +1,6 @@
-# Prisma Editor
+# Prisma Editor (Work in Progress)
 
-A Kotlin Multiplatform project for editing Prisma schemas.
+A Kotlin Multiplatform project for editing static content.
 
 ## Project Structure
 
