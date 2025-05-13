@@ -45,53 +45,24 @@ This checklist outlines the standard process for implementing tasks and merging 
 1. Check the OUTSTANDING section in TODOS.md and promote any items to tasks if needed
 2. Select a task from the TODO section
 3. Create a new branch from develop with a descriptive name (e.g., `task1-consistent-css-rules`)
-   ```
-   git checkout develop
-   git checkout -b task-name-description
-   ```
-
 ### Implementing the Task
 1. Understand the requirements of the task
 2. Make the necessary code changes
 3. Add any new files to git
-   ```
-   git add <new-files>
-   ```
 4. Update task_log.md with an entry for what you've done
 5. Commit your changes with descriptive commit messages
-   ```
-   git commit -m "Descriptive message about the changes"
-   ```
-
 ### Code Review and Testing
 1. Review your own code for quality and correctness
 2. Build the project to check for compilation errors
 3. Fix any issues found during review or testing
 4. Commit fixes with a "Review fixes" message
-   ```
-   git commit -m "Review fixes: Description of the fixes"
-   ```
-
 ### Merging into Develop
 1. Switch to the develop branch
-   ```
-   git checkout develop
-   ```
 2. Merge your feature branch with squash option to combine all commits
-   ```
-   git merge --squash task-name-description
-   git commit -m "Implement Task: Description of the task"
-   ```
 3. Delete the feature branch after successful merge
-   ```
-   git branch -d task-name-description
-   ```
 
 ### Updating TODOS.md
-1. Move the completed task from TODO to DONE section in TODOS.md
-2. Commit the updated TODOS.md
-   ```
-   git commit -m "Update TODOS.md: Move Task to DONE section"
-   ```
+1. Remove the completed task from TODO and make sure its addressed in task_log.md
+2. Commit the updated TODOS.md and task_log.md
 
 Following this process ensures consistent code quality and maintains a clean git history.
