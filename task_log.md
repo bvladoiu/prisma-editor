@@ -1,5 +1,8 @@
 # Tasks
 
+## Add floating action button with edit icon to Editor - 07/11/2025
+Created a new FloatingActionButton component that renders a floating action button with a customizable icon. Implemented the component following the standard pattern with preview(), commit(), load(), set(), and refresh() methods, and a companion object with TAG constant and cssRules(). Added an instance of the FloatingActionButton with an edit icon to the Editor object, making it always visible as specified in Task1. The button is positioned at the bottom right corner of the screen with appropriate styling and hover effects. This enhances the editor's functionality by providing quick access to editing features.
+
 ## Remove Text component and implement typography classes - 07/10/2025
 Removed the Text component and its usage as per Task1 requirements. Moved typography styling from the Text component to the Typography object, creating CSS classes for display, headline, regular, and action text styles. Updated the SectionHeader component to use the typography classes directly instead of the Text component. Removed the reference to Text.cssRules() from Main.kt. This change simplifies the component architecture by eliminating a dedicated Text component and instead providing reusable typography classes that can be applied to any text element.
 

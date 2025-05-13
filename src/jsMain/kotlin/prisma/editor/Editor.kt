@@ -6,6 +6,8 @@ import kotlinx.html.dom.create
 import kotlinx.html.p
 import org.w3c.dom.HTMLElement
 import prisma.editor.component.EditorScaffold
+import prisma.editor.component.FloatingActionButton
+import prisma.editor.component.Icon
 import prisma.editor.pages.Home
 
 object Editor {
@@ -18,6 +20,7 @@ object Editor {
         val scaffoldElement = editorScaffold.preview()
 
         EditorScaffold.cssRules()
+        FloatingActionButton.cssRules()
 
         val contentArea = scaffoldElement.querySelector("[content-area]") as HTMLElement
         addDrawer(contentArea)
@@ -33,6 +36,11 @@ object Editor {
         }
 
         root.appendChild(scaffoldElement)
+
+        // Add floating action button with edit icon
+        val editFab = FloatingActionButton("edit", "console.log('Edit button clicked')")
+        val fabElement = editFab.preview()
+        root.appendChild(fabElement)
 
         val script = document.createElement("script") as HTMLElement
         script.innerHTML = """
