@@ -1,5 +1,14 @@
 # Tasks
 
+## Integrate branches and update TODOS.md - 07/02/2025
+Integrated branches task3 into task2, task2 into task1, and task1 into develop. Found that all branches were already at the same commit, so no actual merging was needed. Reviewed the project to ensure there were no duplicated components or CSS logic and no unnecessary wrapper components. Updated TODOS.md to use Task1, Task2, etc. notation instead of bullet points. Identified that the "Refactor components to match Hero pattern" task was completed but not marked as done in TODOS.md, so added it as Task6 in the DONE section. Confirmed that Section component has been properly refactored with SectionHeader and SectionContent components, each with their own TAG and CSS rules.
+
+## Add Icon and Text components - 05/13/2025
+Created new Icon and Text components to standardize typography and iconography across the application. The Icon component renders Material Symbols icons with customizable weight, fill, grade, and size parameters. The Text component provides consistent typography with support for display, headline, regular, and action text types. Removed most styling from the Typography CSS component, keeping only basic constants. Updated Main.kt to include CSS rules from both components. This improves consistency and maintainability by centralizing typography and icon styling in dedicated components.
+
+## Extract Page component - 05/13/2025
+Created a new Page component as a base class for all pages in the application. Extracted common functionality from Home to Page, including Google Fonts integration (Poppins, Roboto Flex, and Material Symbols) and main stylesheet initialization. Updated Home to inherit from Page and call super.create() to set up common page elements. Added cssRules() to Page and updated Main.kt to include these rules. This improves code organization by centralizing common page functionality and resources in one place.
+
 ## Refactor components to match Hero pattern - 07/01/2025
 Refactored all components in the prisma.editor.component package to follow the same pattern as the Hero component. Added TAG constants in companion objects and used them consistently throughout the code. Replaced hardcoded attribute strings with constants. Added standard methods (preview, commit, load, set, refresh) to all components. Added initialization code with load() calls. Set kotlinInstance for dynamic access. Ensured CSS rules are defined in companion objects using the TAG constants. This standardizes the component architecture across the application, making it more consistent and maintainable.
 

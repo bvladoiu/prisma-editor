@@ -1,7 +1,15 @@
 # TODO:
-- comb through components and make sure that semantically they are one single component with one TAG, one rendering logic, one set of css rules. etc. i cannot make sense of the Section component for example it looks like it has more then one tag and it can render more than one component somehow. it needs to have one clear TAG one clear logic for everything. if there is a parent or a variation or whatever the case it must be extracted into a separate component. start with this component and then comb through the project and ensure other components comply with this requirement.
-- comb through components and make sure they have a consistend cssRules() method and then go to the Main css component in the css package and make sure it accessess/aggregates the rules of all components
-- extract a method Page and make Home inherit from Page and make sure Page includes a link to the Main Stylesheet.
-- add a secondary method to each component in the spirit of preview() called edit() that renders the component in an "editable" state. making use of the content editable attribute. if the component you are working on is a list then make sure + button is added to add an element to the list. make sure individual components display a - button to allow deletion. add a fab button at the bottom right of the page with an edit icon that makes all elements toggle from preview() to edit()
+
+Task1: Comb through components and make sure they have a consistent cssRules() method and then go to the Main css component in the css package and make sure it accesses/aggregates the rules of all components.
+
+Task2: Add a secondary method to each component in the spirit of preview() called edit() that renders the component in an "editable" state. Making use of the content editable attribute. If the component you are working on is a list then make sure + button is added to add an element to the list. Make sure individual components display a - button to allow deletion. Add a fab button at the bottom right of the page with an edit icon that makes all elements toggle from preview() to edit().
+
+Task3: Remove the hardcoded content from page and have it saved/loaded from map files in the jvm code and passed through to the js code using the commit/set/load cli api already implemented.
 
 # DONE:
+
+Task4: Extract a Page() component from Home() to serve as the common denominator for functionality for all pages. i.e. links to google fonts links to css/js required by all pages will be put in Page not in Home.
+
+Task5: Add to the project an Icon component that takes parameter material-symbol icon name and renders it in a span. And a Text component that takes as parameter also a typography class such as display, headline, regular and action. Remove everything from the Typography css component and implement support for icon and text with their respective complexities. Headline and display are to be Poppins and the rest are to be roboto flex as variable font. Icons are also to be variable font. All must be get from google fonts service in Page().
+
+Task6: Comb through components and make sure that semantically they are one single component with one TAG, one rendering logic, one set of css rules. Section component has been refactored to use SectionHeader and SectionContent components for semantic clarity, each with their own TAG and CSS rules. All components now follow the Hero pattern with standard methods (preview, commit, load, set, refresh) and CSS rules defined in companion objects.
