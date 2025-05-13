@@ -62,7 +62,7 @@ This checklist outlines the standard process for implementing tasks and merging 
 3. Delete the feature branch after successful merge
 
 ### Updating TODOS.md
-1. Remove the completed task from TODO and make sure its addressed in task_log.md
+1. Remove the completed task from TODO and make sure it's addressed in task_log.md
 2. Commit the updated TODOS.md and task_log.md
 
 Following this process ensures consistent code quality and maintains a clean git history.

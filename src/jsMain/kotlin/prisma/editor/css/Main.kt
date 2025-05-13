@@ -24,7 +24,6 @@ object Main {
         rules.addAll(Footer.cssRules())
         rules.addAll(prisma.editor.pages.Page.cssRules())
         rules.addAll(prisma.editor.component.Icon.cssRules())
-        rules.addAll(prisma.editor.component.Text.cssRules())
         rules.addAll(prisma.editor.component.Section.cssRules())
         rules.addAll(prisma.editor.component.SectionHeader.cssRules())
         rules.addAll(prisma.editor.component.SectionContent.cssRules())

@@ -27,13 +27,11 @@ class SectionHeader(
             attributes["data-divider"] = isDivider.toString()
             asDynamic().kotlinInstance = this@SectionHeader
 
-            // Use Text component's render method for the heading
-            val headingText = Text(
-                content = title,
-                type = Text.TextType.HEADLINE,
-                tag = "h2"
-            )
-            apply(headingText.render())
+            // Use typography class directly for the heading
+            h2 {
+                classes = setOf(prisma.editor.css.Typography.HEADLINE)
+                +title
+            }
         }
     }
 

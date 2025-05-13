@@ -1,4 +1,3 @@
-Task1: Remove the Text component and its usage and make sure that just regular text tags that may be present in any other components can be styled with display, headline, regular, and action. Ensure they are working correctly as typography classes out of the Typography css component. 
 
 Task2: Add a secondary method to each component in the spirit of preview() called edit() that renders the component in an "editable" state. Making use of the content editable attribute. If the component you are working on is a list then make sure + button is added to add an element to the list. Make sure individual components display a - button to allow deletion. Add a fab button at the bottom right of the page with an edit icon that makes all elements toggle from preview() to edit().
 

@@ -1,5 +1,8 @@
 # Tasks
 
+## Remove Text component and implement typography classes - 07/10/2025
+Removed the Text component and its usage as per Task1 requirements. Moved typography styling from the Text component to the Typography object, creating CSS classes for display, headline, regular, and action text styles. Updated the SectionHeader component to use the typography classes directly instead of the Text component. Removed the reference to Text.cssRules() from Main.kt. This change simplifies the component architecture by eliminating a dedicated Text component and instead providing reusable typography classes that can be applied to any text element.
+
 ## Add FlowContent rendering methods to Text, Icon, and Image components - 07/09/2025
 Implemented new render() methods for Text, Icon, and Image components that return FlowContent instead of HTMLElement. This allows these components to be embedded in other components' preview() methods without creating duplicate wrappers. For the Text component, added parameters for display, headline, and regular to override the default text type. Updated SectionHeader to use the new render() method of the Text component. Added addContent() methods to SectionContent and Section components that accept FlowContent parameters, allowing them to work with the new render() methods. These changes improve component composition by eliminating the need to create and append intermediate HTMLElements, making the code cleaner and more efficient.
 
