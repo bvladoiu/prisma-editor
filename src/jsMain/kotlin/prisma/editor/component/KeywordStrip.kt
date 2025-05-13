@@ -16,11 +16,11 @@ class KeywordStrip(var keywords: List<String> = emptyList()) {
     }
 
     fun preview(): HTMLElement {
-        return document.create.div {
+        return document.create.ul {
             attributes[TAG] = ""
             asDynamic().kotlinInstance = this@KeywordStrip
             keywords.forEach { keyword ->
-                span {
+                li {
                     +keyword
                 }
             }
@@ -64,9 +64,12 @@ class KeywordStrip(var keywords: List<String> = emptyList()) {
                     flexWrap = "wrap"
                     setProperty("gap", Theme.spacing)
                     justifyContent = "center"
+                    listStyleType = "none"
+                    padding = "0"
+                    margin = "0"
                 },
 
-                "[$TAG] span" to {
+                "[$TAG] li" to {
                     backgroundColor = "var(--color-light-transparent)"
                     color = Theme.primary
                     padding = "4px ${Theme.spacing}"

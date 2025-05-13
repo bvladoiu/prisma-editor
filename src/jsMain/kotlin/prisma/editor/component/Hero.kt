@@ -19,8 +19,9 @@ class Hero(
     }
 
     fun preview(): HTMLElement {
-        return document.create.div {
+        return document.create.header {
             attributes[TAG] = ""
+            attributes["role"] = "banner"
             asDynamic().kotlinInstance = this@Hero
             h1 {
                 +name

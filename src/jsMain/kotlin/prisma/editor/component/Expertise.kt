@@ -15,7 +15,7 @@ class Expertise(var name: String, var description: String) {
     }
 
     fun preview(): HTMLElement {
-        return document.create.div {
+        return document.create.article {
             attributes[TAG] = ""
             asDynamic().kotlinInstance = this@Expertise
             h3 {

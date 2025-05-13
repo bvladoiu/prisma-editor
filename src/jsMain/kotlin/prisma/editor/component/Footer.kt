@@ -21,7 +21,7 @@ class Footer(
             attributes[TAG] = ""
             asDynamic().kotlinInstance = this@Footer
             p { +copyright }
-            div {
+            nav {
                 attributes[CONTENT_TAG] = ""
                 links.forEach { link ->
                     a {

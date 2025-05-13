@@ -30,9 +30,11 @@ class BottomDrawer(
     }
 
     fun preview(): HTMLElement {
-        val drawer = document.create.div {
+        val drawer = document.create.aside {
             id = "bottom-drawer"
             attributes[TAG] = ""
+            attributes["role"] = "dialog"
+            attributes["aria-labelledby"] = "drawer-title"
             attributes[Editor.EDITOR_PROPERTIES_TAG] = ""
             asDynamic().kotlinInstance = this@BottomDrawer
 
@@ -41,14 +43,23 @@ class BottomDrawer(
             }
 
             h3 {
+                id = "drawer-title"
                 +"Site and Language Settings"
             }
 
-            div {
+            form {
                 attributes[CONTENT_TAG] = ""
 
                 div {
                     attributes[FIELD_TAG] = ""
+                    attributes["role"] = "group"
+                    attributes["aria-labelledby"] = "site-group-label"
+
+                    h4 {
+                        id = "site-group-label"
+                        +"Site"
+                    }
+
                     label {
                         htmlFor = "site-select"
                         +"Site:"
@@ -71,6 +82,14 @@ class BottomDrawer(
 
                 div {
                     attributes[FIELD_TAG] = ""
+                    attributes["role"] = "group"
+                    attributes["aria-labelledby"] = "language-group-label"
+
+                    h4 {
+                        id = "language-group-label"
+                        +"Language"
+                    }
+
                     label {
                         htmlFor = "language-select"
                         +"Language:"

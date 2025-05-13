@@ -22,20 +22,18 @@ class NavigationMenu(
         return document.create.nav {
             attributes[TAG] = ""
             asDynamic().kotlinInstance = this@NavigationMenu
-            div {
-                a {
-                    href = "#"
-                    attributes[BRAND_TAG] = ""
-                    +brand
-                }
-                ul {
-                    attributes[MENU_TAG] = ""
-                    items.forEach { item ->
-                        li {
-                            a {
-                                href = "#"
-                                +item
-                            }
+            a {
+                href = "#"
+                attributes[BRAND_TAG] = ""
+                +brand
+            }
+            ul {
+                attributes[MENU_TAG] = ""
+                items.forEach { item ->
+                    li {
+                        a {
+                            href = "#"
+                            +item
                         }
                     }
                 }
@@ -86,9 +84,6 @@ class NavigationMenu(
                     left = "0"
                     right = "0"
                     zIndex = "1000"
-                },
-
-                "[$TAG] > div" to {
                     display = "flex"
                     justifyContent = "space-between"
                     alignItems = "center"

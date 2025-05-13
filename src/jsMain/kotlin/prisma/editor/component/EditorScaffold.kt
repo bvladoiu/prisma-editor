@@ -26,7 +26,7 @@ class EditorScaffold {
             id = "content-area"
             attributes[CONTENT_AREA_TAG] = ""
         }
-        val mainContent = document.create.div {
+        val mainContent = document.create.main {
             id = "main-content"
             attributes[MAIN_CONTENT_TAG] = ""
         }

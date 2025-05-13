@@ -16,7 +16,7 @@ class Pitch(var title: String = "", var description: String = "") {
     }
 
     fun preview(): HTMLElement {
-        return document.create.div {
+        return document.create.article {
             attributes[TAG] = ""
             asDynamic().kotlinInstance = this@Pitch
             h3 {

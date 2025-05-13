@@ -17,19 +17,19 @@ class ArticleCard(var title: String, var author: String, var date: String) {
             attributes[TAG] = ""
             asDynamic().kotlinInstance = this@ArticleCard
 
-            div {
+            header {
                 attributes[HEADER_TAG] = ""
 
                 h3 {
                     +title
                 }
 
-                span {
+                time {
                     +date
                 }
             }
 
-            div {
+            footer {
                 attributes[AUTHOR_TAG] = ""
                 +"By $author"
             }

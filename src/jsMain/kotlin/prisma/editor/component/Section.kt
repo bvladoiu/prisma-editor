@@ -60,7 +60,7 @@ class Section(
 
         // Create article element
         val articleElement = document.create.article {
-            attributes["section-article"] = ""
+            attributes[ARTICLE_TAG] = ""
         }
 
         // Add header if title is provided
@@ -116,6 +116,7 @@ class Section(
 
     companion object {
         const val TAG = "section-container"
+        const val ARTICLE_TAG = "section-article"
 
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
@@ -128,7 +129,7 @@ class Section(
                     marginRight = "auto"
                 },
 
-                "[section-article]" to {
+                "[$ARTICLE_TAG]" to {
                     padding = Theme.spacing
                     backgroundColor = "var(--color-very-light-transparent)"
                     borderRadius = "4px"

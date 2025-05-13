@@ -56,6 +56,7 @@ class SectionContent {
     fun preview(): HTMLElement {
         val contentElement = document.create.div {
             attributes[TAG] = ""
+            attributes["role"] = "region"
             asDynamic().kotlinInstance = this@SectionContent
         }
 
