@@ -40,6 +40,7 @@ object Main {
         rules.addAll(prisma.editor.component.Latest.cssRules())
         rules.addAll(prisma.editor.component.NavigationMenu.cssRules())
         rules.addAll(prisma.editor.component.Pitch.cssRules())
+        rules.addAll(prisma.editor.component.Image.cssRules())
 
         fun insertRuleInto(sheet: CSSStyleSheet, selector: String, css: StyleLambda) {
             try {

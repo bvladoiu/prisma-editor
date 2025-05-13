@@ -1,5 +1,8 @@
 # Tasks
 
+## Create Image component - 07/07/2025
+Created a new Image component in src/jsMain/kotlin/prisma/editor/component/Image.kt that renders images with optional alt text and captions. The component follows the established component pattern with standard methods (preview, commit, load, set, refresh) and CSS rules defined in a companion object. Used semantic HTML with figure and figcaption elements for proper accessibility. Updated Main.kt to include the Image component's CSS rules. This component will be used alongside Icon and Text components to ensure all other components render with these basic building blocks and do not have duplicated wrappers. Promoted the task from OUTSTANDING to TODO in TODOS.md as Task9.
+
 ## Update Config object to track sites and languages - 07/06/2025
 Updated the Config object in src/commonMain/kotlin/prisma/editor/Config.kt to track sites being worked on by content editors and their languages. Removed all previous configuration settings and replaced them with a structure that includes a Site data class with codename and display name properties, a SITES map containing ContaDeal and PRISMA-Software sites, and a SITE_LANGUAGES map tracking language availability for each site (en/ro for ContaDeal, en/de for PRISMA-Software). Added a new task (Task8) to TODOS.md for implementing UI to display the current config and save component data against site/language combinations.
 

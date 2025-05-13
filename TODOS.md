@@ -8,10 +8,10 @@ Task3: Remove the hardcoded content from page and have it saved/loaded from map 
 
 Task8: Implement UI for displaying current Config (sites and languages) and saving component data against site/language combinations. This should include a dropdown or similar UI element to select the current site and language, and ensure that all component data is saved and loaded with respect to the selected site/language.
 
+Task9: Create an Image component. Make sure all other components render with Image, Icon and Text components and do not have duplicated wrappers.
+
 
 # OUTSTANDING:
-
- - create an Image component. make sure all other components render with Image, Icon and Text components and do not have duplicated wrappers.
 
 
 # DONE:
