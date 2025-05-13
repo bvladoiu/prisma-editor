@@ -6,6 +6,7 @@ import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
+import prisma.editor.css.Typography
 import kotlin.js.JSON
 
 
@@ -20,29 +21,38 @@ class Section(
     }
 
     fun preview(): HTMLElement {
-        val section = document.create.section {
+        return document.create.section {
             attributes[TAG] = ""
             attributes["data-margin-top"] = marginTop
             asDynamic().kotlinInstance = this@Section
 
-            div {
-                attributes[CONTENT_CONTAINER_TAG] = ""
+            article {
+                attributes[ARTICLE_TAG] = ""
 
+                if (title != null) {
+                    if (isDivider) {
+                        header {
+                            attributes[HEADER_WITH_DIVIDER_TAG] = ""
+                            h2 {
+                                attributes[HEADING_TAG] = ""
+                                +title
+                            }
+                        }
+                    } else {
+                        header {
+                            attributes[HEADER_WITHOUT_DIVIDER_TAG] = ""
+                            h2 {
+                                attributes[HEADING_TAG] = ""
+                                +title
+                            }
+                        }
+                    }
+                }
                 div {
-                    attributes[CONTENT_TAG] = ""
                     +content
                 }
             }
         }
-
-        title?.let { nonNullTitle ->
-            val header = SectionHeader(nonNullTitle, isDivider)
-            val headerElement = header.preview()
-            val contentContainer = section.querySelector("[$CONTENT_CONTAINER_TAG]")
-            contentContainer?.insertBefore(headerElement, contentContainer.firstChild)
-        }
-
-        return section
     }
 
     fun commit() {
@@ -80,8 +90,10 @@ class Section(
 
     companion object {
         const val TAG = "section-container"
-        const val CONTENT_CONTAINER_TAG = "section-content-container"
-        const val CONTENT_TAG = "section-content"
+        const val ARTICLE_TAG = "section-article"
+        const val HEADER_WITH_DIVIDER_TAG = "section-header-with-divider"
+        const val HEADER_WITHOUT_DIVIDER_TAG = "section-header-without-divider"
+        const val HEADING_TAG = "section-heading"
 
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
@@ -94,10 +106,30 @@ class Section(
                     marginRight = "auto"
                 },
 
-                "[$CONTENT_CONTAINER_TAG]" to {
+                "[$ARTICLE_TAG]" to {
                     padding = Theme.spacing
                     backgroundColor = "var(--color-very-light-transparent)"
                     borderRadius = "4px"
+                },
+
+                "[$HEADER_WITH_DIVIDER_TAG]" to {
+                    fontSize = Typography.fontLg
+                    fontWeight = Typography.fontWeightBold
+                    fontFamily = Typography.defaultFontFamily
+                    marginBottom = Theme.spacing
+                    paddingBottom = "8px"
+                    borderBottom = "1px solid var(--color-medium-gray)"
+                },
+
+                "[$HEADER_WITHOUT_DIVIDER_TAG]" to {
+                    marginBottom = Theme.spacing
+                },
+
+                "[$HEADING_TAG]" to {
+                    fontSize = Typography.fontLg
+                    fontWeight = Typography.fontWeightBold
+                    fontFamily = Typography.defaultFontFamily
+                    margin = "0"
                 }
             )
         }

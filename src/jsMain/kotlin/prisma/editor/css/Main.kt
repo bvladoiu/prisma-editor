@@ -21,7 +21,7 @@ object Main {
         rules.addAll(Theme.getCssRules())
         rules.addAll(Typography.getCssRules())
 
-        rules.addAll(Footer.getCssRules())
+        rules.addAll(Footer.cssRules())
 
         fun insertRuleInto(sheet: CSSStyleSheet, selector: String, css: StyleLambda) {
             try {
