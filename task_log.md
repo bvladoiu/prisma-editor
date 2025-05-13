@@ -1,5 +1,8 @@
 # Tasks
 
+## Update Config object to track sites and languages - 07/06/2025
+Updated the Config object in src/commonMain/kotlin/prisma/editor/Config.kt to track sites being worked on by content editors and their languages. Removed all previous configuration settings and replaced them with a structure that includes a Site data class with codename and display name properties, a SITES map containing ContaDeal and PRISMA-Software sites, and a SITE_LANGUAGES map tracking language availability for each site (en/ro for ContaDeal, en/de for PRISMA-Software). Added a new task (Task8) to TODOS.md for implementing UI to display the current config and save component data against site/language combinations.
+
 ## Add commonMain sourceset with Config object - 05/13/2025
 Created a commonMain sourceset directory structure in the project and added a Config object in src/commonMain/kotlin/prisma/editor/Config.kt. The Config object provides centralized configuration settings for the editor, including language preferences, theme options, and font size settings. This configuration is accessible from both JVM and JS code, allowing for consistent settings across platforms. The implementation includes default values, constraints (min/max values), and a defaultSettings map for easy initialization.
 

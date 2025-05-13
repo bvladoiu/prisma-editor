@@ -3,54 +3,27 @@ package prisma.editor
 /**
  * Configuration object for the Prisma Editor.
  * This object is accessible from both JVM and JS code.
+ * It contains the sites being worked on by content editors and their languages.
  */
 object Config {
     /**
-     * The default language for the editor.
+     * Data class representing a site with its codename and display name
      */
-    const val DEFAULT_LANGUAGE = "en"
-    
+    data class Site(val codename: String, val displayName: String)
+
     /**
-     * Available languages for the editor.
+     * Available sites in the editor
      */
-    val AVAILABLE_LANGUAGES = listOf("en", "de")
-    
+    val SITES = mapOf(
+        "contadeal" to Site("contadeal", "ContaDeal"),
+        "prisma" to Site("prisma", "PRISMA-Software")
+    )
+
     /**
-     * Default theme for the editor.
+     * Available languages for each site
      */
-    const val DEFAULT_THEME = "light"
-    
-    /**
-     * Available themes for the editor.
-     */
-    val AVAILABLE_THEMES = listOf("light", "dark")
-    
-    /**
-     * Default font size for the editor.
-     */
-    const val DEFAULT_FONT_SIZE = 16
-    
-    /**
-     * Minimum font size for the editor.
-     */
-    const val MIN_FONT_SIZE = 12
-    
-    /**
-     * Maximum font size for the editor.
-     */
-    const val MAX_FONT_SIZE = 24
-    
-    /**
-     * Font size step for the editor.
-     */
-    const val FONT_SIZE_STEP = 2
-    
-    /**
-     * Default settings map for the editor.
-     */
-    val defaultSettings = mapOf(
-        "language" to DEFAULT_LANGUAGE,
-        "theme" to DEFAULT_THEME,
-        "fontSize" to DEFAULT_FONT_SIZE.toString()
+    val SITE_LANGUAGES = mapOf(
+        "contadeal" to listOf("en", "ro"),
+        "prisma" to listOf("en", "de")
     )
 }
