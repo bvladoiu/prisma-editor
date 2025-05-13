@@ -1,0 +1,7 @@
+# TODO:
+- comb through components and make sure that semantically they are one single component with one TAG, one rendering logic, one set of css rules. etc. i cannot make sense of the Section component for example it looks like it has more then one tag and it can render more than one component somehow. it needs to have one clear TAG one clear logic for everything. if there is a parent or a variation or whatever the case it must be extracted into a separate component. start with this component and then comb through the project and ensure other components comply with this requirement.
+- comb through components and make sure they have a consistend cssRules() method and then go to the Main css component in the css package and make sure it accessess/aggregates the rules of all components
+- extract a method Page and make Home inherit from Page and make sure Page includes a link to the Main Stylesheet.
+- add a secondary method to each component in the spirit of preview() called edit() that renders the component in an "editable" state. making use of the content editable attribute. if the component you are working on is a list then make sure + button is added to add an element to the list. make sure individual components display a - button to allow deletion. add a fab button at the bottom right of the page with an edit icon that makes all elements toggle from preview() to edit()
+
+# DONE:

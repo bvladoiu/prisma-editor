@@ -6,7 +6,7 @@ import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
-import prisma.editor.css.Typography
+import kotlin.js.JSON
 
 
 class Section(
@@ -15,46 +15,77 @@ class Section(
     var marginTop: String = "2rem",
     var content: String = ""
 ) {
+    init {
+        load()
+    }
+
     fun preview(): HTMLElement {
-        return document.create.section {
-            attributes["section-container"] = ""
+        val section = document.create.section {
+            attributes[TAG] = ""
             attributes["data-margin-top"] = marginTop
+            asDynamic().kotlinInstance = this@Section
 
-            article {
-                attributes["section-article"] = ""
+            div {
+                attributes[CONTENT_CONTAINER_TAG] = ""
 
-                if (title != null) {
-                    if (isDivider) {
-                        header {
-                            attributes["section-header-with-divider"] = ""
-                            h2 {
-                                attributes["section-heading"] = ""
-                                +title
-                            }
-                        }
-                    } else {
-                        header {
-                            attributes["section-header-without-divider"] = ""
-                            h2 {
-                                attributes["section-heading"] = ""
-                                +title
-                            }
-                        }
-                    }
-                }
                 div {
+                    attributes[CONTENT_TAG] = ""
                     +content
                 }
             }
+        }
+
+        title?.let { nonNullTitle ->
+            val header = SectionHeader(nonNullTitle, isDivider)
+            val headerElement = header.preview()
+            val contentContainer = section.querySelector("[$CONTENT_CONTAINER_TAG]")
+            contentContainer?.insertBefore(headerElement, contentContainer.firstChild)
+        }
+
+        return section
+    }
+
+    fun commit() {
+        val data = mapOf(
+            "title" to title,
+            "isDivider" to isDivider,
+            "marginTop" to marginTop,
+            "content" to content
+        )
+        val jsonData = JSON.stringify(data)
+        console.log("save:$TAG", jsonData)
+    }
+
+    fun load() {
+        console.log("load:$TAG")
+    }
+
+    fun set(data: dynamic) {
+        title = data.title ?: title
+        isDivider = data.isDivider ?: isDivider
+        marginTop = data.marginTop ?: marginTop
+        content = data.content ?: content
+        refresh()
+    }
+
+    fun refresh() {
+        val existingElement = document.querySelector("[$TAG]")
+        if (existingElement != null) {
+            existingElement.parentElement?.replaceChild(preview(), existingElement)
+        } else {
+            console.warn("No existing element with attribute [$TAG] found to refresh.")
+            document.body?.appendChild(preview())
         }
     }
 
     companion object {
         const val TAG = "section-container"
+        const val CONTENT_CONTAINER_TAG = "section-content-container"
+        const val CONTENT_TAG = "section-content"
 
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
-                "[section-container]" to {
+                "[$TAG]" to {
                     marginTop = "2rem"
                     marginBottom = "2rem"
                     padding = "0 ${Theme.spacing}"
@@ -63,30 +94,10 @@ class Section(
                     marginRight = "auto"
                 },
 
-                "[section-article]" to {
+                "[$CONTENT_CONTAINER_TAG]" to {
                     padding = Theme.spacing
                     backgroundColor = "var(--color-very-light-transparent)"
                     borderRadius = "4px"
-                },
-
-                "[section-header-with-divider]" to {
-                    fontSize = Typography.fontLg
-                    fontWeight = Typography.fontWeightBold
-                    fontFamily = Typography.defaultFontFamily
-                    marginBottom = Theme.spacing
-                    paddingBottom = "8px"
-                    borderBottom = "1px solid var(--color-medium-gray)"
-                },
-
-                "[section-header-without-divider]" to {
-                    marginBottom = Theme.spacing
-                },
-
-                "[section-heading]" to {
-                    fontSize = Typography.fontLg
-                    fontWeight = Typography.fontWeightBold
-                    fontFamily = Typography.defaultFontFamily
-                    margin = "0"
                 }
             )
         }

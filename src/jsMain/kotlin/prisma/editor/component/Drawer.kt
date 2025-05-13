@@ -7,20 +7,26 @@ import org.w3c.dom.HTMLElement
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
 import prisma.editor.css.Typography
+import kotlin.js.JSON
 
 
 class Drawer(var items: List<NavLink> = emptyList(), var opened: Boolean = false) {
+    init {
+        load()
+    }
+
     fun preview(): HTMLElement {
         val nav = document.create.nav {
             id = "drawer"
-            attributes["drawer"] = ""
+            attributes[TAG] = ""
+            asDynamic().kotlinInstance = this@Drawer
             if (opened) {
                 attributes["style"] = "transform: translateX(0px);"
             }
         }
 
         val itemsList = document.create.ul {
-            attributes["drawer-items"] = ""
+            attributes[ITEMS_TAG] = ""
         }
 
         items.forEach { navLink ->
@@ -32,12 +38,44 @@ class Drawer(var items: List<NavLink> = emptyList(), var opened: Boolean = false
         return nav
     }
 
+    fun commit() {
+        val data = mapOf(
+            "items" to items,
+            "opened" to opened
+        )
+        val jsonData = JSON.stringify(data)
+        console.log("save:$TAG", jsonData)
+    }
+
+    fun load() {
+        console.log("load:$TAG")
+    }
+
+    fun set(data: dynamic) {
+        items = data.items?.unsafeCast<List<NavLink>>() ?: items
+        opened = data.opened ?: opened
+        refresh()
+    }
+
+    fun refresh() {
+        val existingElement = document.querySelector("[$TAG]")
+        if (existingElement != null) {
+            existingElement.parentElement?.replaceChild(preview(), existingElement)
+        } else {
+            console.warn("No existing element with attribute [$TAG] found to refresh.")
+            document.body?.appendChild(preview())
+        }
+    }
+
     companion object {
         const val TAG = "drawer"
+        const val HEADER_TAG = "drawer-header"
+        const val TITLE_TAG = "drawer-title"
+        const val ITEMS_TAG = "drawer-items"
 
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
-                "[drawer]" to {
+                "[$TAG]" to {
                     width = "240px"
                     height = "100%"
                     backgroundColor = "white"
@@ -47,19 +85,19 @@ class Drawer(var items: List<NavLink> = emptyList(), var opened: Boolean = false
                     setProperty("transition", "transform 0.3s ease-in-out")
                 },
 
-                "[drawer-header]" to {
+                "[$HEADER_TAG]" to {
                     padding = Theme.spacing
                     backgroundColor = "#7D3DF3"
                     color = Theme.white
                 },
 
-                "[drawer-title]" to {
+                "[$TITLE_TAG]" to {
                     margin = "0"
                     fontSize = Typography.fontSm
                     fontFamily = Typography.defaultFontFamily
                 },
 
-                "[drawer-items]" to {
+                "[$ITEMS_TAG]" to {
                     listStyleType = "none"
                     padding = "0"
                     margin = "0"

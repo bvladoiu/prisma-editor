@@ -15,7 +15,7 @@ object Editor {
         root.innerHTML = ""
 
         val editorScaffold = EditorScaffold()
-        val scaffoldElement = editorScaffold.create()
+        val scaffoldElement = editorScaffold.preview()
 
         EditorScaffold.cssRules()
 

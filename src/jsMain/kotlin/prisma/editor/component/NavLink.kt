@@ -8,17 +8,23 @@ import org.w3c.dom.HTMLElement
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
 import prisma.editor.css.Typography
+import kotlin.js.JSON
 
 
 class NavLink(var text: String, var route: String, var icon: String = "", var selected: Boolean = false) {
+    init {
+        load()
+    }
+
     fun preview(): HTMLElement {
         return document.create.li {
-            attributes["nav-item"] = ""
+            attributes[ITEM_TAG] = ""
+            asDynamic().kotlinInstance = this@NavLink
 
             a {
-                attributes["nav-link"] = ""
+                attributes[TAG] = ""
                 if (selected) {
-                    attributes["nav-link-selected"] = ""
+                    attributes[SELECTED_TAG] = ""
                 }
                 href = "#"
                 onClickFunction = { event ->
@@ -29,31 +35,68 @@ class NavLink(var text: String, var route: String, var icon: String = "", var se
 
                 if (icon.isNotEmpty()) {
                     span {
-                        attributes["nav-icon"] = ""
+                        attributes[ICON_TAG] = ""
                         attributes["class"] = "material-symbols-outlined"
                         +icon
                     }
                 }
 
                 span {
-                    attributes["nav-text"] = ""
+                    attributes[TEXT_TAG] = ""
                     +text
                 }
             }
         }
     }
 
+    fun commit() {
+        val data = mapOf(
+            "text" to text,
+            "route" to route,
+            "icon" to icon,
+            "selected" to selected
+        )
+        val jsonData = JSON.stringify(data)
+        console.log("save:$TAG", jsonData)
+    }
+
+    fun load() {
+        console.log("load:$TAG")
+    }
+
+    fun set(data: dynamic) {
+        text = data.text ?: text
+        route = data.route ?: route
+        icon = data.icon ?: icon
+        selected = data.selected ?: selected
+        refresh()
+    }
+
+    fun refresh() {
+        val existingElement = document.querySelector("[$ITEM_TAG]")
+        if (existingElement != null) {
+            existingElement.parentElement?.replaceChild(preview(), existingElement)
+        } else {
+            console.warn("No existing element with attribute [$ITEM_TAG] found to refresh.")
+            document.body?.appendChild(preview())
+        }
+    }
+
     companion object {
         const val TAG = "nav-link"
+        const val ITEM_TAG = "nav-item"
+        const val SELECTED_TAG = "nav-link-selected"
+        const val ICON_TAG = "nav-icon"
+        const val TEXT_TAG = "nav-text"
 
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
-                "[nav-item]" to {
+                "[$ITEM_TAG]" to {
                     padding = "0"
                     margin = "0"
                 },
 
-                "[nav-link]" to {
+                "[$TAG]" to {
                     padding = Theme.spacing
                     cursor = "pointer"
                     backgroundColor = Theme.white
@@ -65,23 +108,23 @@ class NavLink(var text: String, var route: String, var icon: String = "", var se
                     setProperty("transition", "background-color 0.2s ease")
                 },
 
-                "[nav-link]:hover" to {
+                "[$TAG]:hover" to {
                     backgroundColor = Theme.lightGray
                 },
 
-                "[nav-link-selected]" to {
+                "[$SELECTED_TAG]" to {
                     backgroundColor = Theme.primary
                     color = Theme.white
                 },
 
-                "[nav-icon]" to {
+                "[$ICON_TAG]" to {
                     marginRight = "8px"
                     fontSize = Typography.fontMd
                     display = "inline-flex"
                     alignItems = "center"
                 },
 
-                "[nav-text]" to {
+                "[$TEXT_TAG]" to {
                     fontSize = Typography.fontSm
                 }
             )

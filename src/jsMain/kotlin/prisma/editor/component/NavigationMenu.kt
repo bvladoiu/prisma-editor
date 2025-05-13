@@ -3,27 +3,33 @@ package prisma.editor.component
 import kotlinx.browser.document
 import kotlinx.html.*
 import kotlinx.html.dom.*
-import web.html.HTMLElement
-import org.w3c.dom.HTMLElement as W3CHTMLElement
+import org.w3c.dom.HTMLElement
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
 import prisma.editor.css.Typography
+import kotlin.js.JSON
 
 
 class NavigationMenu(
     var brand: String = "Prisma-Software",
     var items: List<String> = listOf("Home", "News", "Blog", "Company")
-) : HTMLElement {
-    fun create(): W3CHTMLElement {
+) {
+    init {
+        load()
+    }
+
+    fun preview(): HTMLElement {
         return document.create.nav {
-            attributes["navigation-menu"] = ""
+            attributes[TAG] = ""
+            asDynamic().kotlinInstance = this@NavigationMenu
             div {
                 a {
                     href = "#"
-                    classes = setOf("brand")
+                    attributes[BRAND_TAG] = ""
                     +brand
                 }
                 ul {
+                    attributes[MENU_TAG] = ""
                     items.forEach { item ->
                         li {
                             a {
@@ -37,12 +43,43 @@ class NavigationMenu(
         }
     }
 
+    fun commit() {
+        val data = mapOf(
+            "brand" to brand,
+            "items" to items
+        )
+        val jsonData = JSON.stringify(data)
+        console.log("save:$TAG", jsonData)
+    }
+
+    fun load() {
+        console.log("load:$TAG")
+    }
+
+    fun set(data: dynamic) {
+        brand = data.brand ?: brand
+        items = data.items?.unsafeCast<List<String>>() ?: items
+        refresh()
+    }
+
+    fun refresh() {
+        val existingElement = document.querySelector("[$TAG]")
+        if (existingElement != null) {
+            existingElement.parentElement?.replaceChild(preview(), existingElement)
+        } else {
+            console.warn("No existing element with attribute [$TAG] found to refresh.")
+            document.body?.appendChild(preview())
+        }
+    }
+
     companion object {
         const val TAG = "navigation-menu"
+        const val BRAND_TAG = "navigation-brand"
+        const val MENU_TAG = "navigation-menu-list"
 
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
-                "[navigation-menu]" to {
+                "[$TAG]" to {
                     backgroundColor = "rgba(0, 0, 0, 0.8)"
                     position = "fixed"
                     top = "0"
@@ -51,7 +88,7 @@ class NavigationMenu(
                     zIndex = "1000"
                 },
 
-                "[navigation-menu] > div" to {
+                "[$TAG] > div" to {
                     display = "flex"
                     justifyContent = "space-between"
                     alignItems = "center"
@@ -60,14 +97,14 @@ class NavigationMenu(
                     margin = "0 auto"
                 },
 
-                "[navigation-menu] a.brand" to {
+                "[$BRAND_TAG]" to {
                     color = Theme.primary
                     fontSize = Typography.fontMd
                     fontWeight = Typography.fontWeightBold
                     textDecoration = "none"
                 },
 
-                "[navigation-menu] ul" to {
+                "[$MENU_TAG]" to {
                     display = "flex"
                     listStyleType = "none"
                     margin = "0"
@@ -75,7 +112,7 @@ class NavigationMenu(
                     setProperty("gap", Theme.spacing)
                 },
 
-                "[navigation-menu] ul a" to {
+                "[$MENU_TAG] a" to {
                     color = Theme.white
                     textDecoration = "none"
                     fontSize = Typography.fontSm

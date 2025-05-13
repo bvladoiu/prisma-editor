@@ -5,11 +5,18 @@ import kotlinx.html.*
 import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
 import prisma.editor.css.*
+import kotlin.js.JSON
+
 class EditorScaffold {
-    fun create(): HTMLElement {
+    init {
+        load()
+    }
+
+    fun preview(): HTMLElement {
         val scaffold = document.create.div {
             id = "editor-scaffold"
-            attributes["editor-scaffold"] = ""
+            attributes[TAG] = ""
+            asDynamic().kotlinInstance = this@EditorScaffold
         }
 
         val appBar = createAppBar()
@@ -17,11 +24,11 @@ class EditorScaffold {
 
         val contentArea = document.create.div {
             id = "content-area"
-            attributes["content-area"] = ""
+            attributes[CONTENT_AREA_TAG] = ""
         }
         val mainContent = document.create.div {
             id = "main-content"
-            attributes["main-content"] = ""
+            attributes[MAIN_CONTENT_TAG] = ""
         }
 
         contentArea.appendChild(mainContent)
@@ -32,21 +39,21 @@ class EditorScaffold {
 
     private fun createAppBar(): HTMLElement {
         val header = document.create.header {
-            attributes["app-bar"] = ""
+            attributes[APP_BAR_TAG] = ""
 
             button {
-                attributes["menu-button"] = ""
+                attributes[MENU_BUTTON_TAG] = ""
                 id = "menu-button"
 
                 span {
                     id = "menu-icon"
                     attributes["class"] = "material-symbols-outlined"
-                    attributes["menu-icon"] = ""
+                    attributes[MENU_ICON_TAG] = ""
                     +"menu"
                 }
             }
             h1 {
-                attributes["app-bar-title"] = ""
+                attributes[APP_BAR_TITLE_TAG] = ""
                 +"Prisma Editor"
             }
         }
@@ -54,31 +61,64 @@ class EditorScaffold {
         return header
     }
 
+    fun commit() {
+        val data = mapOf(
+            "scaffoldId" to "editor-scaffold"
+        )
+        val jsonData = JSON.stringify(data)
+        console.log("save:$TAG", jsonData)
+    }
+
+    fun load() {
+        console.log("load:$TAG")
+    }
+
+    fun set(data: dynamic) {
+        // No properties to set in this component
+        refresh()
+    }
+
+    fun refresh() {
+        val existingElement = document.querySelector("[$TAG]")
+        if (existingElement != null) {
+            existingElement.parentElement?.replaceChild(preview(), existingElement)
+        } else {
+            console.warn("No existing element with attribute [$TAG] found to refresh.")
+            document.body?.appendChild(preview())
+        }
+    }
+
     companion object {
         const val TAG = "editor-scaffold"
+        const val CONTENT_AREA_TAG = "content-area"
+        const val MAIN_CONTENT_TAG = "main-content"
+        const val APP_BAR_TAG = "app-bar"
+        const val MENU_BUTTON_TAG = "menu-button"
+        const val MENU_ICON_TAG = "menu-icon"
+        const val APP_BAR_TITLE_TAG = "app-bar-title"
 
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
-                "[editor-scaffold]" to {
+                "[$TAG]" to {
                     display = "flex"
                     flexDirection = "column"
                     height = "100vh"
                     width = "100%"
                 },
 
-                "[content-area]" to {
+                "[$CONTENT_AREA_TAG]" to {
                     display = "flex"
                     flexGrow = "1"
                     setProperty("overflow", "hidden")
                 },
 
-                "[main-content]" to {
+                "[$MAIN_CONTENT_TAG]" to {
                     flexGrow = "1"
                     padding = Theme.spacing
                     setProperty("overflow", "auto")
                 },
 
-                "[app-bar]" to {
+                "[$APP_BAR_TAG]" to {
                     display = "flex"
                     alignItems = "center"
                     padding = "8px ${Theme.spacing}"
@@ -88,7 +128,7 @@ class EditorScaffold {
                     boxShadow = "0 2px 4px rgba(0,0,0,0.2)"
                 },
 
-                "[menu-button]" to {
+                "[$MENU_BUTTON_TAG]" to {
                     backgroundColor = "transparent"
                     border = "0"
                     color = Theme.white
@@ -97,12 +137,12 @@ class EditorScaffold {
                     marginRight = Theme.spacing
                 },
 
-                "[menu-icon]" to {
+                "[$MENU_ICON_TAG]" to {
                     fontSize = "24px"
                     lineHeight = "1"
                 },
 
-                "[app-bar-title]" to {
+                "[$APP_BAR_TITLE_TAG]" to {
                     margin = "0"
                     fontSize = Typography.fontMd
                     fontWeight = "500"

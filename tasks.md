@@ -1,5 +1,11 @@
 # Tasks
 
+## Refactor Section component for single responsibility - 07/02/2025
+Refactored the Section component to follow the single component principle with one TAG, one rendering logic, and one set of CSS rules. Extracted the header part into a new SectionHeader component that handles rendering headers with or without dividers. Updated the Section component to use the new SectionHeader component. Simplified the CSS rules in both components to focus on their specific responsibilities. Updated Main.kt to include CSS rules from both components. This improves the component architecture by making each component more focused and maintainable, following the single responsibility principle.
+
+## Refactor components to match Hero pattern - 07/01/2025
+Refactored all components in the prisma.editor.component package to follow the same pattern as the Hero component. Added TAG constants in companion objects and used them consistently throughout the code. Replaced hardcoded attribute strings with constants. Added standard methods (preview, commit, load, set, refresh) to all components. Added initialization code with load() calls. Set kotlinInstance for dynamic access. Ensured CSS rules are defined in companion objects using the TAG constants. This standardizes the component architecture across the application, making it more consistent and maintainable.
+
 ## Fix CSS compilation errors in components - 05/12/2025
 Refactored all components in the component package to fix CSS-related compilation errors. Replaced stylesheet() methods with cssRules() methods that return a List<CssRuleDefinition> following the pattern in Hero.kt. Updated all components to use the refactored CSS package APIs (Theme.spacing, Typography.fontMd, etc.) instead of the old Theme.Spacing, Theme.Colors, and Theme.Typography. Used setProperty() for CSS properties not directly available in the CSSStyleDeclaration. Added TAG constants to all components for consistent CSS targeting. This ensures all components use a consistent approach to CSS styling and fixes all CSS-related compilation errors.
 
