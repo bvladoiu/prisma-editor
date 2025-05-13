@@ -1,5 +1,13 @@
 # Tasks
 
+## Remove deprecated size parameter from Icon component - 07/20/2025
+Removed the deprecated size parameter from the Icon component as part of the ongoing effort to standardize icon sizing across the application. The implementation includes:
+1. Removed the size parameter from the Icon class constructor
+2. Removed references to the size parameter in the commit() method
+3. Removed references to the size parameter in the set() method
+
+This change completes the migration to using Theme.iconSize for all icon sizing in the application, which was started in the previous task. By removing the deprecated parameter, we ensure that all components use the centralized Theme.iconSize property, maintaining consistency and responsive behavior across different viewport sizes.
+
 ## Add iconSize property to Theme and update components - 07/19/2025
 Added a new iconSize property to the Theme object that follows the same pattern as the existing spacing property. The iconSize property uses a CSS variable (--icon-size) that clamps from 24px to 42px between viewport widths of 600w and 1440w. Updated all components in the project to use this new property instead of hardcoded icon sizes:
 1. Updated Icon.kt to use Theme.iconSize in preview(), render(), and cssRules() methods
