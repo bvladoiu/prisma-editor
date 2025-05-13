@@ -121,13 +121,13 @@ class Image(
                     maxWidth = "100%"
                     height = "auto"
                     display = "block"
-                    borderRadius = "4px"
+                    borderRadius = Theme.spacing
                 },
 
                 "[$TAG] figcaption" to {
                     fontSize = "14px"
                     color = Theme.mediumGray
-                    marginTop = "8px"
+                    marginTop = Theme.spacing
                     textAlign = "center"
                     fontStyle = "italic"
                 }

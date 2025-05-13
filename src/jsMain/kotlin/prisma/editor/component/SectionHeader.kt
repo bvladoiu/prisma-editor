@@ -75,7 +75,7 @@ class SectionHeader(
                     marginBottom = Theme.spacing
                 },
                 "[$TAG][data-divider='true']" to {
-                    paddingBottom = "8px"
+                    paddingBottom = Theme.spacing
                     borderBottom = "1px solid var(--color-medium-gray)"
                 }
             )

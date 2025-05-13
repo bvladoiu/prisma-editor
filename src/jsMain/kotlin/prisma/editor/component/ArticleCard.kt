@@ -84,7 +84,7 @@ class ArticleCard(var title: String, var author: String, var date: String) {
                     display = "flex"
                     justifyContent = "space-between"
                     alignItems = "center"
-                    marginBottom = "8px"
+                    marginBottom = Theme.spacing
                 },
 
                 "[$HEADER_TAG] h3" to {

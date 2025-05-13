@@ -122,11 +122,11 @@ class EditorScaffold {
                 "[$APP_BAR_TAG]" to {
                     display = "flex"
                     alignItems = "center"
-                    padding = "8px ${Theme.spacing}"
+                    padding = "${Theme.spacing} ${Theme.spacing}"
                     backgroundColor = "#6200EE"
                     color = Theme.white
                     height = "56px"
-                    boxShadow = "0 2px 4px rgba(0,0,0,0.2)"
+                    setProperty("box-shadow", "0 ${Theme.spacing} ${Theme.spacing} rgba(0,0,0,0.2)")
                 },
 
                 "[$MENU_BUTTON_TAG]" to {
@@ -134,7 +134,7 @@ class EditorScaffold {
                     border = "0"
                     color = Theme.white
                     cursor = "pointer"
-                    padding = "8px"
+                    padding = Theme.spacing
                     marginRight = Theme.spacing
                 },
 

@@ -106,7 +106,7 @@ class Drawer(var items: List<NavLink> = emptyList(), var opened: Boolean = false
                     width = "240px"
                     height = "100%"
                     backgroundColor = "white"
-                    boxShadow = "2px 0 4px rgba(0,0,0,0.2)"
+                    setProperty("box-shadow", "${Theme.spacing} 0 ${Theme.spacing} rgba(0,0,0,0.2)")
                     setProperty("overflow", "auto")
                     setProperty("transform", "translateX(-240px)")
                     setProperty("transition", "transform 0.3s ease-in-out")

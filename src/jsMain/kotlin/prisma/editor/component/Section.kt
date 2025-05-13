@@ -19,7 +19,7 @@ import kotlin.js.JSON
 class Section(
     var title: String? = null,
     var isDivider: Boolean = false,
-    var marginTop: String = "2rem"
+    var marginTop: String = Theme.spacing
 ) {
     private val contentItems = mutableListOf<HTMLElement>()
     private val gridItems = mutableListOf<HTMLElement>()
@@ -163,14 +163,14 @@ class Section(
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
                 "[$TAG]" to {
-                    marginTop = "2rem"
-                    marginBottom = "2rem"
+                    marginTop = Theme.spacing
+                    marginBottom = Theme.spacing
                     padding = Theme.spacing
                     maxWidth = "1200px"
                     marginLeft = "auto"
                     marginRight = "auto"
                     backgroundColor = "var(--color-very-light-transparent)"
-                    borderRadius = "4px"
+                    borderRadius = Theme.spacing
                 },
 
                 "[$HEADER_ATTR]" to {
@@ -178,7 +178,7 @@ class Section(
                 },
 
                 "[$HEADER_ATTR][data-divider='true']" to {
-                    paddingBottom = "8px"
+                    paddingBottom = Theme.spacing
                     borderBottom = "1px solid var(--color-medium-gray)"
                 },
 

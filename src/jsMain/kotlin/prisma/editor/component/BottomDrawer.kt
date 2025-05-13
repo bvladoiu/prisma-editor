@@ -219,7 +219,7 @@ class BottomDrawer(
                     left = "0"
                     width = "100%"
                     backgroundColor = Theme.white
-                    boxShadow = "0 -2px 4px rgba(0,0,0,0.2)"
+                    setProperty("box-shadow", "0 -${Theme.spacing} ${Theme.spacing} rgba(0,0,0,0.2)")
                     padding = Theme.spacing
                     transform = "translateY(100%)"
                     transition = "transform 0.3s ease-in-out"
@@ -227,7 +227,7 @@ class BottomDrawer(
                 },
 
                 "[$TAG] h3" to {
-                    margin = "0 0 8px"
+                    margin = "0 0 ${Theme.spacing}"
                     fontSize = Typography.fontMd
                     fontFamily = Typography.defaultFontFamily
                     color = Theme.darkBackground
@@ -236,13 +236,13 @@ class BottomDrawer(
                 "[$CONTENT_TAG]" to {
                     display = "flex"
                     flexDirection = "column"
-                    setProperty("gap", "16px")
+                    setProperty("gap", Theme.spacing)
                 },
 
                 "[$FIELD_TAG]" to {
                     display = "flex"
                     flexDirection = "column"
-                    setProperty("gap", "8px")
+                    setProperty("gap", Theme.spacing)
                 },
 
                 "[$FIELD_TAG] label" to {
@@ -252,8 +252,8 @@ class BottomDrawer(
                 },
 
                 "[$FIELD_TAG] select" to {
-                    padding = "8px"
-                    borderRadius = "4px"
+                    padding = Theme.spacing
+                    borderRadius = Theme.spacing
                     border = "1px solid ${Theme.lightGray}"
                     fontSize = Typography.fontSm
                     fontFamily = Typography.defaultFontFamily

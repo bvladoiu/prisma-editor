@@ -80,7 +80,7 @@ class FloatingActionButton(
                     backgroundColor = Theme.primary
                     color = Theme.white
                     border = "none"
-                    boxShadow = "0 4px 8px rgba(0,0,0,0.3)"
+                    setProperty("box-shadow", "0 ${Theme.spacing} ${Theme.spacing} rgba(0,0,0,0.3)")
                     cursor = "pointer"
                     display = "flex"
                     justifyContent = "center"

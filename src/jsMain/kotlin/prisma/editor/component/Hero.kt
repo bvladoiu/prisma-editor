@@ -92,7 +92,7 @@ class Hero(
                     backgroundColor = Theme.secondary
                     color = Theme.white
                     padding = spacing
-                    borderRadius = "4px"
+                    borderRadius = spacing
                     cursor = "pointer"
                 }
             )
