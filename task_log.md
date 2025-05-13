@@ -1,5 +1,8 @@
 # Tasks
 
+## Promote component rendering task from OUTSTANDING to TODO - 07/08/2025
+Promoted the item "Make sure all components render with Image, Icon and Text components and do not have duplicated wrappers" from the OUTSTANDING section to the TODO section in TODOS.md. Added it as Task1 to maintain the sequential order of tasks. This task is important for ensuring consistent component architecture across the application, as it will help eliminate duplicated wrapper code and standardize the use of basic building blocks (Image, Icon, and Text components) for rendering all other components.
+
 ## Create Image component - 07/07/2025
 Created a new Image component in src/jsMain/kotlin/prisma/editor/component/Image.kt that renders images with optional alt text and captions. The component follows the established component pattern with standard methods (preview, commit, load, set, refresh) and CSS rules defined in a companion object. Used semantic HTML with figure and figcaption elements for proper accessibility. Updated Main.kt to include the Image component's CSS rules. This component will be used alongside Icon and Text components to ensure all other components render with these basic building blocks and do not have duplicated wrappers. Promoted the task from OUTSTANDING to TODO in TODOS.md as Task9.
 
