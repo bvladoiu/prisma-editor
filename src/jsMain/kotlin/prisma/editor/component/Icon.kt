@@ -6,6 +6,7 @@ import kotlinx.html.dom.*
 import kotlinx.html.stream.createHTML
 import org.w3c.dom.HTMLElement
 import prisma.editor.css.CssRuleDefinition
+import prisma.editor.css.Theme
 
 /**
  * Icon component that renders a Material Symbols icon.
@@ -13,13 +14,14 @@ import prisma.editor.css.CssRuleDefinition
  * @param weight The weight of the icon (100-700).
  * @param fill Whether the icon should be filled (0 or 1).
  * @param grade The grade of the icon (-50 to 200).
- * @param size The size of the icon in pixels.
+ * @param size The size of the icon in pixels. (Deprecated: Icon size is now controlled by Theme.iconSize)
  */
 class Icon(
     var name: String,
     var weight: Int = 400,
     var fill: Int = 0,
     var grade: Int = 0,
+    @Deprecated("Icon size is now controlled by Theme.iconSize", ReplaceWith(""))
     var size: Int = 24
 ) {
     init {
@@ -30,7 +32,7 @@ class Icon(
         return document.create.span {
             attributes[TAG] = ""
             attributes["class"] = "material-symbols-outlined"
-            attributes["style"] = "font-variation-settings: 'FILL' $fill, 'wght' $weight, 'GRAD' $grade, 'opsz' $size;"
+            attributes["style"] = "font-variation-settings: 'FILL' $fill, 'wght' $weight, 'GRAD' $grade; font-size: ${Theme.iconSize};"
             asDynamic().kotlinInstance = this@Icon
             +name
         }
@@ -44,7 +46,7 @@ class Icon(
         span {
             attributes[TAG] = ""
             attributes["class"] = "material-symbols-outlined"
-            attributes["style"] = "font-variation-settings: 'FILL' $fill, 'wght' $weight, 'GRAD' $grade, 'opsz' $size;"
+            attributes["style"] = "font-variation-settings: 'FILL' $fill, 'wght' $weight, 'GRAD' $grade; font-size: ${Theme.iconSize};"
             +name
         }
     }
@@ -93,7 +95,7 @@ class Icon(
                     fontFamily = "'Material Symbols Outlined'"
                     fontWeight = "normal"
                     fontStyle = "normal"
-                    fontSize = "24px"
+                    fontSize = Theme.iconSize
                     lineHeight = "1"
                     letterSpacing = "normal"
                     textTransform = "none"

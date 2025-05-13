@@ -1,5 +1,14 @@
 # Tasks
 
+## Add iconSize property to Theme and update components - 07/19/2025
+Added a new iconSize property to the Theme object that follows the same pattern as the existing spacing property. The iconSize property uses a CSS variable (--icon-size) that clamps from 24px to 42px between viewport widths of 600w and 1440w. Updated all components in the project to use this new property instead of hardcoded icon sizes:
+1. Updated Icon.kt to use Theme.iconSize in preview(), render(), and cssRules() methods
+2. Marked the size parameter in Icon constructor as deprecated with a message to use Theme.iconSize
+3. Updated NavLink.kt to use Theme.iconSize for the icon size
+4. Updated EditorScaffold.kt to use Theme.iconSize for the menu icon size
+
+This change improves consistency across the application by centralizing icon sizing in the Theme object, similar to how spacing is handled. Icons will now scale responsively based on viewport width, providing better visual hierarchy and readability across different screen sizes.
+
 ## Remove hardcoded drawer logic and move to components - 07/18/2025
 Removed all hardcoded logic for opening/closing the bottom and regular drawers in the Editor object and moved it to their respective components. The implementation includes:
 1. Added toggle() method to the Drawer component to handle opening/closing the drawer and updating the menu icon

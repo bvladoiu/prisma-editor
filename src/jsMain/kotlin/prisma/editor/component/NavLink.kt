@@ -118,7 +118,7 @@ class NavLink(var text: String, var route: String, var icon: String = "", var se
 
                 "[$ICON_TAG]" to {
                     marginRight = Theme.spacing
-                    fontSize = Typography.fontMd
+                    fontSize = Theme.iconSize
                     display = "inline-flex"
                     alignItems = "center"
                 },

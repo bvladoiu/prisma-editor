@@ -139,7 +139,7 @@ class EditorScaffold {
                 },
 
                 "[$MENU_ICON_TAG]" to {
-                    fontSize = "24px"
+                    fontSize = Theme.iconSize
                     lineHeight = "1"
                 },
 

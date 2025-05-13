@@ -13,6 +13,7 @@ object Theme {
     val veryLightTransparent = "rgba(255, 255, 255, 0.03)"
     val mediumTransparent = "rgba(255, 255, 255, 0.7)"
     val spacing = "var(--spacing)"
+    val iconSize = "var(--icon-size)"
 
     fun getCssRules(): List<CssRuleDefinition> {
         return listOf(
@@ -28,6 +29,7 @@ object Theme {
                 setProperty("--color-medium-transparent", mediumTransparent)
 
                 setProperty("--spacing", "clamp(8px, calc(-24/7px + (40/21)vw), 24px)")
+                setProperty("--icon-size", "clamp(24px, calc(3/140*1vw + 11.142857vw), 42px)")
             },
 
             "body" to {
