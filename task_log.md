@@ -1,5 +1,16 @@
 # Tasks
 
+## Merge site and language properties implementations - 07/16/2025
+Merged two implementations of the site and language properties feature (task1-editor-site-language and task1-site-language-properties branches). Selected the more comprehensive implementation from task1-editor-site-language as it provides dynamic language options based on site selection, proper integration with the JVM side through loadProperties and set functions, and a more structured approach with a constant for the editor properties tag. The merged implementation includes all the features from the better implementation:
+1. Site and language properties in the Editor object
+2. Bottom drawer UI for editing these properties
+3. Dynamic language options that update based on the selected site
+4. Toggle edit mode functionality with FAB icon changes
+5. Save and load properties functions using the commit/load pattern
+6. Integration with the JVM side through the receiveData function
+
+This merge resolves the duplication of implementations and provides a single, comprehensive solution for site and language properties in the editor.
+
 ## Implement site and language properties in Editor - 07/15/2025
 Implemented Task1 from TODOS.md by adding site and language properties to the Editor object. Created a bottom drawer UI that allows users to edit these properties when they press the edit FAB. The implementation includes:
 1. Added currentSite and currentLanguage properties to the Editor object
