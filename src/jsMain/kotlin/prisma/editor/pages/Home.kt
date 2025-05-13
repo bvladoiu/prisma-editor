@@ -7,6 +7,11 @@ import org.w3c.dom.HTMLElement
 import prisma.editor.component.*
 
 class Home : Page() {
+    override val tag: String = TAG
+
+    companion object {
+        const val TAG = "home-page"
+    }
     override fun create(): HTMLElement {
         // Call parent's create() to set up common page elements
         val container = super.create()

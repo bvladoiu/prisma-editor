@@ -15,14 +15,16 @@ import kotlin.js.JSON
 
 /**
  * BottomDrawer component that renders a drawer at the bottom of the screen
- * for editing site and language settings.
+ * for editing site, language, and page settings.
  * @param currentSite The current site selection
  * @param currentLanguage The current language selection
+ * @param currentPageTag The current page tag
  * @param isOpen Whether the drawer is open
  */
 class BottomDrawer(
     var currentSite: String = "prisma",
     var currentLanguage: String = "en",
+    var currentPageTag: String = "home-page",
     var isOpen: Boolean = false
 ) {
     init {
@@ -35,7 +37,7 @@ class BottomDrawer(
             attributes[TAG] = ""
             attributes["role"] = "dialog"
             attributes["aria-labelledby"] = "drawer-title"
-            attributes[Editor.EDITOR_PROPERTIES_TAG] = ""
+            attributes[Editor.TAG] = ""
             asDynamic().kotlinInstance = this@BottomDrawer
 
             if (isOpen) {
@@ -44,7 +46,7 @@ class BottomDrawer(
 
             h3 {
                 id = "drawer-title"
-                +"Site and Language Settings"
+                +"Site, Language, and Page Settings"
             }
 
             form {
@@ -98,12 +100,44 @@ class BottomDrawer(
                         id = "language-select"
                     }
                 }
+
+                div {
+                    attributes[FIELD_TAG] = ""
+                    attributes["role"] = "group"
+                    attributes["aria-labelledby"] = "page-group-label"
+
+                    h4 {
+                        id = "page-group-label"
+                        +"Page"
+                    }
+
+                    label {
+                        htmlFor = "page-select"
+                        +"Page:"
+                    }
+                    select {
+                        id = "page-select"
+
+                        // Add options for pages
+                        option {
+                            value = "home-page"
+                            +"Home"
+                        }
+                        // Add more page options as needed
+                    }
+                }
             }
         }
 
-        // Initialize language options based on current site
+        // Initialize language options and page select based on current values
         window.setTimeout({
             updateLanguageOptions()
+
+            // Set the current page tag in the select element
+            val pageSelect = document.getElementById("page-select") as? HTMLSelectElement
+            if (pageSelect != null) {
+                pageSelect.value = currentPageTag
+            }
         }, 100)
 
         return drawer
@@ -113,6 +147,7 @@ class BottomDrawer(
         val data = mapOf(
             "site" to currentSite,
             "language" to currentLanguage,
+            "pageTag" to currentPageTag,
             "isOpen" to isOpen
         )
         val jsonData = JSON.stringify(data)
@@ -129,6 +164,9 @@ class BottomDrawer(
         }
         if (data.language != null) {
             currentLanguage = data.language as String
+        }
+        if (data.pageTag != null) {
+            currentPageTag = data.pageTag as String
         }
         if (data.isOpen != null) {
             isOpen = data.isOpen as Boolean
@@ -155,10 +193,12 @@ class BottomDrawer(
     fun updateValues() {
         val siteSelect = document.getElementById("site-select") as? HTMLSelectElement
         val languageSelect = document.getElementById("language-select") as? HTMLSelectElement
+        val pageSelect = document.getElementById("page-select") as? HTMLSelectElement
 
-        if (siteSelect != null && languageSelect != null) {
+        if (siteSelect != null && languageSelect != null && pageSelect != null) {
             currentSite = siteSelect.value
             currentLanguage = languageSelect.value
+            currentPageTag = pageSelect.value
             commit()
         }
     }

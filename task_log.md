@@ -1,5 +1,17 @@
 # Tasks
 
+## Add page TAG tracking to Editor - 07/21/2025
+Added logic to the Editor to track the page TAG in addition to site and language. The implementation includes:
+1. Modified the Page base class to include TAG support with a companion object TAG constant and tag property
+2. Added standard methods (commit, load, set, refresh) to the Page class following the component pattern
+3. Added a TAG to the Home page class with a companion object and overridden tag property
+4. Added currentPageTag property to the Editor object to track the current page tag
+5. Updated commit/load/set APIs in Editor to persist/retrieve the page TAG
+6. Updated the BottomDrawer component to include the pageTag in its form and data handling
+7. Updated the toggleEditMode() method to update the currentPageTag when saving
+
+This change enhances the Editor's functionality by allowing it to track which page is being edited, in addition to the site and language. The page TAG follows the same component TAG pattern used throughout the project, ensuring consistency and maintainability. This prepares the application for future pages and ensures that all content can be properly persisted and retrieved based on site, language, and page.
+
 ## Remove deprecated size parameter from Icon component - 07/20/2025
 Removed the deprecated size parameter from the Icon component as part of the ongoing effort to standardize icon sizing across the application. The implementation includes:
 1. Removed the size parameter from the Icon class constructor

@@ -11,17 +11,17 @@ import prisma.editor.component.*
 import prisma.editor.pages.Home
 
 object Editor {
-    // Site and language properties
+    // Site, language, and page properties
     var currentSite: String = "prisma" // Default site
     var currentLanguage: String = "en" // Default language
+    var currentPageTag: String = "home-page" // Default page tag
     private var isEditing: Boolean = false
 
-    // Tag for editor properties
-    const val EDITOR_PROPERTIES_TAG = "editor-properties"
+    const val TAG = "editor"
 
     init {
         // Load saved properties on initialization
-        loadProperties()
+        load()
     }
 
     fun openPage(name: String) {
@@ -86,25 +86,27 @@ object Editor {
                 // Update the properties
                 currentSite = bottomDrawer.currentSite
                 currentLanguage = bottomDrawer.currentLanguage
+                currentPageTag = bottomDrawer.currentPageTag
 
                 // Save the properties
-                saveProperties()
+                commit()
             }
         }
     }
 
 
-    private fun saveProperties() {
+    private fun commit() {
         val data = mapOf(
             "site" to currentSite,
-            "language" to currentLanguage
+            "language" to currentLanguage,
+            "pageTag" to currentPageTag
         )
         val jsonData = JSON.stringify(data)
-        console.log("save:$EDITOR_PROPERTIES_TAG", jsonData)
+        console.log("save:$TAG", jsonData)
     }
 
-    private fun loadProperties() {
-        console.log("load:$EDITOR_PROPERTIES_TAG")
+    private fun load() {
+        console.log("load:$TAG")
         // The actual loading will be handled by the JVM side
         // which will call receiveData with the saved properties
     }
@@ -116,6 +118,9 @@ object Editor {
         if (data.language != null) {
             currentLanguage = data.language as String
         }
+        if (data.pageTag != null) {
+            currentPageTag = data.pageTag as String
+        }
     }
 }
 
@@ -123,7 +128,8 @@ object Editor {
 private fun addBottomDrawer(contentArea: HTMLElement) {
     val bottomDrawer = BottomDrawer(
         currentSite = Editor.currentSite,
-        currentLanguage = Editor.currentLanguage
+        currentLanguage = Editor.currentLanguage,
+        currentPageTag = Editor.currentPageTag
     )
     val bottomDrawerElement = bottomDrawer.preview()
     contentArea.appendChild(bottomDrawerElement)
@@ -143,7 +149,7 @@ private fun addHomePage(mainContent: HTMLElement) {
 fun receiveData(tag: String, jsonString: String) {
     val data = JSON.parse<dynamic>(jsonString)
 
-    if (tag == Editor.EDITOR_PROPERTIES_TAG) {
+    if (tag == Editor.TAG) {
         Editor.set(data)
         return
     }
