@@ -1,5 +1,8 @@
 # Tasks
 
+## Polish guidelines and consolidate project practices - 07/05/2025
+Updated .junie/guidelines.md to be more concise while maintaining quality. Extracted relevant guidelines from TODOS.md, tasks.md, and project structure. Organized into clear sections covering workflow, component architecture, styling, and merge process. Reduced verbosity while preserving essential information and development practices.
+
 ## Implement consistent cssRules() and update Main aggregator - 07/04/2025
 Examined all components in the project to ensure they have a consistent cssRules() method in their companion objects. Verified that all components follow the same pattern of returning a List<CssRuleDefinition> with CSS rules for the component. Updated the Main css component to aggregate CSS rules from all components in the project, adding rules for EditorScaffold, NavLink, ArticleCard, Drawer, Expertise, Hero, KeywordStrip, Latest, NavigationMenu, and Pitch components that were previously missing. This ensures that all component styles are properly included in the main stylesheet, improving consistency and maintainability.
 
