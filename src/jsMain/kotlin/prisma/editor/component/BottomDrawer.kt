@@ -8,6 +8,7 @@ import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLOptionElement
 import org.w3c.dom.HTMLSelectElement
 import prisma.editor.Editor
+import prisma.editor.Config
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
 import prisma.editor.css.Typography
@@ -16,17 +17,23 @@ import kotlin.js.JSON
 /**
  * BottomDrawer component that renders a drawer at the bottom of the screen
  * for editing site, language, and page settings.
- * @param currentSite The current site selection
- * @param currentLanguage The current language selection
- * @param currentPageTag The current page tag
  * @param isOpen Whether the drawer is open
  */
 class BottomDrawer(
-    var currentSite: String = "prisma",
-    var currentLanguage: String = "en",
-    var currentPageTag: String = "home-page",
     var isOpen: Boolean = false
 ) {
+    // Use Config's properties for site, language, and page tag
+    var currentSite: String
+        get() = Config.currentSite
+        set(value) { Config.currentSite = value }
+
+    var currentLanguage: String
+        get() = Config.currentLanguage
+        set(value) { Config.currentLanguage = value }
+
+    var currentPageTag: String
+        get() = Config.currentPageTag
+        set(value) { Config.currentPageTag = value }
     init {
         load()
     }

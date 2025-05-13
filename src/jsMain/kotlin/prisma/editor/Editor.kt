@@ -9,12 +9,9 @@ import kotlinx.html.p
 import org.w3c.dom.HTMLElement
 import prisma.editor.component.*
 import prisma.editor.pages.Home
+import kotlin.js.JSON
 
 object Editor {
-    // Site, language, and page properties
-    var currentSite: String = "prisma" // Default site
-    var currentLanguage: String = "en" // Default language
-    var currentPageTag: String = "home-page" // Default page tag
     private var isEditing: Boolean = false
 
     const val TAG = "editor"
@@ -84,9 +81,9 @@ object Editor {
                 bottomDrawer.updateValues()
 
                 // Update the properties
-                currentSite = bottomDrawer.currentSite
-                currentLanguage = bottomDrawer.currentLanguage
-                currentPageTag = bottomDrawer.currentPageTag
+                prisma.editor.Config.currentSite = bottomDrawer.currentSite
+                prisma.editor.Config.currentLanguage = bottomDrawer.currentLanguage
+                prisma.editor.Config.currentPageTag = bottomDrawer.currentPageTag
 
                 // Save the properties
                 commit()
@@ -97,9 +94,9 @@ object Editor {
 
     private fun commit() {
         val data = mapOf(
-            "site" to currentSite,
-            "language" to currentLanguage,
-            "pageTag" to currentPageTag
+            "site" to Config.currentSite,
+            "language" to Config.currentLanguage,
+            "pageTag" to Config.currentPageTag
         )
         val jsonData = JSON.stringify(data)
         console.log("save:$TAG", jsonData)
@@ -113,24 +110,20 @@ object Editor {
 
     fun set(data: dynamic) {
         if (data.site != null) {
-            currentSite = data.site as String
+            Config.currentSite = data.site as String
         }
         if (data.language != null) {
-            currentLanguage = data.language as String
+            Config.currentLanguage = data.language as String
         }
         if (data.pageTag != null) {
-            currentPageTag = data.pageTag as String
+            Config.currentPageTag = data.pageTag as String
         }
     }
 }
 
 
 private fun addBottomDrawer(contentArea: HTMLElement) {
-    val bottomDrawer = BottomDrawer(
-        currentSite = Editor.currentSite,
-        currentLanguage = Editor.currentLanguage,
-        currentPageTag = Editor.currentPageTag
-    )
+    val bottomDrawer = BottomDrawer()
     val bottomDrawerElement = bottomDrawer.preview()
     contentArea.appendChild(bottomDrawerElement)
 }

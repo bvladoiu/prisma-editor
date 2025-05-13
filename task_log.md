@@ -1,5 +1,54 @@
 # Tasks
 
+## Fix compilation errors with Config object accessibility - 07/25/2025
+Fixed compilation/build errors related to the Config object in commonMain not being accessible to jsMain and jvmMain code. The implementation includes:
+1. Updated build.gradle.kts to explicitly include kotlin("stdlib-common") in both jsMain and jvmMain dependencies
+2. Renamed the Config.kt file in jvmMain to ConfigJvm.kt to avoid conflicts with the Config object in commonMain
+3. Updated JvmMain.kt to import and use the Config object from commonMain
+4. Updated BottomDrawer.kt to use Config directly instead of trying to access properties through Editor
+
+These changes ensure that the Config object defined in commonMain is properly accessible from both jsMain and jvmMain code, allowing for consistent configuration across platforms.
+
+## Replace pagetag language code and site with Config properties - 07/24/2025
+Analyzed the codebase to identify where pagetag language code and site properties should be replaced with Config object properties. Found that the Config object in commonMain already has the necessary properties (currentSite, currentLanguage, and currentPageTag) and methods (updateSite, updateLanguage, and updatePageTag) to handle this functionality.
+
+The analysis revealed that:
+1. The Editor.kt file has properties for currentSite, currentLanguage, and currentPageTag that should be replaced with Config properties
+2. The BottomDrawer.kt component has properties that delegate to the Editor properties
+3. The JvmMain.kt file has private variables for currentSite, currentLanguage, and currentPageTag that should be replaced with Config properties
+
+However, there appears to be an issue with accessing the Config object from JS code, as indicated by a TODO comment in Editor.kt: "These properties should be moved to the Config object in commonMain once the multiplatform setup is fixed to allow proper access from JS code".
+
+Due to this limitation, the recommended approach is to:
+1. Keep the current properties in Editor.kt until the multiplatform setup is fixed
+2. Update JvmMain.kt to use Config properties instead of local variables
+3. Ensure that the properties are properly synchronized between Editor.kt and Config
+
+This approach maintains the current functionality while preparing for a future migration to use Config properties directly from JS code once the multiplatform setup is fixed.
+
+## Improve site and language handling with Config object and proper JSON parsing - 07/23/2025
+Implemented improvements to the site, language, and page tag handling as requested. The implementation includes:
+1. Updated the Config object in commonMain to include currentSite, currentLanguage, and currentPageTag properties
+2. Added methods to Config for updating these properties and converting to/from a map
+3. Modified JvmMain.kt to parse JSON properly as a map instead of using regex
+4. Updated Editor.kt with a TODO comment indicating that its properties should be moved to Config once multiplatform access is fixed
+5. Refactored BottomDrawer to use Editor's properties instead of maintaining its own copies
+6. Simplified the addBottomDrawer function in Editor.kt to use the new constructor
+
+These changes improve the code by centralizing configuration in the Config object and using proper JSON parsing instead of regex. The site, language, and page properties are now properly managed and accessed from a single source, making the code more maintainable and less prone to errors.
+
+## Update JVM code to save/retrieve items against language and site names - 07/22/2025
+Implemented Task1 from TODOS.md by updating the JVM code to save and retrieve items against language and site names. The implementation includes:
+1. Modified the `setupCli` function in JvmMain.kt to extract site and language from JSON data using regular expressions
+2. Updated the "save" command handler to create filenames with the format "${site}_${language}_$tag.json"
+3. Updated the "load" command handler to handle two scenarios:
+   - For the editor tag, load with default values "prisma" and "en"
+   - For other components, first load the editor JSON to get the current site and language, then load the component data
+4. Added fallback to default values ("prisma" for site and "en" for language) if the values are not found in the JSON data
+5. Ensured backward compatibility by using default values when needed
+
+This change enhances the editor's functionality by saving and retrieving component data against specific site and language combinations. Components are now saved with filenames that include the site name and language (e.g., "prisma_en_footer.json"), making it easier to manage content for different sites and languages.
+
 ## Add page TAG tracking to Editor - 07/21/2025
 Added logic to the Editor to track the page TAG in addition to site and language. The implementation includes:
 1. Modified the Page base class to include TAG support with a companion object TAG constant and tag property

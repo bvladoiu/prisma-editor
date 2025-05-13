@@ -22,6 +22,8 @@ fun main() {
     })
 }
 
+// Store current site and language settings using Config object
+// No need for local variables as we use Config properties
 
 fun setupCli(page: Page) {
     page.onConsoleMessage { message: ConsoleMessage ->
@@ -33,19 +35,75 @@ fun setupCli(page: Page) {
         when (command) {
             "save" -> {
                 if (tag != null) {
-                    val jsonData = message.args()[0].jsonValue().toString()
-                    File("$tag.json").writeText(jsonData)
+                    val jsonValue = message.args()[0].jsonValue()
+                    val jsonData = jsonValue.toString()
+
+                    // Access the data as a map
+                    val dataMap = mutableMapOf<String, Any>()
+
+                    // Extract site, language, and pageTag from the JSON data
+                    if (jsonValue is Map<*, *>) {
+                        jsonValue["site"]?.let { dataMap["site"] = it.toString() }
+                        jsonValue["language"]?.let { dataMap["language"] = it.toString() }
+                        jsonValue["pageTag"]?.let { dataMap["pageTag"] = it.toString() }
+                    }
+
+                    // Use default values if not found in the map
+                    val site = dataMap["site"]?.toString() ?: Config.currentSite
+                    val language = dataMap["language"]?.toString() ?: Config.currentLanguage
+
+                    // Update current values if this is the editor tag
+                    if (tag == "editor") {
+                        dataMap["site"]?.toString()?.let { Config.updateSite(it) }
+                        dataMap["language"]?.toString()?.let { Config.updateLanguage(it) }
+                        dataMap["pageTag"]?.toString()?.let { Config.updatePageTag(it) }
+                    }
+
+                    // Create filename with site, language, and tag
+                    val filename = "${site}_${language}_$tag.json"
+
+                    // Save the data to the file
+                    File(filename).writeText(jsonData)
                 }
             }
 
             "load" -> {
                 if (tag != null) {
-                    val jsonString = File("$tag.json").readText()
-                    val dataToPass = mapOf(
-                        "tag" to tag,
-                        "jsonString" to jsonString
-                    )
-                    page.evaluate("(data) => receiveData(data.tag, data.jsonString)", dataToPass)
+                    // For the editor tag, try to load with default values
+                    if (tag == "editor") {
+                        val filename = "${Config.currentSite}_${Config.currentLanguage}_$tag.json"
+                        if (File(filename).exists()) {
+                            val jsonString = File(filename).readText()
+                            val dataToPass = mapOf(
+                                "tag" to tag,
+                                "jsonString" to jsonString
+                            )
+                            page.evaluate("(data) => receiveData(data.tag, data.jsonString)", dataToPass)
+                        } else {
+                            // Try with default values if file doesn't exist
+                            val defaultFilename = "prisma_en_$tag.json"
+                            if (File(defaultFilename).exists()) {
+                                val jsonString = File(defaultFilename).readText()
+                                val dataToPass = mapOf(
+                                    "tag" to tag,
+                                    "jsonString" to jsonString
+                                )
+                                page.evaluate("(data) => receiveData(data.tag, data.jsonString)", dataToPass)
+                            }
+                        }
+                    } else {
+                        // For other components, use the current site and language
+                        val filename = "${Config.currentSite}_${Config.currentLanguage}_$tag.json"
+
+                        if (File(filename).exists()) {
+                            val jsonString = File(filename).readText()
+                            val dataToPass = mapOf(
+                                "tag" to tag,
+                                "jsonString" to jsonString
+                            )
+                            page.evaluate("(data) => receiveData(data.tag, data.jsonString)", dataToPass)
+                        }
+                    }
                 }
             }
 
