@@ -4,7 +4,7 @@
 - Scan project before starting tasks to understand structure/patterns
 - Check OUTSTANDING in TODOS.md; promote items to tasks when needed
 - Create descriptive feature branches from develop (e.g., `task1-css-rules`)
-- Add new files to git but commit only when task is complete
+- Add new files to git. Make sure there are no untracked/unaccounted for files.
 - Update task_log.md with brief entry for completed work
 - Maintain production-ready state after each task
 
