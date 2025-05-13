@@ -6,11 +6,13 @@ import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
 import prisma.editor.component.*
 
-class Home {
-    fun create(): HTMLElement {
-        val container = document.create.div {
-            attributes["home-page"] = ""
-        }
+class Home : Page() {
+    override fun create(): HTMLElement {
+        // Call parent's create() to set up common page elements
+        val container = super.create()
+
+        // Add home-page attribute
+        container.setAttribute("home-page", "")
         val heroSection = Section(
             title = "Embedded Software Solutions — Secure for Every Industry",
             isDivider = false

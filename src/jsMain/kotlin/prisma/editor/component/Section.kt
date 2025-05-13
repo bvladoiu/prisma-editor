@@ -6,64 +6,80 @@ import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
-import prisma.editor.css.Typography
 import kotlin.js.JSON
 
-
+/**
+ * Section component that represents a section of a page.
+ * Uses SectionHeader and SectionContent components for semantic clarity.
+ * @param title The title of the section (optional).
+ * @param isDivider Whether to show a divider line below the header.
+ * @param marginTop The top margin of the section.
+ */
 class Section(
     var title: String? = null,
     var isDivider: Boolean = false,
-    var marginTop: String = "2rem",
-    var content: String = ""
+    var marginTop: String = "2rem"
 ) {
+    private val content = SectionContent()
+
     init {
         load()
     }
 
+    /**
+     * Adds a child element to the section content.
+     * @param element The element to add.
+     */
+    fun addChild(element: HTMLElement) {
+        content.addChild(element)
+    }
+
+    /**
+     * Adds multiple child elements to the section content.
+     * @param elements The elements to add.
+     */
+    fun addChildren(elements: List<HTMLElement>) {
+        content.addChildren(elements)
+    }
+
     fun preview(): HTMLElement {
-        return document.create.section {
+        val sectionElement = document.create.section {
             attributes[TAG] = ""
             attributes["data-margin-top"] = marginTop
             asDynamic().kotlinInstance = this@Section
-
-            article {
-                attributes[ARTICLE_TAG] = ""
-
-                if (title != null) {
-                    if (isDivider) {
-                        header {
-                            attributes[HEADER_WITH_DIVIDER_TAG] = ""
-                            h2 {
-                                attributes[HEADING_TAG] = ""
-                                +title
-                            }
-                        }
-                    } else {
-                        header {
-                            attributes[HEADER_WITHOUT_DIVIDER_TAG] = ""
-                            h2 {
-                                attributes[HEADING_TAG] = ""
-                                +title
-                            }
-                        }
-                    }
-                }
-                div {
-                    +content
-                }
-            }
         }
+
+        // Create article element
+        val articleElement = document.create.article {
+            attributes["section-article"] = ""
+        }
+
+        // Add header if title is provided
+        if (title != null) {
+            val header = SectionHeader(title!!, isDivider)
+            articleElement.appendChild(header.preview())
+        }
+
+        // Add content
+        articleElement.appendChild(content.preview())
+
+        // Add article to section
+        sectionElement.appendChild(articleElement)
+
+        return sectionElement
     }
 
     fun commit() {
         val data = mapOf(
             "title" to title,
             "isDivider" to isDivider,
-            "marginTop" to marginTop,
-            "content" to content
+            "marginTop" to marginTop
         )
         val jsonData = JSON.stringify(data)
         console.log("save:$TAG", jsonData)
+
+        // Also commit content
+        content.commit()
     }
 
     fun load() {
@@ -72,9 +88,10 @@ class Section(
 
     fun set(data: dynamic) {
         title = data.title ?: title
-        isDivider = data.isDivider ?: isDivider
+        if (data.isDivider != null) {
+            isDivider = data.isDivider as Boolean
+        }
         marginTop = data.marginTop ?: marginTop
-        content = data.content ?: content
         refresh()
     }
 
@@ -90,10 +107,6 @@ class Section(
 
     companion object {
         const val TAG = "section-container"
-        const val ARTICLE_TAG = "section-article"
-        const val HEADER_WITH_DIVIDER_TAG = "section-header-with-divider"
-        const val HEADER_WITHOUT_DIVIDER_TAG = "section-header-without-divider"
-        const val HEADING_TAG = "section-heading"
 
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
@@ -106,30 +119,10 @@ class Section(
                     marginRight = "auto"
                 },
 
-                "[$ARTICLE_TAG]" to {
+                "[section-article]" to {
                     padding = Theme.spacing
                     backgroundColor = "var(--color-very-light-transparent)"
                     borderRadius = "4px"
-                },
-
-                "[$HEADER_WITH_DIVIDER_TAG]" to {
-                    fontSize = Typography.fontLg
-                    fontWeight = Typography.fontWeightBold
-                    fontFamily = Typography.defaultFontFamily
-                    marginBottom = Theme.spacing
-                    paddingBottom = "8px"
-                    borderBottom = "1px solid var(--color-medium-gray)"
-                },
-
-                "[$HEADER_WITHOUT_DIVIDER_TAG]" to {
-                    marginBottom = Theme.spacing
-                },
-
-                "[$HEADING_TAG]" to {
-                    fontSize = Typography.fontLg
-                    fontWeight = Typography.fontWeightBold
-                    fontFamily = Typography.defaultFontFamily
-                    margin = "0"
                 }
             )
         }
