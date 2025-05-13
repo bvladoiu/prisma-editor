@@ -1,5 +1,8 @@
 # Tasks
 
+## Add commonMain sourceset with Config object - 05/13/2025
+Created a commonMain sourceset directory structure in the project and added a Config object in src/commonMain/kotlin/prisma/editor/Config.kt. The Config object provides centralized configuration settings for the editor, including language preferences, theme options, and font size settings. This configuration is accessible from both JVM and JS code, allowing for consistent settings across platforms. The implementation includes default values, constraints (min/max values), and a defaultSettings map for easy initialization.
+
 ## Polish guidelines and consolidate project practices - 07/05/2025
 Updated .junie/guidelines.md to be more concise while maintaining quality. Extracted relevant guidelines from TODOS.md, tasks.md, and project structure. Organized into clear sections covering workflow, component architecture, styling, and merge process. Reduced verbosity while preserving essential information and development practices.
 
