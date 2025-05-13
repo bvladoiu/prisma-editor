@@ -1,5 +1,8 @@
 # Tasks
 
+## Add missing component files and clean up branches - 07/03/2025
+Added unversioned SectionHeader.kt and SectionContent.kt files to git, which were part of the Section component refactoring mentioned in Task6. These components follow the standard pattern with preview(), commit(), load(), set(), and refresh() methods, and have companion objects with TAG constants and cssRules() methods. Verified that Main.kt properly includes CSS rules from these components. Also confirmed that branches task1, task2, and task3 were properly integrated into develop and deleted them. Made a final commit with "Merge fixes" message to ensure the project is in a clean state.
+
 ## Integrate branches and update TODOS.md - 07/02/2025
 Integrated branches task3 into task2, task2 into task1, and task1 into develop. Found that all branches were already at the same commit, so no actual merging was needed. Reviewed the project to ensure there were no duplicated components or CSS logic and no unnecessary wrapper components. Updated TODOS.md to use Task1, Task2, etc. notation instead of bullet points. Identified that the "Refactor components to match Hero pattern" task was completed but not marked as done in TODOS.md, so added it as Task6 in the DONE section. Confirmed that Section component has been properly refactored with SectionHeader and SectionContent components, each with their own TAG and CSS rules.
 
