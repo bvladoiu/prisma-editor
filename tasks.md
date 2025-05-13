@@ -1,5 +1,8 @@
 # Tasks
 
+## Implement consistent cssRules() and update Main aggregator - 07/04/2025
+Examined all components in the project to ensure they have a consistent cssRules() method in their companion objects. Verified that all components follow the same pattern of returning a List<CssRuleDefinition> with CSS rules for the component. Updated the Main css component to aggregate CSS rules from all components in the project, adding rules for EditorScaffold, NavLink, ArticleCard, Drawer, Expertise, Hero, KeywordStrip, Latest, NavigationMenu, and Pitch components that were previously missing. This ensures that all component styles are properly included in the main stylesheet, improving consistency and maintainability.
+
 ## Add missing component files and clean up branches - 07/03/2025
 Added unversioned SectionHeader.kt and SectionContent.kt files to git, which were part of the Section component refactoring mentioned in Task6. These components follow the standard pattern with preview(), commit(), load(), set(), and refresh() methods, and have companion objects with TAG constants and cssRules() methods. Verified that Main.kt properly includes CSS rules from these components. Also confirmed that branches task1, task2, and task3 were properly integrated into develop and deleted them. Made a final commit with "Merge fixes" message to ensure the project is in a clean state.
 

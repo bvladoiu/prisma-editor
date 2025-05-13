@@ -1,10 +1,20 @@
 # TODO:
 
+Task0: (ongoing/checklist) - first check #OUTSTANDING section and promote/write-up anything there to a task and make it the first task to pick up (update task numbers)
+
 Task1: Comb through components and make sure they have a consistent cssRules() method and then go to the Main css component in the css package and make sure it accesses/aggregates the rules of all components.
 
 Task2: Add a secondary method to each component in the spirit of preview() called edit() that renders the component in an "editable" state. Making use of the content editable attribute. If the component you are working on is a list then make sure + button is added to add an element to the list. Make sure individual components display a - button to allow deletion. Add a fab button at the bottom right of the page with an edit icon that makes all elements toggle from preview() to edit().
 
 Task3: Remove the hardcoded content from page and have it saved/loaded from map files in the jvm code and passed through to the js code using the commit/set/load cli api already implemented.
+
+
+
+# OUTSTANDING:
+
+ - add commonMain sourceset to the project and add in it a Config object. in sources not in resources!
+ - create an Image component. make sure all other components render with Image, Icon and Text components and do not have duplicated wrappers.
+
 
 # DONE:
 

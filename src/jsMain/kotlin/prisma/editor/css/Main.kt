@@ -29,6 +29,18 @@ object Main {
         rules.addAll(prisma.editor.component.SectionHeader.cssRules())
         rules.addAll(prisma.editor.component.SectionContent.cssRules())
 
+        // Add all other components' CSS rules
+        rules.addAll(prisma.editor.component.EditorScaffold.cssRules())
+        rules.addAll(prisma.editor.component.NavLink.cssRules())
+        rules.addAll(prisma.editor.component.ArticleCard.cssRules())
+        rules.addAll(prisma.editor.component.Drawer.cssRules())
+        rules.addAll(prisma.editor.component.Expertise.cssRules())
+        rules.addAll(prisma.editor.component.Hero.cssRules())
+        rules.addAll(prisma.editor.component.KeywordStrip.cssRules())
+        rules.addAll(prisma.editor.component.Latest.cssRules())
+        rules.addAll(prisma.editor.component.NavigationMenu.cssRules())
+        rules.addAll(prisma.editor.component.Pitch.cssRules())
+
         fun insertRuleInto(sheet: CSSStyleSheet, selector: String, css: StyleLambda) {
             try {
                 val ruleIndex = sheet.cssRules.length
