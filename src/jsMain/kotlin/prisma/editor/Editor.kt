@@ -62,7 +62,7 @@ object Editor {
         isEditing = !isEditing
 
         // Toggle bottom drawer
-        prisma.editor.component.BottomDrawer.toggleDrawer()
+        BottomDrawer.toggleDrawer()
 
         // Change FAB icon
         val fab = document.getElementById("floating-action-button") as? HTMLElement
@@ -81,9 +81,9 @@ object Editor {
                 bottomDrawer.updateValues()
 
                 // Update the properties
-                prisma.editor.Config.currentSite = bottomDrawer.currentSite
-                prisma.editor.Config.currentLanguage = bottomDrawer.currentLanguage
-                prisma.editor.Config.currentPageTag = bottomDrawer.currentPageTag
+                Config.currentSite = bottomDrawer.currentSite
+                Config.currentLanguage = bottomDrawer.currentLanguage
+                Config.currentPageTag = bottomDrawer.currentPageTag
 
                 // Save the properties
                 commit()
