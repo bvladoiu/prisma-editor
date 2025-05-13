@@ -29,8 +29,7 @@ class NavLink(var text: String, var route: String, var icon: String = "", var se
                 href = "#"
                 onClickFunction = { event ->
                     event.preventDefault()
-                    val routeJs = route
-                    js("navigateTo(arguments[0])")(routeJs)
+                    prisma.editor.component.Drawer.navigateTo(route)
                 }
 
                 if (icon.isNotEmpty()) {

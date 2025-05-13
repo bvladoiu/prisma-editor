@@ -1,5 +1,30 @@
 # Tasks
 
+## Remove hardcoded drawer logic and move to components - 07/18/2025
+Removed all hardcoded logic for opening/closing the bottom and regular drawers in the Editor object and moved it to their respective components. The implementation includes:
+1. Added toggle() method to the Drawer component to handle opening/closing the drawer and updating the menu icon
+2. Added static toggleDrawer() method to the Drawer companion object that can be called from JavaScript
+3. Added navigateTo() method to the Drawer companion object to handle navigation after drawer toggle
+4. Updated EditorScaffold to use the Drawer component's API for the menu button click handler
+5. Updated NavLink to use the Drawer component's API for navigation
+6. Moved the regular Drawer creation from Editor.kt to Page.kt to ensure proper separation of concerns
+7. Removed hardcoded JavaScript functions from Editor.kt
+8. Updated Editor.kt to use the BottomDrawer component's API directly instead of through JavaScript
+
+This refactoring improves the component architecture by ensuring that each component is responsible for its own behavior. The Editor object now only includes/uses the BottomDrawer component, and the Page component includes/uses the regular/side Drawer. All drawer-related functionality is now implemented with existing APIs rather than hardcoded JavaScript code.
+
+## Extract bottom drawer logic into BottomDrawer component - 07/17/2025
+Extracted all drawer logic from the Editor object into a new BottomDrawer component following the project's component pattern. The implementation includes:
+1. Created a new BottomDrawer component in the component package with standard methods (preview, commit, load, set, refresh)
+2. Moved all drawer-related HTML, CSS, and JavaScript from Editor.kt to the new component
+3. Implemented proper attribute-based styling with TAG constants and cssRules() in the companion object
+4. Added methods for toggling the drawer and updating values from form inputs
+5. Refactored Editor.kt to use the new BottomDrawer component
+6. Removed inline styles and replaced them with proper CSS rules
+7. Updated the JavaScript code to use the new component's methods
+
+This refactoring improves the component architecture by extracting a reusable UI element from the Editor object, making the code more modular and maintainable. The BottomDrawer component now follows the same pattern as other components in the project, with proper separation of concerns and consistent styling approach.
+
 ## Merge site and language properties implementations - 07/16/2025
 Merged two implementations of the site and language properties feature (task1-editor-site-language and task1-site-language-properties branches). Selected the more comprehensive implementation from task1-editor-site-language as it provides dynamic language options based on site selection, proper integration with the JVM side through loadProperties and set functions, and a more structured approach with a constant for the editor properties tag. The merged implementation includes all the features from the better implementation:
 1. Site and language properties in the Editor object

@@ -25,9 +25,25 @@ open class Page {
         Main.stylesheet()
 
         // Create the page container
-        return document.create.div {
+        val container = document.create.div {
             attributes["page-container"] = ""
         }
+
+        // Add the drawer to the page
+        addDrawer(container)
+
+        return container
+    }
+
+    /**
+     * Adds the side drawer to the page container.
+     * @param container The page container element.
+     */
+    protected fun addDrawer(container: HTMLElement) {
+        val homeLink = prisma.editor.component.NavLink("Home", "home", "home", true)
+        val drawer = prisma.editor.component.Drawer(listOf(homeLink))
+        val drawerElement = drawer.preview()
+        container.appendChild(drawerElement)
     }
 
     /**

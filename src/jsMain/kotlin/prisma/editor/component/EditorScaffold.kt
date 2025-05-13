@@ -44,6 +44,7 @@ class EditorScaffold {
             button {
                 attributes[MENU_BUTTON_TAG] = ""
                 id = "menu-button"
+                attributes["onclick"] = "prisma.editor.component.Drawer.toggleDrawer()"
 
                 span {
                     id = "menu-icon"

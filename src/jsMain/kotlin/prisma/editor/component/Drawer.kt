@@ -38,6 +38,16 @@ class Drawer(var items: List<NavLink> = emptyList(), var opened: Boolean = false
         return nav
     }
 
+    fun toggle() {
+        opened = !opened
+        val drawer = document.getElementById("drawer") as? HTMLElement
+        drawer?.style?.transform = if (opened) "translateX(0px)" else "translateX(-240px)"
+
+        // Update menu icon
+        val menuIcon = document.getElementById("menu-icon") as? HTMLElement
+        menuIcon?.textContent = if (opened) "close" else "menu"
+    }
+
     fun commit() {
         val data = mapOf(
             "items" to items,
@@ -72,6 +82,23 @@ class Drawer(var items: List<NavLink> = emptyList(), var opened: Boolean = false
         const val HEADER_TAG = "drawer-header"
         const val TITLE_TAG = "drawer-title"
         const val ITEMS_TAG = "drawer-items"
+
+        @JsName("toggleDrawer")
+        fun toggleDrawer() {
+            val drawer = document.querySelector("[$TAG]")?.asDynamic()?.kotlinInstance as? Drawer
+            drawer?.toggle()
+        }
+
+        @JsName("navigateTo")
+        fun navigateTo(route: String) {
+            // First toggle the drawer
+            toggleDrawer()
+
+            // Then navigate to the route after a short delay
+            kotlinx.browser.window.setTimeout({
+                prisma.editor.Editor.openPage(route)
+            }, 300)
+        }
 
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
