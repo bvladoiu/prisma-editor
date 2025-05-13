@@ -1,7 +1,15 @@
 # Tasks
 
-## Add site and language properties to Editor - 07/12/2025
-Added site and language properties to the Editor object as specified in Task1. Implemented a bottom drawer UI that allows users to edit these properties. The drawer is toggled when the user presses the edit FAB, and the icon changes from edit to save. When the user saves, the properties are updated and logged with a "save:editor-properties" prefix. The implementation includes dropdown selects for site (ContaDeal, PRISMA-Software) and language (EN, DE, RO) options. This enhances the editor's functionality by allowing content editors to specify which site and language they are working on, preparing for future tasks that will save component data against site/language combinations.
+## Implement site and language properties in Editor - 07/15/2025
+Implemented Task1 from TODOS.md by adding site and language properties to the Editor object. Created a bottom drawer UI that allows users to edit these properties when they press the edit FAB. The implementation includes:
+1. Added currentSite and currentLanguage properties to the Editor object
+2. Created a bottom drawer with site and language select dropdowns
+3. Implemented dynamic language options that update based on the selected site
+4. Added toggleEditMode function that changes the FAB icon from edit to save
+5. Implemented saveProperties and loadProperties functions using the commit/load pattern
+6. Added a set function to handle received data from the JVM side
+
+The drawer is toggled when the user presses the edit FAB, and the icon changes from edit to save. When the user saves, the properties are updated and logged with a "save:editor-properties" prefix. This enhances the editor's functionality by allowing content editors to specify which site and language they are working on, preparing for future tasks that will save component data against site/language combinations.
 
 ## Add floating action button with edit icon to Editor - 07/11/2025
 Created a new FloatingActionButton component that renders a floating action button with a customizable icon. Implemented the component following the standard pattern with preview(), commit(), load(), set(), and refresh() methods, and a companion object with TAG constant and cssRules(). Added an instance of the FloatingActionButton with an edit icon to the Editor object, making it always visible as specified in Task1. The button is positioned at the bottom right corner of the screen with appropriate styling and hover effects. This enhances the editor's functionality by providing quick access to editing features.

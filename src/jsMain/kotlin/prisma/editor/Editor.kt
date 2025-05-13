@@ -6,6 +6,7 @@ import kotlinx.html.dom.create
 import kotlinx.html.p
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLInputElement
+import org.w3c.dom.HTMLOptionElement
 import org.w3c.dom.HTMLSelectElement
 import prisma.editor.component.EditorScaffold
 import prisma.editor.component.FloatingActionButton
@@ -21,6 +22,14 @@ object Editor {
     var currentSite: String = "prisma" // Default site
     var currentLanguage: String = "en" // Default language
     private var isEditing: Boolean = false
+
+    // Tag for editor properties
+    const val EDITOR_PROPERTIES_TAG = "editor-properties"
+
+    init {
+        // Load saved properties on initialization
+        loadProperties()
+    }
 
     fun openPage(name: String) {
         val root = document.getElementById("root") as HTMLElement
@@ -84,6 +93,10 @@ object Editor {
                     prisma.editor.Editor.openPage(route);
                 }, 300);
             }
+
+            function updateLanguageOptions() {
+                prisma.editor.Editor.updateLanguageOptions();
+            }
         """
         document.body?.appendChild(script)
     }
@@ -91,51 +104,102 @@ object Editor {
     @JsName("toggleEditMode")
     fun toggleEditMode() {
         isEditing = !isEditing
-        
+
         // Toggle bottom drawer
         js("toggleBottomDrawer()")
-        
+
         // Change FAB icon
         val fab = document.getElementById("floating-action-button") as? HTMLElement
         val fabIcon = fab?.querySelector("[material-icon]") as? HTMLElement
-        
+
         if (isEditing) {
             fabIcon?.textContent = "save"
-            
+
             // When in edit mode, show the current site and language in the inputs
             val siteSelect = document.getElementById("site-select") as? HTMLSelectElement
             val languageSelect = document.getElementById("language-select") as? HTMLSelectElement
-            
+
             siteSelect?.value = currentSite
             languageSelect?.value = currentLanguage
         } else {
             fabIcon?.textContent = "edit"
-            
+
             // When saving, update the site and language properties
             val siteSelect = document.getElementById("site-select") as? HTMLSelectElement
             val languageSelect = document.getElementById("language-select") as? HTMLSelectElement
-            
+
             if (siteSelect != null && languageSelect != null) {
                 val newSite = siteSelect.value
                 val newLanguage = languageSelect.value
-                
+
                 // Update the properties
                 currentSite = newSite
                 currentLanguage = newLanguage
-                
+
                 // Save the properties
                 saveProperties()
             }
         }
     }
-    
+
+    @JsName("updateLanguageOptions")
+    fun updateLanguageOptions() {
+        val siteSelect = document.getElementById("site-select") as? HTMLSelectElement
+        val languageSelect = document.getElementById("language-select") as? HTMLSelectElement
+
+        if (siteSelect != null && languageSelect != null) {
+            val selectedSite = siteSelect.value
+
+            // Clear existing options
+            languageSelect.innerHTML = ""
+
+            // Get languages for the selected site
+            val languages = when (selectedSite) {
+                "contadeal" -> arrayOf("en", "ro")
+                "prisma" -> arrayOf("en", "de")
+                else -> arrayOf("en")
+            }
+
+            // Add new options
+            for (language in languages) {
+                val option = document.createElement("option") as HTMLOptionElement
+                option.value = language
+                option.text = language.uppercase()
+                languageSelect.add(option)
+            }
+
+            // Try to set the current language
+            languageSelect.value = currentLanguage
+
+            // If the value didn't change (language not available), select the first option
+            if (languageSelect.value != currentLanguage && languageSelect.options.length > 0) {
+                languageSelect.selectedIndex = 0
+            }
+        }
+    }
+
     private fun saveProperties() {
         val data = mapOf(
             "site" to currentSite,
             "language" to currentLanguage
         )
         val jsonData = JSON.stringify(data)
-        console.log("save:editor-properties", jsonData)
+        console.log("save:$EDITOR_PROPERTIES_TAG", jsonData)
+    }
+
+    private fun loadProperties() {
+        console.log("load:$EDITOR_PROPERTIES_TAG")
+        // The actual loading will be handled by the JVM side
+        // which will call receiveData with the saved properties
+    }
+
+    fun set(data: dynamic) {
+        if (data.site != null) {
+            currentSite = data.site as String
+        }
+        if (data.language != null) {
+            currentLanguage = data.language as String
+        }
     }
 }
 
@@ -150,15 +214,16 @@ private fun addBottomDrawer(contentArea: HTMLElement) {
     val bottomDrawer = document.create.div {
         id = "bottom-drawer"
         attributes["bottom-drawer"] = ""
+        attributes[Editor.EDITOR_PROPERTIES_TAG] = ""
         style = "position: fixed; bottom: 0; left: 0; width: 100%; background-color: white; box-shadow: 0 -2px 4px rgba(0,0,0,0.2); padding: 16px; transform: translateY(100%); transition: transform 0.3s ease-in-out; z-index: 1000;"
-        
+
         h3 {
             +"Site and Language Settings"
         }
-        
+
         div {
             style = "display: flex; flex-direction: column; gap: 16px;"
-            
+
             div {
                 style = "display: flex; flex-direction: column; gap: 8px;"
                 label {
@@ -168,7 +233,8 @@ private fun addBottomDrawer(contentArea: HTMLElement) {
                 select {
                     id = "site-select"
                     style = "padding: 8px; border-radius: 4px; border: 1px solid #ccc;"
-                    
+                    attributes["onchange"] = "updateLanguageOptions()"
+
                     // Add options for sites
                     option {
                         value = "contadeal"
@@ -180,7 +246,7 @@ private fun addBottomDrawer(contentArea: HTMLElement) {
                     }
                 }
             }
-            
+
             div {
                 style = "display: flex; flex-direction: column; gap: 8px;"
                 label {
@@ -190,26 +256,17 @@ private fun addBottomDrawer(contentArea: HTMLElement) {
                 select {
                     id = "language-select"
                     style = "padding: 8px; border-radius: 4px; border: 1px solid #ccc;"
-                    
-                    // Add options for languages
-                    option {
-                        value = "en"
-                        +"EN"
-                    }
-                    option {
-                        value = "de"
-                        +"DE"
-                    }
-                    option {
-                        value = "ro"
-                        +"RO"
-                    }
                 }
             }
         }
     }
-    
+
     contentArea.appendChild(bottomDrawer)
+
+    // Initialize language options based on current site
+    window.setTimeout({
+        js("updateLanguageOptions()")
+    }, 100)
 }
 
 private fun addHomePage(mainContent: HTMLElement) {
@@ -225,6 +282,12 @@ private fun addHomePage(mainContent: HTMLElement) {
 @JsName("receiveData")
 fun receiveData(tag: String, jsonString: String) {
     val data = JSON.parse<dynamic>(jsonString)
+
+    if (tag == Editor.EDITOR_PROPERTIES_TAG) {
+        Editor.set(data)
+        return
+    }
+
     val element = document.querySelector("[$tag]") as? HTMLElement
 
     if (element != null) {
