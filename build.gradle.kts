@@ -53,7 +53,7 @@ graalvmNative {
     toolchainDetection.set(true)
 
     binaries {
-        register("prismaEditor") {
+        register("main") {
             mainClass.set("prisma.editor.JvmMainKt")
             buildArgs.add("--no-fallback")
             buildArgs.add("-H:+ReportExceptionStackTraces")
@@ -79,30 +79,9 @@ tasks.register<JavaExec>("runWithAgent") {
     dependsOn("jvmJar")
 
     mainClass.set("prisma.editor.JvmMainKt")
-    classpath = files("build/libs/prisma-editor-jvm-1.0.0.jar")
+    classpath = kotlin.jvm().compilations["main"].output.allOutputs + kotlin.jvm().compilations["main"].runtimeDependencyFiles
 
     jvmArgs = listOf(
         "-agentlib:native-image-agent=config-output-dir=build/native/agent-output"
-    )
-}
-
-tasks.register<Exec>("nativeCompile") {
-    group = "GraalVM"
-    description = "Compile the application to a native executable using GraalVM"
-
-    dependsOn("jvmJar")
-
-    doFirst {
-        mkdir("build/native")
-    }
-
-    commandLine(
-        "C:\\Program Files\\Java\\graalvm-community-openjdk-17.0.8+7.1\\bin\\native-image.cmd",
-        "--no-fallback",
-        "-H:+ReportExceptionStackTraces",
-        "-H:+PrintClassInitialization",
-        "-cp", "build/libs/prisma-editor-jvm-1.0.0.jar",
-        "prisma.editor.JvmMainKt",
-        "build/native/prisma-editor"
     )
 }
