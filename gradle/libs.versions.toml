@@ -43,6 +43,7 @@ composables-core = "1.29.0"
 sqlite-jdbc = "3.45.1.0"
 sqlite-driver = "2.0.1"
 graalvm = "23.1.2"
+graalvm-plugin = "0.9.28"
 
 [libraries]
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
@@ -117,3 +118,4 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 benmanes-versions = { id = "com.github.ben-manes.versions", version.ref = "benmanesVersions" }
 # sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" } # Removed as part of database purge
+graalvmNative = { id = "org.graalvm.buildtools.native", version.ref = "graalvm-plugin" }

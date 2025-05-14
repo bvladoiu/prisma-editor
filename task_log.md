@@ -1,5 +1,34 @@
 # Tasks
 
+## Setup GraalVM native image configuration - 05/14/2025
+Implemented GraalVM native image configuration as described in graal_setup.md:
+1. Created a new branch 'task-graalvm-setup' for this task
+2. Added GraalVM plugin version (0.9.28) to the version catalog in libs.versions.toml
+3. Added GraalVM native image plugin to the plugins section in libs.versions.toml
+4. Applied the GraalVM native image plugin in build.gradle.kts
+5. Added GraalVM SDK and native image dependencies to the jvmMain sourceset
+6. Configured GraalVM native image settings in build.gradle.kts with:
+   - Toolchain detection enabled
+   - No-fallback mode enabled
+   - Exception stack trace reporting enabled
+   - Class initialization reporting enabled
+   - Resource autodetection enabled
+   - Metadata repository enabled
+   - Agent enabled for generating configuration files
+7. Created the necessary directory structure for native image configuration files:
+   - src/jvmMain/resources/META-INF/native-image/prisma.editor/prisma-editor/
+8. Created initial placeholder configuration files:
+   - reflect-config.json for reflection configuration
+   - resource-config.json for resource inclusion/exclusion
+   - jni-config.json for JNI configuration
+   - proxy-config.json for dynamic proxy configuration
+   - serialization-config.json for serialization configuration
+9. Added custom Gradle tasks for GraalVM native image compilation:
+   - `runWithAgent`: Runs the application with the GraalVM native image agent to generate configuration files
+   - `nativeCompile`: Compiles the application to a native executable using GraalVM
+
+This setup enables the project to be compiled to a native executable using GraalVM, which can significantly improve startup time and reduce memory usage. The configuration files are initially empty placeholders that will be populated using the native-image agent when running the application on the JVM, as described in graal_setup.md. The custom tasks provide a convenient way to run the application with the agent and compile it to a native executable.
+
 ## Update ICON and MENU_LABEL selectors to use parent-child attribute pattern - 08/07/2025
 Updated the CSS selectors for ICON and MENU_LABEL variants to use a parent-child attribute pattern instead of applying both attributes to the same element:
 1. Modified Typography.kt to change ICON variant selectors from "[$ICON][emphasized]" to "[emphasized] [$ICON]"
