@@ -43,6 +43,7 @@ class NavLink(var text: String, var route: String, var icon: String = "", var se
 
                 span {
                     attributes[TEXT_TAG] = ""
+                    classes = setOf(Typography.MENU_LABEL)
                     +text
                 }
             }
@@ -104,7 +105,6 @@ class NavLink(var text: String, var route: String, var icon: String = "", var se
                     alignItems = "center"
                     textDecoration = "none"
                     color = "black"
-                    fontFamily = Typography.defaultFontFamily
                     setProperty("transition", "background-color 0.2s ease")
                 },
 
@@ -125,7 +125,6 @@ class NavLink(var text: String, var route: String, var icon: String = "", var se
                 },
 
                 "[$TEXT_TAG]" to {
-                    fontSize = Typography.fontSm
                 }
             )
         }

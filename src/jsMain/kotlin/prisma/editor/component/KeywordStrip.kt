@@ -22,6 +22,7 @@ class KeywordStrip(var keywords: List<String> = emptyList()) {
             asDynamic().kotlinInstance = this@KeywordStrip
             keywords.forEach { keyword ->
                 li {
+                    classes = setOf(Typography.SMALL_TEXT)
                     +keyword
                 }
             }
@@ -75,7 +76,6 @@ class KeywordStrip(var keywords: List<String> = emptyList()) {
                     color = Theme.primary
                     padding = "4px ${Theme.spacing}"
                     borderRadius = "4px"
-                    fontSize = Typography.fontXs
                 }
             )
         }

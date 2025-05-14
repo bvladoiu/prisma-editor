@@ -8,6 +8,7 @@ import org.w3c.dom.HTMLElement
 import prisma.editor.Config
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
+import prisma.editor.css.Typography
 import kotlin.js.JSON
 
 /**
@@ -43,6 +44,7 @@ class Image(
 
             if (caption.isNotEmpty()) {
                 figcaption {
+                    classes = setOf(Typography.CAPTION)
                     +caption
                 }
             }
@@ -66,6 +68,7 @@ class Image(
 
             if (caption.isNotEmpty()) {
                 figcaption {
+                    classes = setOf(Typography.CAPTION)
                     +caption
                 }
             }
@@ -126,7 +129,6 @@ class Image(
                 },
 
                 "[$TAG] figcaption" to {
-                    fontSize = "14px"
                     color = Theme.mediumGray
                     marginTop = Theme.spacing
                     textAlign = "center"

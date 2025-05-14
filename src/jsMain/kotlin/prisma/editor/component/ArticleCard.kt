@@ -53,16 +53,19 @@ class ArticleCard(var title: String, var author: String, var date: String) {
                 attributes[HEADER_TAG] = ""
 
                 h3 {
+                    classes = setOf(Typography.HEADLINE)
                     +title
                 }
 
                 time {
+                    classes = setOf(Typography.SMALL_TEXT)
                     +date
                 }
             }
 
             footer {
                 attributes[AUTHOR_TAG] = ""
+                classes = setOf(Typography.CAPTION)
                 +"By $author"
             }
         }
@@ -109,7 +112,6 @@ class ArticleCard(var title: String, var author: String, var date: String) {
                 "[$TAG]" to {
                     padding = "${Theme.spacing} 0"
                     borderBottom = "1px solid var(--color-light-transparent)"
-                    fontFamily = Typography.defaultFontFamily
                 },
 
                 "[$HEADER_TAG]" to {
@@ -121,17 +123,14 @@ class ArticleCard(var title: String, var author: String, var date: String) {
 
                 "[$HEADER_TAG] h3" to {
                     margin = "0"
-                    fontFamily = Typography.defaultFontFamily
                     color = "var(--color-white)"
                 },
 
                 "[$HEADER_TAG] span" to {
-                    fontFamily = Typography.defaultFontFamily
                     color = "var(--color-medium-transparent)"
                 },
 
                 "[$AUTHOR_TAG]" to {
-                    fontFamily = Typography.defaultFontFamily
                     color = "var(--color-medium-transparent)"
                 }
             )

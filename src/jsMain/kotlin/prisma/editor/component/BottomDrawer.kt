@@ -53,6 +53,7 @@ class BottomDrawer(
 
             h3 {
                 id = "drawer-title"
+                classes = setOf(Typography.HEADLINE)
                 +"Site, Language, and Page Settings"
             }
 
@@ -66,15 +67,18 @@ class BottomDrawer(
 
                     h4 {
                         id = "site-group-label"
+                        classes = setOf(Typography.TAGLINE)
                         +"Site"
                     }
 
                     label {
                         htmlFor = "site-select"
+                        classes = setOf(Typography.CAPTION)
                         +"Site:"
                     }
                     select {
                         id = "site-select"
+                        classes = setOf(Typography.BODY)
                         attributes["onchange"] = "prisma.editor.component.BottomDrawer.updateLanguageOptions()"
 
                         // Add options for sites
@@ -96,15 +100,18 @@ class BottomDrawer(
 
                     h4 {
                         id = "language-group-label"
+                        classes = setOf(Typography.TAGLINE)
                         +"Language"
                     }
 
                     label {
                         htmlFor = "language-select"
+                        classes = setOf(Typography.CAPTION)
                         +"Language:"
                     }
                     select {
                         id = "language-select"
+                        classes = setOf(Typography.BODY)
                     }
                 }
 
@@ -115,15 +122,18 @@ class BottomDrawer(
 
                     h4 {
                         id = "page-group-label"
+                        classes = setOf(Typography.TAGLINE)
                         +"Page"
                     }
 
                     label {
                         htmlFor = "page-select"
+                        classes = setOf(Typography.CAPTION)
                         +"Page:"
                     }
                     select {
                         id = "page-select"
+                        classes = setOf(Typography.BODY)
 
                         // Add options for pages
                         option {
@@ -275,8 +285,6 @@ class BottomDrawer(
 
                 "[$TAG] h3" to {
                     margin = "0 0 ${Theme.spacing}"
-                    fontSize = Typography.fontMd
-                    fontFamily = Typography.defaultFontFamily
                     color = Theme.darkBackground
                 },
 
@@ -293,8 +301,6 @@ class BottomDrawer(
                 },
 
                 "[$FIELD_TAG] label" to {
-                    fontSize = Typography.fontSm
-                    fontFamily = Typography.defaultFontFamily
                     color = Theme.mediumGray
                 },
 
@@ -302,8 +308,6 @@ class BottomDrawer(
                     padding = Theme.spacing
                     borderRadius = Theme.spacing
                     border = "1px solid ${Theme.lightGray}"
-                    fontSize = Typography.fontSm
-                    fontFamily = Typography.defaultFontFamily
                 }
             )
         }

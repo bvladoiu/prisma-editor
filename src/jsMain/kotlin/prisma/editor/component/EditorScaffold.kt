@@ -55,6 +55,7 @@ class EditorScaffold {
             }
             h1 {
                 attributes[APP_BAR_TITLE_TAG] = ""
+                classes = setOf(Typography.HEADLINE)
                 +"Prisma Editor"
             }
         }
@@ -145,8 +146,6 @@ class EditorScaffold {
 
                 "[$APP_BAR_TITLE_TAG]" to {
                     margin = "0"
-                    fontSize = Typography.fontMd
-                    fontWeight = "500"
                 }
             )
         }

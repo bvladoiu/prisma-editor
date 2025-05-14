@@ -21,9 +21,11 @@ class Pitch(var title: String = "", var description: String = "") {
             attributes[TAG] = ""
             asDynamic().kotlinInstance = this@Pitch
             h3 {
+                classes = setOf(Typography.TAGLINE)
                 +title
             }
             p {
+                classes = setOf(Typography.BODY)
                 +description
             }
         }
@@ -67,13 +69,9 @@ class Pitch(var title: String = "", var description: String = "") {
                     padding = Theme.spacing
                     backgroundColor = "var(--color-light-transparent)"
                     borderRadius = "4px"
-                    fontFamily = Typography.defaultFontFamily
                 },
 
                 "[$TAG] h3" to {
-                    fontSize = Typography.fontMd
-                    fontWeight = Typography.fontWeightBold
-                    fontFamily = Typography.defaultFontFamily
                     marginTop = "0"
                     marginBottom = "8px"
                     color = Theme.primary
@@ -81,7 +79,6 @@ class Pitch(var title: String = "", var description: String = "") {
 
                 "[$TAG] p" to {
                     margin = "0"
-                    fontFamily = Typography.defaultFontFamily
                 }
             )
         }

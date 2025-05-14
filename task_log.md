@@ -177,6 +177,15 @@ Created a commonMain sourceset directory structure in the project and added a Co
 ## Polish guidelines and consolidate project practices - 07/05/2025
 Updated .junie/guidelines.md to be more concise while maintaining quality. Extracted relevant guidelines from TODOS.md, tasks.md, and project structure. Organized into clear sections covering workflow, component architecture, styling, and merge process. Reduced verbosity while preserving essential information and development practices.
 
+## Centralize typography styling in Typography.kt - 07/28/2025
+Implemented the task to ensure Typography.kt is the only source of truth for typography in the project:
+1. Removed all typography-related CSS (font-size, font-family, etc.) from components' cssRules() methods
+2. Applied appropriate Typography classes to HTML text elements based on their semantic meaning
+3. Updated components to use Typography classes (HEADLINE, TAGLINE, BODY, CAPTION, SMALL_TEXT, etc.)
+4. Verified changes across multiple components to ensure consistency
+
+This change improves the maintainability of the codebase by centralizing all typography styling in one place, making it easier to update and ensuring consistency across the application. Typography classes are now applied directly to HTML elements, providing a clear semantic structure and improving accessibility.
+
 ## Implement consistent cssRules() and update Main aggregator - 07/04/2025
 Examined all components in the project to ensure they have a consistent cssRules() method in their companion objects. Verified that all components follow the same pattern of returning a List<CssRuleDefinition> with CSS rules for the component. Updated the Main css component to aggregate CSS rules from all components in the project, adding rules for EditorScaffold, NavLink, ArticleCard, Drawer, Expertise, Hero, KeywordStrip, Latest, NavigationMenu, and Pitch components that were previously missing. This ensures that all component styles are properly included in the main stylesheet, improving consistency and maintainability.
 

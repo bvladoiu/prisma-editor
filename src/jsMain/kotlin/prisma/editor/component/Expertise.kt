@@ -47,9 +47,11 @@ class Expertise(var name: String, var description: String) {
             attributes[TAG] = ""
             asDynamic().kotlinInstance = this@Expertise
             h3 {
+                classes = setOf(Typography.TAGLINE)
                 +name
             }
             p {
+                classes = setOf(Typography.BODY)
                 +description
             }
         }
@@ -97,16 +99,12 @@ class Expertise(var name: String, var description: String) {
                 },
 
                 "[$TAG] h3" to {
-                    fontSize = Typography.fontMd
-                    fontFamily = Typography.defaultFontFamily
                     marginBottom = "8px"
                     color = Theme.white
                 },
 
                 "[$TAG] p" to {
                     margin = "0"
-                    lineHeight = Typography.lineHeightNormal
-                    fontFamily = Typography.defaultFontFamily
                 }
             )
         }

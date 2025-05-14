@@ -306,8 +306,6 @@ class Section(
                     display = "flex"
                     justifyContent = "center"
                     alignItems = "center"
-                    fontSize = "18px"
-                    fontWeight = "bold"
                     zIndex = "1"
                 },
 
@@ -322,8 +320,6 @@ class Section(
                     display = "flex"
                     justifyContent = "center"
                     alignItems = "center"
-                    fontSize = "20px"
-                    fontWeight = "bold"
                     margin = "10px auto"
                 }
             )

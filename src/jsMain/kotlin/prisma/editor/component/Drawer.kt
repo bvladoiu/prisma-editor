@@ -121,8 +121,6 @@ class Drawer(var items: List<NavLink> = emptyList(), var opened: Boolean = false
 
                 "[$TITLE_TAG]" to {
                     margin = "0"
-                    fontSize = Typography.fontSm
-                    fontFamily = Typography.defaultFontFamily
                 },
 
                 "[$ITEMS_TAG]" to {

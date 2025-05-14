@@ -26,6 +26,7 @@ class NavigationMenu(
             a {
                 href = "#"
                 attributes[BRAND_TAG] = ""
+                classes = setOf(Typography.HEADLINE)
                 +brand
             }
             ul {
@@ -34,6 +35,7 @@ class NavigationMenu(
                     li {
                         a {
                             href = "#"
+                            classes = setOf(Typography.MENU_LABEL)
                             +item
                         }
                     }
@@ -95,8 +97,6 @@ class NavigationMenu(
 
                 "[$BRAND_TAG]" to {
                     color = Theme.primary
-                    fontSize = Typography.fontMd
-                    fontWeight = Typography.fontWeightBold
                     textDecoration = "none"
                 },
 
@@ -111,7 +111,6 @@ class NavigationMenu(
                 "[$MENU_TAG] a" to {
                     color = Theme.white
                     textDecoration = "none"
-                    fontSize = Typography.fontSm
                 }
             )
         }
