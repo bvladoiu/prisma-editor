@@ -6,6 +6,7 @@ import kotlinx.html.dom.*
 import kotlinx.html.stream.createHTML
 import org.w3c.dom.HTMLElement
 import prisma.editor.css.CssRuleDefinition
+import prisma.editor.css.FontsLoader
 import prisma.editor.css.Theme
 
 /**
@@ -22,6 +23,8 @@ class Icon(
     var grade: Int = 0
 ) {
     init {
+        // Register the icon name with FontsLoader
+        FontsLoader.registerIcon(name)
         load()
     }
 
@@ -64,7 +67,15 @@ class Icon(
     }
 
     fun set(data: dynamic) {
-        name = data.name ?: name
+        val newName = data.name ?: name
+        // If the name has changed, register the new icon name
+        if (newName != name) {
+            name = newName
+            FontsLoader.registerIcon(name)
+        } else {
+            name = newName
+        }
+
         weight = data.weight ?: weight
         fill = data.fill ?: fill
         grade = data.grade ?: grade

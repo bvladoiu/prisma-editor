@@ -1,5 +1,35 @@
 # Tasks
 
+## Move FontsLoader from application level to Page component - 08/03/2025
+Removed FontsLoader access/usage from the editor/application level and integrated it solely into the Page component:
+1. Removed the call to FontsLoader.addFontLinksToHead() from the main() function in Editor.kt
+2. Added the import statement for FontsLoader in Page.kt
+3. Added FontsLoader initialization to Page.create() method
+4. Updated the class documentation to reflect that font loading is now handled by FontsLoader within the Page component
+
+This change improves the application's architecture by ensuring that font loading is handled at the page level rather than the application level. This means that fonts are only loaded when a page is created, which is more efficient and follows the principle of keeping component responsibilities focused. The Page component now fully manages font loading, which is a more appropriate location for this functionality than the application-level code.
+
+## Integrate FontsLoader into Page component - 08/02/2025
+Integrated the newly created FontsLoader into the Page component to ensure consistent font loading across the application:
+1. Removed the `addGoogleFonts()` method from the Page component
+2. Removed the call to `addGoogleFonts()` from the `create()` method
+3. Updated the class documentation to reflect that font loading is now handled by FontsLoader at the application level
+4. Removed unused imports (HTMLLinkElement)
+
+This change improves the application's architecture by centralizing font loading in the FontsLoader object, which is initialized at the application level in the `main()` function. This avoids duplicate font loading and ensures that all pages use the same optimized font loading approach. The Page component now focuses solely on its core responsibilities without handling font loading.
+
+## Implement FontsLoader for optimized font loading - 08/01/2025
+Implemented Task1 from TODOS.md by creating a FontsLoader object to optimize font loading and manage icon names:
+1. Created a new FontsLoader object in prisma.editor.css package that tracks icon names and provides methods for generating HTML link tags
+2. Implemented methods for Material Symbols, Lexend, and Roboto Flex fonts following best practices for the Google Font service
+3. Modified the Icon component to register icon names with the FontsLoader in the init block and when names change
+4. Updated the main function in Editor.kt to initialize the FontsLoader before the window loads
+5. Ensured alphabetical ordering of icon names for consistent font loading
+6. Omitted the optical size axis for Material Symbols as it can cause bugs when not auto-managed by the browser
+7. Added support for all variable fonts used in the project (Material Symbols, Lexend, Roboto Flex)
+
+This implementation optimizes font loading by only loading the specific icons that are used in the application, reducing initial load time and bandwidth usage. It also centralizes font loading logic in a single object, making it easier to maintain and update font loading across the application.
+
 ## Add active icon variant to Typography - 07/31/2025
 Added a new ICON variant to Typography.kt for selected/current semantic state:
 1. Created a new "active" variant for the ICON class that represents the selected/current state
