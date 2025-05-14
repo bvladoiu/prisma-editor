@@ -34,11 +34,9 @@ class NavLink(var text: String, var route: String, var icon: String = "", var se
                 }
 
                 if (icon.isNotEmpty()) {
-                    span {
-                        attributes[ICON_TAG] = ""
-                        attributes["class"] = "material-symbols-outlined"
-                        +icon
-                    }
+                    // Use Icon component's render() method instead of directly creating a span
+                    val iconComponent = Icon(icon)
+                    iconComponent.render().invoke(this)
                 }
 
                 span {

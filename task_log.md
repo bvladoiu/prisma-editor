@@ -1,5 +1,14 @@
 # Tasks
 
+## Replace icon preview() calls with render() calls - 08/07/2025
+Updated all components to use Icon component's render() method instead of preview() method:
+1. Modified FloatingActionButton.kt to use icon.render().invoke(this) instead of creating an intermediate HTMLElement
+2. Updated NavLink.kt to use the Icon component's render() method instead of directly creating a span element
+3. Updated EditorScaffold.kt to use the Icon component's render() method for the menu icon
+4. Added comments to explain the changes
+
+This change improves the component architecture by ensuring that all icons are rendered consistently using the Icon component's render() method. This eliminates the need for intermediate HTMLElements and makes the code more concise and maintainable. It also follows the project's guidelines of using render() methods for embedding components within other components' preview() blocks.
+
 ## Update Typography icon logic to use attribute-based styling - 08/06/2025
 Updated the Typography CSS objects icon logic to use attribute-based styling instead of class-based styling:
 1. Modified Typography.kt to change icon selectors from class-based (".$ICON") to attribute-based ("[$ICON]")

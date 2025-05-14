@@ -46,12 +46,9 @@ class EditorScaffold {
                 id = "menu-button"
                 attributes["onclick"] = "prisma.editor.component.Drawer.toggleDrawer()"
 
-                span {
-                    id = "menu-icon"
-                    attributes["class"] = "material-symbols-outlined"
-                    attributes[MENU_ICON_TAG] = ""
-                    +"menu"
-                }
+                // Use Icon component's render() method instead of directly creating a span
+                val menuIcon = Icon("menu")
+                menuIcon.render().invoke(this)
             }
             h1 {
                 attributes[APP_BAR_TITLE_TAG] = ""

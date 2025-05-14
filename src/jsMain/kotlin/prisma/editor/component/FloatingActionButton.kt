@@ -21,19 +21,16 @@ class FloatingActionButton(
     }
 
     fun preview(): HTMLElement {
-        val button = document.create.button {
+        return document.create.button {
             attributes[TAG] = ""
             id = "floating-action-button"
             attributes["onclick"] = onClick
             asDynamic().kotlinInstance = this@FloatingActionButton
+
+            // Add the icon using render() instead of preview()
+            val icon = Icon(iconName)
+            icon.render().invoke(this)
         }
-
-        // Add the icon
-        val icon = Icon(iconName, fill = 1)
-        val iconElement = icon.preview()
-        button.appendChild(iconElement)
-
-        return button
     }
 
     fun commit() {
