@@ -38,3 +38,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "prisma"
 include("client")
+include("desktop")
