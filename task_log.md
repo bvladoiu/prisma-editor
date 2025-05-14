@@ -1,5 +1,13 @@
 # Tasks
 
+## Update ICON and MENU_LABEL selectors to use parent-child attribute pattern - 08/07/2025
+Updated the CSS selectors for ICON and MENU_LABEL variants to use a parent-child attribute pattern instead of applying both attributes to the same element:
+1. Modified Typography.kt to change ICON variant selectors from "[$ICON][emphasized]" to "[emphasized] [$ICON]"
+2. Modified Typography.kt to change MENU_LABEL variant selectors from "[$MENU_LABEL][emphasized]" to "[emphasized] [$MENU_LABEL]"
+3. Updated all components to ensure they work with the new selector pattern
+
+This change improves the component architecture by separating the semantic state (emphasized, deemphasized, active) from the element type (ICON, MENU_LABEL). The new pattern applies the state to the parent element and the type to the element itself, making it easier to target elements based on their context and improving the flexibility of the styling system.
+
 ## Update Typography icon logic to use attribute-based styling - 08/06/2025
 Updated the Typography CSS objects icon logic to use attribute-based styling instead of class-based styling:
 1. Modified Typography.kt to change icon selectors from class-based (".$ICON") to attribute-based ("[$ICON]")

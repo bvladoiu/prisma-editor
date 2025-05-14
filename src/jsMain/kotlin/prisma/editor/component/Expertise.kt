@@ -47,11 +47,11 @@ class Expertise(var name: String, var description: String) {
             attributes[TAG] = ""
             asDynamic().kotlinInstance = this@Expertise
             h3 {
-                classes = setOf(Typography.TAGLINE)
+                attributes[Typography.TAGLINE] = ""
                 +name
             }
             p {
-                classes = setOf(Typography.BODY)
+                attributes[Typography.BODY] = ""
                 +description
             }
         }

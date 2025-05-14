@@ -26,7 +26,7 @@ class NavigationMenu(
             a {
                 href = "#"
                 attributes[BRAND_TAG] = ""
-                classes = setOf(Typography.HEADLINE)
+                attributes[Typography.HEADLINE] = ""
                 +brand
             }
             ul {
@@ -35,7 +35,7 @@ class NavigationMenu(
                     li {
                         a {
                             href = "#"
-                            classes = setOf(Typography.MENU_LABEL)
+                            attributes[Typography.MENU_LABEL] = ""
                             +item
                         }
                     }

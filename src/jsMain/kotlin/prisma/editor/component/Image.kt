@@ -44,7 +44,7 @@ class Image(
 
             if (caption.isNotEmpty()) {
                 figcaption {
-                    classes = setOf(Typography.CAPTION)
+                    attributes[Typography.CAPTION] = ""
                     +caption
                 }
             }
@@ -68,7 +68,7 @@ class Image(
 
             if (caption.isNotEmpty()) {
                 figcaption {
-                    classes = setOf(Typography.CAPTION)
+                    attributes[Typography.CAPTION] = ""
                     +caption
                 }
             }

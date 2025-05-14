@@ -1,5 +1,7 @@
 package prisma.editor.css
 
+import prisma.editor.css.Theme.iconSize
+
 /**
  * Typography constants and styling for the application.
  * Defines typography styles using Lexend (for headings)
@@ -43,7 +45,7 @@ object Typography {
             },
 
             // DISPLAY – ultra-large text for hero sections or prominent headings
-            ".$DISPLAY" to {
+            "[$DISPLAY]" to {
                 fontFamily = headingFontFamily
                 fontWeight = "700"
                 fontSize = fluidSize(2.25, 2.75)
@@ -53,7 +55,7 @@ object Typography {
             },
 
             // HEADLINE – primary section or page headings
-            ".$HEADLINE" to {
+            "[$HEADLINE]" to {
                 fontFamily = headingFontFamily
                 fontWeight = "600"
                 fontSize = fluidSize(2.0, 3.0)
@@ -63,7 +65,7 @@ object Typography {
             },
 
             // BODY – main body text for paragraphs and long-form content
-            ".$BODY" to {
+            "[$BODY]" to {
                 fontFamily = bodyFontFamily
                 fontWeight = "400"
                 fontSize = fluidSize(1.0, 1.25)
@@ -73,7 +75,7 @@ object Typography {
             },
 
             // CODE – inline or block code snippets
-            ".$CODE" to {
+            "[$CODE]" to {
                 fontFamily = bodyFontFamily
                 fontWeight = "500"
                 fontSize = fluidSize(0.9, 1.0)
@@ -83,7 +85,7 @@ object Typography {
             },
 
             // ACTION – text for buttons or calls-to-action
-            ".$ACTION" to {
+            "[$ACTION]" to {
                 fontFamily = bodyFontFamily
                 fontWeight = "600"
                 fontSize = fluidSize(0.875, 1.0)
@@ -93,7 +95,7 @@ object Typography {
             },
 
             // CAPTION – small text for image captions or annotations
-            ".$CAPTION" to {
+            "[$CAPTION]" to {
                 fontFamily = bodyFontFamily
                 fontWeight = "400"
                 fontSize = fluidSize(0.813, 0.875)
@@ -103,7 +105,7 @@ object Typography {
             },
 
             // TAGLINE – secondary headings or subtitles
-            ".$TAGLINE" to {
+            "[$TAGLINE]" to {
                 fontFamily = headingFontFamily
                 fontWeight = "500"
                 fontSize = fluidSize(1.125, 1.5)
@@ -113,7 +115,7 @@ object Typography {
             },
 
             // QUOTE – stylized text for blockquotes or featured quotes
-            ".$QUOTE" to {
+            "[$QUOTE]" to {
                 fontFamily = bodyFontFamily
                 fontWeight = "400"
                 fontSize = fluidSize(1.125, 1.5)
@@ -124,7 +126,7 @@ object Typography {
             },
 
             // SMALL-TEXT – very small fine-print text for disclaimers, footnotes, etc.
-            ".$SMALL_TEXT" to {
+            "[$SMALL_TEXT]" to {
                 fontFamily = bodyFontFamily
                 fontWeight = "500"
                 fontSize = fluidSize(0.75, 0.875)
@@ -134,7 +136,7 @@ object Typography {
             },
 
             // METRIC – large numeric values or statistics for emphasis
-            ".$METRIC" to {
+            "[$METRIC]" to {
                 fontFamily = headingFontFamily
                 fontWeight = "700"
                 fontSize = fluidSize(2.25, 3.75)
@@ -144,7 +146,7 @@ object Typography {
             },
 
             // MENU-LABEL – labels for navigation menus or small UI sections
-            ".$MENU_LABEL" to {
+            "[$MENU_LABEL]" to {
                 fontFamily = bodyFontFamily
                 fontSize = fluidSize(0.875, 1.125)
                 fontWeight = "600"
@@ -156,12 +158,12 @@ object Typography {
             },
 
             // MENU-LABEL variants
-            ".$MENU_LABEL.deemphasized" to {
+            "[deemphasized] [$MENU_LABEL]" to {
                 fontWeight = "600" // Maintain base weight
                 setProperty("font-variation-settings", "'GRAD' -200")
             },
 
-            ".$MENU_LABEL.emphasized" to {
+            "[emphasized] [$MENU_LABEL]" to {
                 fontWeight = "600" // Maintain base weight
                 setProperty("font-variation-settings", "'GRAD' 150")
             },
@@ -169,22 +171,22 @@ object Typography {
             // ICON - Material Symbols icons
             "[$ICON]" to {
                 fontFamily = iconFontFamily
-                fontSize = "var(--icon-size)"
+                fontSize = iconSize
                 setProperty("font-variation-settings", "'FILL' 0, 'wght' 400, 'GRAD' 0")
                 transition = "font-variation-settings 0.2s ease-in-out, opacity 0.3s ease-in-out"
             },
 
             // ICON variants
-            "[$ICON][deemphasized]" to {
+            "[deemphasized] [$ICON]" to {
                 setProperty("font-variation-settings", "'FILL' 0, 'wght' 400, 'GRAD' -50")
             },
 
-            "[$ICON][emphasized]" to {
+            "[emphasized] [$ICON]" to {
                 setProperty("font-variation-settings", "'FILL' 1, 'wght' 400, 'GRAD' 200")
             },
 
             // ICON active/selected state - like regular but with fill
-            "[$ICON][active]" to {
+            "[active] [$ICON]" to {
                 setProperty("font-variation-settings", "'FILL' 1, 'wght' 400, 'GRAD' 0")
             }
         )

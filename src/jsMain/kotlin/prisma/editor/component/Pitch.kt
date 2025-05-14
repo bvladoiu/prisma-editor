@@ -21,11 +21,11 @@ class Pitch(var title: String = "", var description: String = "") {
             attributes[TAG] = ""
             asDynamic().kotlinInstance = this@Pitch
             h3 {
-                classes = setOf(Typography.TAGLINE)
+                attributes[Typography.TAGLINE] = ""
                 +title
             }
             p {
-                classes = setOf(Typography.BODY)
+                attributes[Typography.BODY] = ""
                 +description
             }
         }

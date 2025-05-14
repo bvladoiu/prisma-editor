@@ -53,7 +53,7 @@ class BottomDrawer(
 
             h3 {
                 id = "drawer-title"
-                classes = setOf(Typography.HEADLINE)
+                attributes[Typography.HEADLINE] = ""
                 +"Site, Language, and Page Settings"
             }
 
@@ -67,18 +67,18 @@ class BottomDrawer(
 
                     h4 {
                         id = "site-group-label"
-                        classes = setOf(Typography.TAGLINE)
+                        attributes[Typography.TAGLINE] = ""
                         +"Site"
                     }
 
                     label {
                         htmlFor = "site-select"
-                        classes = setOf(Typography.CAPTION)
+                        attributes[Typography.CAPTION] = ""
                         +"Site:"
                     }
                     select {
                         id = "site-select"
-                        classes = setOf(Typography.BODY)
+                        attributes[Typography.BODY] = ""
                         attributes["onchange"] = "prisma.editor.component.BottomDrawer.updateLanguageOptions()"
 
                         // Add options for sites
@@ -100,18 +100,18 @@ class BottomDrawer(
 
                     h4 {
                         id = "language-group-label"
-                        classes = setOf(Typography.TAGLINE)
+                        attributes[Typography.TAGLINE] = ""
                         +"Language"
                     }
 
                     label {
                         htmlFor = "language-select"
-                        classes = setOf(Typography.CAPTION)
+                        attributes[Typography.CAPTION] = ""
                         +"Language:"
                     }
                     select {
                         id = "language-select"
-                        classes = setOf(Typography.BODY)
+                        attributes[Typography.BODY] = ""
                     }
                 }
 
@@ -122,18 +122,18 @@ class BottomDrawer(
 
                     h4 {
                         id = "page-group-label"
-                        classes = setOf(Typography.TAGLINE)
+                        attributes[Typography.TAGLINE] = ""
                         +"Page"
                     }
 
                     label {
                         htmlFor = "page-select"
-                        classes = setOf(Typography.CAPTION)
+                        attributes[Typography.CAPTION] = ""
                         +"Page:"
                     }
                     select {
                         id = "page-select"
-                        classes = setOf(Typography.BODY)
+                        attributes[Typography.BODY] = ""
 
                         // Add options for pages
                         option {

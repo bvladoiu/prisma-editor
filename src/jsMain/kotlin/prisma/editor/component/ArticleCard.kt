@@ -53,19 +53,19 @@ class ArticleCard(var title: String, var author: String, var date: String) {
                 attributes[HEADER_TAG] = ""
 
                 h3 {
-                    classes = setOf(Typography.HEADLINE)
+                    attributes[Typography.HEADLINE] = ""
                     +title
                 }
 
                 time {
-                    classes = setOf(Typography.SMALL_TEXT)
+                    attributes[Typography.SMALL_TEXT] = ""
                     +date
                 }
             }
 
             footer {
                 attributes[AUTHOR_TAG] = ""
-                classes = setOf(Typography.CAPTION)
+                attributes[Typography.CAPTION] = ""
                 +"By $author"
             }
         }
