@@ -6,7 +6,7 @@ import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.FontsLoader
-import prisma.editor.css.Theme
+import prisma.editor.css.Typography
 
 /**
  * Icon component that renders a Material Symbols icon.
@@ -17,12 +17,8 @@ import prisma.editor.css.Theme
  */
 class Icon(
     var name: String,
-    var weight: Int = 400,
-    var fill: Int = 0,
-    var grade: Int = 0
 ) {
     init {
-        // Register the icon name with FontsLoader
         FontsLoader.registerIcon(name)
         load()
     }
@@ -30,8 +26,6 @@ class Icon(
     fun preview(): HTMLElement {
         return document.create.span {
             attributes[TAG] = ""
-            attributes["class"] = "material-symbols-outlined"
-            attributes["style"] = "font-variation-settings: 'FILL' $fill, 'wght' $weight, 'GRAD' $grade; font-size: ${Theme.iconSize};"
             asDynamic().kotlinInstance = this@Icon
             +name
         }
@@ -44,8 +38,6 @@ class Icon(
     fun render(): FlowContent.() -> Unit = {
         span {
             attributes[TAG] = ""
-            attributes["class"] = "material-symbols-outlined"
-            attributes["style"] = "font-variation-settings: 'FILL' $fill, 'wght' $weight, 'GRAD' $grade; font-size: ${Theme.iconSize};"
             +name
         }
     }
@@ -53,9 +45,6 @@ class Icon(
     fun commit() {
         val data = mapOf(
             "name" to name,
-            "weight" to weight,
-            "fill" to fill,
-            "grade" to grade
         )
         val jsonData = JSON.stringify(data)
         console.log("save:$TAG", jsonData)
@@ -67,17 +56,12 @@ class Icon(
 
     fun set(data: dynamic) {
         val newName = data.name ?: name
-        // If the name has changed, register the new icon name
         if (newName != name) {
             name = newName
             FontsLoader.registerIcon(name)
         } else {
             name = newName
         }
-
-        weight = data.weight ?: weight
-        fill = data.fill ?: fill
-        grade = data.grade ?: grade
         refresh()
     }
 
@@ -92,25 +76,6 @@ class Icon(
     }
 
     companion object {
-        const val TAG = "material-icon"
-
-        fun cssRules(): List<CssRuleDefinition> {
-            return listOf(
-                "[$TAG]" to {
-                    fontFamily = "'Material Symbols Outlined'"
-                    fontWeight = "normal"
-                    fontStyle = "normal"
-                    fontSize = Theme.iconSize
-                    lineHeight = "1"
-                    letterSpacing = "normal"
-                    textTransform = "none"
-                    display = "inline-block"
-                    whiteSpace = "nowrap"
-                    wordWrap = "normal"
-                    direction = "ltr"
-                    verticalAlign = "middle"
-                }
-            )
-        }
+        const val TAG = Typography.ICON
     }
 }

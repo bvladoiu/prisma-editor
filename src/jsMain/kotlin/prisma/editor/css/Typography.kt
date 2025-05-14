@@ -10,11 +10,9 @@ package prisma.editor.css
  * font-variation-settings to enable automatic browser management.
  */
 object Typography {
-    // Font families
     val headingFontFamily = "'Lexend', sans-serif"
     val bodyFontFamily = "'Roboto Flex', sans-serif"
     val iconFontFamily = "'Material Symbols Outlined', sans-serif"
-    val defaultFontFamily = bodyFontFamily
 
     // CSS class names for typography styles
     const val DISPLAY = "display"
@@ -169,7 +167,7 @@ object Typography {
             },
 
             // ICON - Material Symbols icons
-            ".$ICON" to {
+            "[$ICON]" to {
                 fontFamily = iconFontFamily
                 fontSize = "var(--icon-size)"
                 setProperty("font-variation-settings", "'FILL' 0, 'wght' 400, 'GRAD' 0")
@@ -177,16 +175,16 @@ object Typography {
             },
 
             // ICON variants
-            ".$ICON.deemphasized" to {
+            "[$ICON][deemphasized]" to {
                 setProperty("font-variation-settings", "'FILL' 0, 'wght' 400, 'GRAD' -50")
             },
 
-            ".$ICON.emphasized" to {
+            "[$ICON][emphasized]" to {
                 setProperty("font-variation-settings", "'FILL' 1, 'wght' 400, 'GRAD' 200")
             },
 
             // ICON active/selected state - like regular but with fill
-            ".$ICON.active" to {
+            "[$ICON][active]" to {
                 setProperty("font-variation-settings", "'FILL' 1, 'wght' 400, 'GRAD' 0")
             }
         )

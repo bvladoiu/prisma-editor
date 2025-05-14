@@ -1,5 +1,23 @@
 # Tasks
 
+## Update Typography icon logic to use attribute-based styling - 08/06/2025
+Updated the Typography CSS objects icon logic to use attribute-based styling instead of class-based styling:
+1. Modified Typography.kt to change icon selectors from class-based (".$ICON") to attribute-based ("[$ICON]")
+2. Updated all icon variant selectors to use attribute syntax ("[$ICON][deemphasized]" instead of ".$ICON.deemphasized")
+3. Updated Icon.kt to remove class attributes from preview() and render() methods
+4. Ensured that the TAG attribute is used consistently for styling
+
+This change improves the component architecture by ensuring that all icon styling is applied through attributes rather than classes. This makes the styling more consistent with the project's attribute-based approach and ensures that Typography remains the single source of truth for styling. The change also simplifies the Icon component by removing the need to manage both class and attribute-based styling.
+
+## Remove CSS logic from Icon component - 08/05/2025
+Removed CSS logic from the Icon component to ensure Theme and Typography CSS components are the only source of truth:
+1. Added import for Typography class to Icon.kt
+2. Updated preview() and render() methods to use Typography.ICON class instead of inline styles
+3. Removed CSS rules from Icon.cssRules() method, as icon styling is now handled by Typography.ICON class
+4. Added a comment explaining that icon styling is now handled by Typography.ICON class
+
+This change improves the component architecture by ensuring that Typography is the only source of truth for typography and icon styling. The Icon component now focuses on its core responsibility of rendering icons, while leaving styling concerns to the Typography component. This follows the project's guidelines of centralizing CSS in companion objects' cssRules() and using Theme for colors, spacing, and typography.
+
 ## Implement script loading with ScriptLoader - 08/04/2025
 Continued Task2 from TODOS.md by implementing a ScriptLoader object and integrating it with the Page component:
 1. Created a new ScriptLoader object in the css package that manages script loading for the application
