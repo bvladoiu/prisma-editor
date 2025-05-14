@@ -106,8 +106,8 @@ class Drawer(var items: List<NavLink> = emptyList(), var opened: Boolean = false
                 "[$TAG]" to {
                     width = "240px"
                     height = "100%"
-                    backgroundColor = "white"
-                    setProperty("box-shadow", "${Theme.spacing} 0 ${Theme.spacing} rgba(0,0,0,0.2)")
+                    backgroundColor = Theme.white
+                    setProperty("box-shadow", "${Theme.spacing} 0 ${Theme.spacing} ${Theme.shadowLight}")
                     setProperty("overflow", "auto")
                     setProperty("transform", "translateX(-240px)")
                     setProperty("transition", "transform 0.3s ease-in-out")
@@ -115,7 +115,7 @@ class Drawer(var items: List<NavLink> = emptyList(), var opened: Boolean = false
 
                 "[$HEADER_TAG]" to {
                     padding = Theme.spacing
-                    backgroundColor = "#7D3DF3"
+                    backgroundColor = Theme.drawerPurple
                     color = Theme.white
                 },
 

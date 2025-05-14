@@ -81,7 +81,7 @@ class NavigationMenu(
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
                 "[$TAG]" to {
-                    backgroundColor = "rgba(0, 0, 0, 0.8)"
+                    backgroundColor = Theme.shadowHeavy
                     position = "fixed"
                     top = "0"
                     left = "0"

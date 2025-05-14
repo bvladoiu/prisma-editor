@@ -124,10 +124,10 @@ class EditorScaffold {
                     display = "flex"
                     alignItems = "center"
                     padding = "${Theme.spacing} ${Theme.spacing}"
-                    backgroundColor = "#6200EE"
+                    backgroundColor = Theme.scaffoldPurple
                     color = Theme.white
                     height = "56px"
-                    setProperty("box-shadow", "0 ${Theme.spacing} ${Theme.spacing} rgba(0,0,0,0.2)")
+                    setProperty("box-shadow", "0 ${Theme.spacing} ${Theme.spacing} ${Theme.shadowLight}")
                 },
 
                 "[$MENU_BUTTON_TAG]" to {

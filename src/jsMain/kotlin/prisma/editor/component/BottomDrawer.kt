@@ -276,7 +276,7 @@ class BottomDrawer(
                     left = "0"
                     width = "100%"
                     backgroundColor = Theme.white
-                    setProperty("box-shadow", "0 -${Theme.spacing} ${Theme.spacing} rgba(0,0,0,0.2)")
+                    setProperty("box-shadow", "0 -${Theme.spacing} ${Theme.spacing} ${Theme.shadowLight}")
                     padding = Theme.spacing
                     transform = "translateY(100%)"
                     transition = "transform 0.3s ease-in-out"

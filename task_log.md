@@ -340,3 +340,18 @@ Created a new HtmlExpertiseElement class that extends HTMLElement directly, foll
 
 ## Implement Compose Web scaffold - 05/05/2025
 Implemented Editor.kt as a scaffold-like composition with AppBar/Toolbar and Drawer using compose web/html. Added a menu button to the AppBar and a Home entry to the Drawer in an idiomatic way. Used DSL-style programming with Compose for Web components instead of direct HTML/CSS.
+
+## Add semantic color variable layer and remove hardcoded colors - 07/29/2025
+Implemented a new layer of variable naming for all colors in the Theme.kt file and removed all hardcoded colors from the project. The implementation includes:
+1. Created semantic variable names for the actual color values (brandBlue, brandPurple, pureWhite, etc.)
+2. Updated the original variable names (primary, secondary, white, etc.) to use CSS variable references
+3. Updated setProperty calls in Theme.kt to use the new semantic variable names
+4. Added new variables for hardcoded colors found in the codebase (brightPurple, vibrantPurple, blackShadowLight, etc.)
+5. Replaced all hardcoded colors in component files with references to Theme variables:
+   - Drawer.kt: Replaced "#7D3DF3" with Theme.drawerPurple and rgba(0,0,0,0.2) with Theme.shadowLight
+   - EditorScaffold.kt: Replaced "#6200EE" with Theme.scaffoldPurple and rgba(0,0,0,0.2) with Theme.shadowLight
+   - BottomDrawer.kt: Replaced rgba(0,0,0,0.2) with Theme.shadowLight
+   - FloatingActionButton.kt: Replaced rgba(0,0,0,0.3) with Theme.shadowMedium
+   - NavigationMenu.kt: Replaced rgba(0,0,0,0.8) with Theme.shadowHeavy
+
+This change improves the maintainability of the codebase by centralizing all color definitions in the Theme.kt file and ensuring that no hardcoded colors are used anywhere in the project. The new layer of variable naming makes it easier to understand the purpose of each color and provides a clear separation between the actual color values and their semantic usage in the application.
