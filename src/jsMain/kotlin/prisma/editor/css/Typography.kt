@@ -13,6 +13,7 @@ object Typography {
     // Font families
     val headingFontFamily = "'Lexend', sans-serif"
     val bodyFontFamily = "'Roboto Flex', sans-serif"
+    val iconFontFamily = "'Material Symbols Outlined', sans-serif"
     val defaultFontFamily = bodyFontFamily
 
     // CSS class names for typography styles
@@ -27,6 +28,7 @@ object Typography {
     const val SMALL_TEXT = "small-text"
     const val METRIC = "metric"
     const val MENU_LABEL = "menu-label"
+    const val ICON = "icon"
 
     // Fluid typography helper function
     private fun fluidSize(minSize: Double, maxSize: Double): String {
@@ -156,14 +158,36 @@ object Typography {
             },
 
             // MENU-LABEL variants
-            ".$MENU_LABEL.slim" to {
-                fontWeight = "600"
+            ".$MENU_LABEL.deemphasized" to {
+                fontWeight = "600" // Maintain base weight
                 setProperty("font-variation-settings", "'GRAD' -200")
             },
 
-            ".$MENU_LABEL.thick" to {
-                fontWeight = "600"
+            ".$MENU_LABEL.emphasized" to {
+                fontWeight = "600" // Maintain base weight
                 setProperty("font-variation-settings", "'GRAD' 150")
+            },
+
+            // ICON - Material Symbols icons
+            ".$ICON" to {
+                fontFamily = iconFontFamily
+                fontSize = "var(--icon-size)"
+                setProperty("font-variation-settings", "'FILL' 0, 'wght' 400, 'GRAD' 0")
+                transition = "font-variation-settings 0.2s ease-in-out, opacity 0.3s ease-in-out"
+            },
+
+            // ICON variants
+            ".$ICON.deemphasized" to {
+                setProperty("font-variation-settings", "'FILL' 0, 'wght' 400, 'GRAD' -50")
+            },
+
+            ".$ICON.emphasized" to {
+                setProperty("font-variation-settings", "'FILL' 1, 'wght' 400, 'GRAD' 200")
+            },
+
+            // ICON active/selected state - like regular but with fill
+            ".$ICON.active" to {
+                setProperty("font-variation-settings", "'FILL' 1, 'wght' 400, 'GRAD' 0")
             }
         )
     }

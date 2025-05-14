@@ -1,5 +1,25 @@
 # Tasks
 
+## Add active icon variant to Typography - 07/31/2025
+Added a new ICON variant to Typography.kt for selected/current semantic state:
+1. Created a new "active" variant for the ICON class that represents the selected/current state
+2. Implemented the variant with FILL 1, wght 400, GRAD 0 (like regular but with filled style)
+3. Added appropriate comments to explain the purpose of this variant
+
+This enhancement completes the icon styling system by adding a semantic variant for selected/current state, which is commonly needed in navigation menus and interactive elements. The implementation follows the project's styling guidelines by using a semantic and expressive selector name and maintaining consistency with the existing variants.
+
+## Refactor Typography CSS and add icon and menu-label styles - 07/30/2025
+Refactored Typography.kt to include new icon and menu-label styles as specified in the requirements:
+1. Added iconFontFamily property for Material Symbols icons
+2. Added ICON constant for icon class name
+3. Implemented base icon style with font-family, font-size, font-variation-settings, and transition properties
+4. Added deemphasized and emphasized variants for icons with appropriate font-variation-settings
+5. Updated menu-label styles to match the requirements with proper font-variation-settings
+6. Renamed existing menu-label variants from "slim" and "thick" to "deemphasized" and "emphasized" for consistency
+7. Ensured all styles omit the 'opsz' parameter in font-variation-settings to let the browser manage it automatically
+
+This change improves the typography system by providing consistent styling for icons and menu labels with proper emphasis variants. The implementation follows the project's styling guidelines by using CSS variables, avoiding hardcoded values, and maintaining a consistent pattern for class names and variants.
+
 ## Modify components to use Config for site and language information - 07/27/2025
 Implemented Task1 from TODOS.md by modifying each component's saving and retrieving data API to use the Config object for site and language information. The implementation includes:
 1. Updated all components (Hero, KeywordStrip, ArticleCard, BottomDrawer, Drawer, Section, etc.) to import and use the Config object
