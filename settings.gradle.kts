@@ -37,3 +37,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "prisma"
+include("client")

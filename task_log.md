@@ -1,5 +1,17 @@
 # Tasks
 
+## Create client module with build task - 05/14/2025
+Implemented Task2 from TODOS.md by creating a new 'client' module and setting up a task to copy its output to the main project:
+1. Created a new 'client' module in the project with proper directory structure
+2. Added the module to settings.gradle.kts with `include("client")`
+3. Created build.gradle.kts for the client module with JS browser target configuration
+4. Implemented a custom "copyJsToMainProject" task that copies the jsBrowserProductionWebpack output to resources/js/client.js
+5. Made the build task depend on the copyJsToMainProject task to ensure it runs as part of the build process
+6. Created a simple Client.kt file with a main function and a JsExport function for demonstration
+7. Updated index.html to include the client.js script
+
+This implementation allows for a separate client module that can be built and included in the main project. The client.js file is automatically copied to the resources/js directory during the build process, making it available for inclusion in the main project's HTML. This modular approach improves code organization and separation of concerns.
+
 ## Move FontsLoader from application level to Page component - 08/03/2025
 Removed FontsLoader access/usage from the editor/application level and integrated it solely into the Page component:
 1. Removed the call to FontsLoader.addFontLinksToHead() from the main() function in Editor.kt
