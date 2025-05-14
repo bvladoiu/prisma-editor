@@ -109,6 +109,42 @@ This checklist outlines the standard process for implementing tasks and merging 
 1. Remove the completed task from TODO and make sure it's addressed in task_log.md
 2. Commit the updated TODOS.md and task_log.md
 
+## Native Executable
+
+The Prisma Editor can be built as a native executable using GraalVM Native Image. This provides better startup time and reduced memory footprint compared to running the application on the JVM.
+
+### Prerequisites
+
+- GraalVM Community Edition 17 or higher
+- Visual Studio Build Tools (on Windows) or appropriate build tools for your platform
+
+### Configuration
+
+The native image configuration is located in the `desktop` module. The following configuration files are used:
+
+- `reflect-config.json`: Specifies classes that use reflection
+- `resource-config.json`: Specifies resources to be included in the native image
+- `jni-config.json`: Specifies JNI (Java Native Interface) configuration
+- `proxy-config.json`: Specifies proxy configuration
+- `serialization-config.json`: Specifies serialization configuration
+
+These files are located in the `desktop/src/main/resources/META-INF/native-image/prisma.editor/prisma-editor/` directory.
+
+### Building the Native Executable
+
+To build the native executable, run the following command from the project root:
+
+```bash
+./gradlew :desktop:nativeCompile
+```
+
+The native executable will be generated in the `desktop/build/native/nativeCompile` directory.
+
+### Known Issues
+
+- The native image compilation may fail with module access errors. This is a known issue with GraalVM Native Image and may require additional configuration or a different version of GraalVM.
+- Microsoft Playwright, which is used for browser automation, may cause issues during native image compilation. It's configured to be initialized at runtime using the `--initialize-at-run-time=com.microsoft.playwright` option.
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.

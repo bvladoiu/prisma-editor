@@ -17,7 +17,10 @@ fun main() {
     setupCli(page)
 
     // Add prisma.js as an intrinsic script
-    page.addInitScript(Paths.get("src\\jsMain\\resources\\js\\prisma.js"))
+    // Use the resource from the classpath instead of a file path
+    val prismaJsContent = Thread.currentThread().contextClassLoader.getResourceAsStream("js/prisma.js")?.bufferedReader()?.readText()
+        ?: throw RuntimeException("Failed to load prisma.js from resources")
+    page.addInitScript(prismaJsContent)
 
     val devServerUrl = "http://localhost:8080"
     page.navigate(devServerUrl)

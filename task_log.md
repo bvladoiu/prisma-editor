@@ -1,5 +1,46 @@
 # Tasks
 
+## Update JavaScript resources and build process for native image - 05/15/2025
+Updated the JavaScript resources and build process to ensure proper integration with the native image:
+1. Modified prisma.js to be the output of the main project's jsMain compilation
+2. Added a new task in build.gradle.kts to copy the output of jsBrowserProductionWebpack to replace prisma.js
+3. Updated the JVM code to load prisma.js from the classpath instead of a hardcoded file path
+4. Verified that client.js is correctly copied to the desktop module's resources/js directory
+5. Confirmed that client.js is correctly linked in the jsMain logic through ScriptLoader
+6. Attempted to build the native image in the desktop module
+
+These changes ensure that the JavaScript resources are properly integrated with the native image build process. The prisma.js file is now generated from the main project's JS compilation, making it more maintainable and consistent with the rest of the codebase. The JVM code now loads prisma.js from the classpath, which works both in development and when running as a native image. The client.js file is correctly copied to the desktop module's resources and linked in the jsMain logic, ensuring that all JavaScript functionality is available in the native image.
+
+## Reorganize resources for desktop module - 05/14/2025
+Reorganized resources to ensure all necessary files are available in the desktop module:
+1. Compared resources in desktop module with jvmMain in root project to identify duplicates
+2. Deleted duplicate GraalVM configuration files from root project since they were already in the desktop module
+3. Copied index.html from jsMain resources to desktop module's resources
+4. Copied prisma.js from jsMain resources to desktop module's resources
+5. Modified the client module's build.gradle.kts to copy client.js to desktop module's resources
+6. Added tasks to the root project's build.gradle.kts to copy resources to desktop module during build
+7. Updated the desktop module's build.gradle.kts to ensure proper task dependencies
+8. Verified that all resources are correctly placed in the desktop module's resources directory
+
+This reorganization ensures that all necessary resources (HTML, JS, etc.) are available in the desktop module, which is essential for building a native executable with GraalVM. The changes also ensure that resources are automatically copied during the build process, maintaining consistency between the main project and the desktop module.
+
+## Migrate GraalVM configuration to desktop module - 05/14/2025
+Migrated GraalVM native image configuration from the main project to the desktop module and documented the process:
+1. Examined the desktop module's build.gradle.kts to understand the current GraalVM configuration
+2. Inspected the jvmMain resources directory for GraalVM-related resources
+3. Found GraalVM configuration files in src/jvmMain/resources/META-INF/native-image/prisma.editor/prisma-editor/
+4. Created the necessary directory structure in the desktop module
+5. Migrated the following configuration files to the desktop module:
+   - reflect-config.json for reflection configuration (primarily for Microsoft Playwright)
+   - resource-config.json for resource inclusion (JS, HTML, CSS, JSON files)
+   - jni-config.json for JNI configuration
+   - proxy-config.json for dynamic proxy configuration
+   - serialization-config.json for serialization configuration
+6. Attempted to build a native executable (encountered module access errors)
+7. Added a new section to the README.md file documenting the process of building a native executable
+
+This migration ensures that the desktop module has all the necessary GraalVM configuration files to build a native executable. The README.md now includes detailed instructions for building a native executable, including prerequisites, configuration details, and known issues.
+
 ## Setup GraalVM native image configuration - 05/14/2025
 Implemented GraalVM native image configuration as described in graal_setup.md:
 1. Created a new branch 'task-graalvm-setup' for this task

@@ -23,21 +23,21 @@ kotlin {
     }
 }
 
-// Task to copy the JS output to the main project's resources
-tasks.register<Copy>("copyJsToMainProject") {
-    dependsOn("jsBrowserProductionWebpack")
+// Task to copy the JS output to the desktop module's resources
+tasks.register<Copy>("copyJsToDesktopModule") {
+    dependsOn("jsBrowserProductionWebpack", "jsBrowserDistribution")
 
     from("$buildDir/dist/js/productionExecutable")
     include("*.js")
 
     // Create js directory if it doesn't exist
     doFirst {
-        mkdir("${project.rootDir}/src/jsMain/resources/js")
+        mkdir("${project.rootDir}/desktop/src/main/resources/js")
     }
 
     // Rename the output file to client.js
     rename { "client.js" }
 
-    into("${project.rootDir}/src/jsMain/resources/js")
+    into("${project.rootDir}/desktop/src/main/resources/js")
 }
 
