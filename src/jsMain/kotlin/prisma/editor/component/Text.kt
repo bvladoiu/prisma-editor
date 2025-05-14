@@ -5,7 +5,9 @@ import kotlinx.html.*
 import kotlinx.html.dom.*
 import kotlinx.html.stream.createHTML
 import org.w3c.dom.HTMLElement
+import prisma.editor.Config
 import prisma.editor.css.CssRuleDefinition
+import kotlin.js.JSON
 
 /**
  * Text component that renders text with appropriate typography styling.
@@ -150,11 +152,11 @@ class Text(
             "tag" to tag
         )
         val jsonData = JSON.stringify(data)
-        console.log("save:$TAG", jsonData)
+        console.log("save:${Config.currentSite}_${Config.currentLanguage}_$TAG", jsonData)
     }
 
     fun load() {
-        console.log("load:$TAG")
+        console.log("load:${Config.currentSite}_${Config.currentLanguage}_$TAG")
     }
 
     fun set(data: dynamic) {

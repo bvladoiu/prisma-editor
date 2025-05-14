@@ -4,6 +4,7 @@ import kotlinx.browser.document
 import kotlinx.html.*
 import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
+import prisma.editor.Config
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
 import prisma.editor.css.Typography
@@ -34,11 +35,11 @@ class Pitch(var title: String = "", var description: String = "") {
             "description" to description
         )
         val jsonData = JSON.stringify(data)
-        console.log("save:$TAG", jsonData)
+        console.log("save:${Config.currentSite}_${Config.currentLanguage}_$TAG", jsonData)
     }
 
     fun load() {
-        console.log("load:$TAG")
+        console.log("load:${Config.currentSite}_${Config.currentLanguage}_$TAG")
     }
 
     fun set(data: dynamic) {

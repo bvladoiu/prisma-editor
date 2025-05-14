@@ -1,5 +1,15 @@
 # Tasks
 
+## Modify components to use Config for site and language information - 07/27/2025
+Implemented Task1 from TODOS.md by modifying each component's saving and retrieving data API to use the Config object for site and language information. The implementation includes:
+1. Updated all components (Hero, KeywordStrip, ArticleCard, BottomDrawer, Drawer, Section, etc.) to import and use the Config object
+2. Modified commit() methods to construct save commands with the format "save:${Config.currentSite}_${Config.currentLanguage}_$TAG"
+3. Modified load() methods to construct load commands with the format "load:${Config.currentSite}_${Config.currentLanguage}_$TAG"
+4. Cleaned up the JVM side logic in JvmMain.kt to simply save/read the map as a file and send the data to the JS logic
+5. Moved the full logic involving tag, language, and site name to construct the file name to the JS side
+
+This change improves the architecture by centralizing the site and language information in the Config object and ensuring that all components use the same format for save/load commands. It also simplifies the JVM side logic by removing the responsibility of constructing file names based on site, language, and tag.
+
 ## Implement edit mode for components - 07/26/2025
 Implemented Task 2 from TODOS.md by adding an edit() method to components that turns them into an "editable" state. The implementation includes:
 1. Added edit() method to Text component that makes it contenteditable and adds a delete button

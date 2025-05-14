@@ -158,11 +158,11 @@ class BottomDrawer(
             "isOpen" to isOpen
         )
         val jsonData = JSON.stringify(data)
-        console.log("save:$TAG", jsonData)
+        console.log("save:${Config.currentSite}_${Config.currentLanguage}_$TAG", jsonData)
     }
 
     fun load() {
-        console.log("load:$TAG")
+        console.log("load:${Config.currentSite}_${Config.currentLanguage}_$TAG")
     }
 
     fun set(data: dynamic) {

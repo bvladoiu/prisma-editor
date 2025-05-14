@@ -5,6 +5,7 @@ import kotlinx.html.*
 import kotlinx.html.dom.*
 import kotlinx.html.js.onClickFunction
 import org.w3c.dom.HTMLElement
+import prisma.editor.Config
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
 import prisma.editor.css.Typography
@@ -56,11 +57,11 @@ class NavLink(var text: String, var route: String, var icon: String = "", var se
             "selected" to selected
         )
         val jsonData = JSON.stringify(data)
-        console.log("save:$TAG", jsonData)
+        console.log("save:${Config.currentSite}_${Config.currentLanguage}_$TAG", jsonData)
     }
 
     fun load() {
-        console.log("load:$TAG")
+        console.log("load:${Config.currentSite}_${Config.currentLanguage}_$TAG")
     }
 
     fun set(data: dynamic) {

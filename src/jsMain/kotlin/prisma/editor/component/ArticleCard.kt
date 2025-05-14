@@ -4,6 +4,7 @@ import kotlinx.browser.document
 import kotlinx.html.*
 import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
+import prisma.editor.Config
 import prisma.editor.css.*
 import kotlin.js.JSON
 
@@ -74,11 +75,11 @@ class ArticleCard(var title: String, var author: String, var date: String) {
             "date" to date
         )
         val jsonData = JSON.stringify(data)
-        console.log("save:$TAG", jsonData)
+        console.log("save:${Config.currentSite}_${Config.currentLanguage}_$TAG", jsonData)
     }
 
     fun load() {
-        console.log("load:$TAG")
+        console.log("load:${Config.currentSite}_${Config.currentLanguage}_$TAG")
     }
 
     fun set(data: dynamic) {
