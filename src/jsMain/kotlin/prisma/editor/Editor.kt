@@ -120,21 +120,7 @@ object Editor {
             }
         }
 
-        // Get all elements with typography-text attribute (Text components)
-        val textElements = document.querySelectorAll("[${Text.TAG}]")
-        for (i in 0 until textElements.length) {
-            val element = textElements.item(i) as? Element
-            if (element != null) {
-                val component = element.asDynamic().kotlinInstance as? Text
-                if (component != null) {
-                    val parent = element.asDynamic().parentElement
-                    if (parent != null) {
-                        val editableElement = component.edit()
-                        parent.replaceChild(editableElement, element)
-                    }
-                }
-            }
-        }
+        // Text components have been replaced with regular HTML elements with typography classes
 
         // Get all elements with updates-list attribute (Latest components)
         val latestElements = document.querySelectorAll("[${Latest.TAG}]")
@@ -240,21 +226,7 @@ object Editor {
             }
         }
 
-        // Get all elements with typography-text attribute (Text components)
-        val textElements = document.querySelectorAll("[${Text.TAG}]")
-        for (i in 0 until textElements.length) {
-            val element = textElements.item(i) as? Element
-            if (element != null) {
-                val component = element.asDynamic().kotlinInstance as? Text
-                if (component != null) {
-                    val parent = element.asDynamic().parentElement
-                    if (parent != null) {
-                        val previewElement = component.preview()
-                        parent.replaceChild(previewElement, element)
-                    }
-                }
-            }
-        }
+        // Text components have been replaced with regular HTML elements with typography classes
 
         // Get all elements with updates-list attribute (Latest components)
         val latestElements = document.querySelectorAll("[${Latest.TAG}]")

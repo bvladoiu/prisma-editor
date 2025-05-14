@@ -8,7 +8,6 @@ import prisma.editor.Config
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
 import prisma.editor.css.Typography
-import prisma.editor.component.Text.TextType
 import kotlin.js.JSON
 
 /**
@@ -216,8 +215,21 @@ class Section(
         @JsName("addNewContent")
         fun addNewContent(button: dynamic) {
             val contentElement = button.parentElement
-            val text = Text("New content item. Click to edit.", TextType.REGULAR)
-            val textElement = text.edit()
+            val textElement = document.create.p {
+                attributes["class"] = Typography.BODY
+                attributes["contenteditable"] = "true"
+                +"New content item. Click to edit."
+            }
+
+            // Add delete button
+            val deleteButton = document.create.button {
+                attributes["class"] = "delete-button"
+                attributes["onclick"] = "this.parentElement.remove()"
+                attributes["title"] = "Delete this element"
+                +"-"
+            }
+            textElement.appendChild(deleteButton)
+
             contentElement.insertBefore(textElement, button)
         }
 
@@ -228,8 +240,21 @@ class Section(
         @JsName("addNewGridItem")
         fun addNewGridItem(button: dynamic) {
             val gridElement = button.parentElement
-            val text = Text("New grid item. Click to edit.", TextType.REGULAR)
-            val textElement = text.edit()
+            val textElement = document.create.p {
+                attributes["class"] = Typography.BODY
+                attributes["contenteditable"] = "true"
+                +"New grid item. Click to edit."
+            }
+
+            // Add delete button
+            val deleteButton = document.create.button {
+                attributes["class"] = "delete-button"
+                attributes["onclick"] = "this.parentElement.remove()"
+                attributes["title"] = "Delete this element"
+                +"-"
+            }
+            textElement.appendChild(deleteButton)
+
             gridElement.insertBefore(textElement, button)
         }
 

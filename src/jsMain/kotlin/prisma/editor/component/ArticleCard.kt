@@ -121,19 +121,16 @@ class ArticleCard(var title: String, var author: String, var date: String) {
 
                 "[$HEADER_TAG] h3" to {
                     margin = "0"
-                    fontSize = Typography.fontSm
                     fontFamily = Typography.defaultFontFamily
                     color = "var(--color-white)"
                 },
 
                 "[$HEADER_TAG] span" to {
-                    fontSize = Typography.fontXs
                     fontFamily = Typography.defaultFontFamily
                     color = "var(--color-medium-transparent)"
                 },
 
                 "[$AUTHOR_TAG]" to {
-                    fontSize = Typography.fontXs
                     fontFamily = Typography.defaultFontFamily
                     color = "var(--color-medium-transparent)"
                 }
