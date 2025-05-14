@@ -1,6 +1,25 @@
 {
   "resources": {
-    "includes": [],
+    "includes": [
+      {
+        "pattern": "\\Qjs/prisma.js\\E"
+      },
+      {
+        "pattern": ".*\\.js$"
+      },
+      {
+        "pattern": ".*\\.html$"
+      },
+      {
+        "pattern": ".*\\.css$"
+      },
+      {
+        "pattern": ".*\\.json$"
+      },
+      {
+        "pattern": "META-INF/native-image/.*"
+      }
+    ],
     "excludes": []
   }
 }

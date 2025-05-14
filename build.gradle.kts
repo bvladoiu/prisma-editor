@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.graalvmNative)
-    // REMOVE the application plugin: application
 }
 
 group = "prisma.editor"
@@ -29,6 +28,18 @@ kotlin {
         }
     }
 
+    mingwX64("native") {
+        binaries {
+            executable {
+                entryPoint = "prisma.editor.main"
+                baseName = "prisma-editor"
+
+                // Link with Windows libraries
+                linkerOpts("-luser32", "-lshell32")
+            }
+        }
+    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -38,6 +49,8 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(libs.microsoft.playwright)
+                implementation(libs.graalvm.sdk)
+                implementation(libs.graalvm.nativeimage)
             }
         }
         val jsMain by getting {
@@ -45,6 +58,9 @@ kotlin {
                 implementation(libs.kotlin.wrappers.browser)
                 implementation(libs.kotlinx.html)
             }
+        }
+        val nativeMain by getting {
+            dependsOn(commonMain)
         }
     }
 }
@@ -57,4 +73,23 @@ java {
 }
 graalvmNative {
     toolchainDetection.set(true)
+
+    binaries {
+        all {
+            imageName.set("prisma-editor")
+            mainClass.set("prisma.editor.JvmMainKt")
+            debug.set(false)
+            verbose.set(true)
+            fallback.set(false)
+
+            buildArgs.add("--no-fallback")
+            buildArgs.add("-H:+ReportExceptionStackTraces")
+            buildArgs.add("--initialize-at-build-time=org.slf4j,ch.qos.logback")
+            buildArgs.add("--initialize-at-run-time=com.microsoft.playwright")
+            buildArgs.add("-H:IncludeResources=.*\\.js")
+            buildArgs.add("-H:IncludeResources=.*\\.html")
+            buildArgs.add("-H:IncludeResources=.*\\.css")
+            buildArgs.add("-H:IncludeResources=.*\\.json")
+        }
+    }
 }
