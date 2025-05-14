@@ -13,7 +13,7 @@ import kotlin.js.JSON
 
 class NavigationMenu(
     var brand: String = "Prisma-Software",
-    var items: List<String> = listOf("Home", "News", "Blog", "Company")
+    var items: List<String> = listOf("Home", "Press", "Dev-Blog", "Company")
 ) {
     init {
         load()

@@ -2,6 +2,7 @@ package prisma.editor
 
 import com.microsoft.playwright.*
 import java.io.File
+import java.nio.file.Paths
 import kotlin.concurrent.thread
 
 fun main() {
@@ -16,13 +17,7 @@ fun main() {
     setupCli(page)
 
     // Add prisma.js as an intrinsic script
-    page.addInitScript("function loadPrismaScript() {" +
-            "  const script = document.createElement('script');" +
-            "  script.src = 'prisma.js';" +
-            "  script.type = 'text/javascript';" +
-            "  document.body.appendChild(script);" +
-            "}" +
-            "window.addEventListener('DOMContentLoaded', loadPrismaScript);")
+    page.addInitScript(Paths.get("src\\jsMain\\resources\\js\\prisma.js"))
 
     val devServerUrl = "http://localhost:8080"
     page.navigate(devServerUrl)
