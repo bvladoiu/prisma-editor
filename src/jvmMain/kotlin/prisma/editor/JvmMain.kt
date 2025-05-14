@@ -15,6 +15,15 @@ fun main() {
 
     setupCli(page)
 
+    // Add prisma.js as an intrinsic script
+    page.addInitScript("function loadPrismaScript() {" +
+            "  const script = document.createElement('script');" +
+            "  script.src = 'prisma.js';" +
+            "  script.type = 'text/javascript';" +
+            "  document.body.appendChild(script);" +
+            "}" +
+            "window.addEventListener('DOMContentLoaded', loadPrismaScript);")
+
     val devServerUrl = "http://localhost:8080"
     page.navigate(devServerUrl)
 

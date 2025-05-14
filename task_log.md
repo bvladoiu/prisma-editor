@@ -1,5 +1,22 @@
 # Tasks
 
+## Implement script loading with ScriptLoader - 08/04/2025
+Continued Task2 from TODOS.md by implementing a ScriptLoader object and integrating it with the Page component:
+1. Created a new ScriptLoader object in the css package that manages script loading for the application
+2. Implemented methods to load scripts programmatically, including a specific method for client.js
+3. Modified the Page component to use ScriptLoader to load scripts
+4. Updated index.html to remove Google font links, prisma.js script link, and client.js script link
+5. Updated the JVM code to include prisma.js as an intrinsic script using Playwright's addInitScript method
+6. Ensured that scripts are loaded in the correct order and only once
+
+This implementation improves the application's architecture by:
+1. Moving script loading from static HTML to programmatic loading in the JS code
+2. Centralizing script loading logic in a dedicated ScriptLoader object
+3. Making the Page component responsible for loading all required resources (fonts and scripts)
+4. Allowing the JVM code to inject the prisma.js script directly, providing more control over the loading process
+
+The ScriptLoader follows the same pattern as FontsLoader, providing a consistent approach to resource loading throughout the application.
+
 ## Create client module with build task - 05/14/2025
 Implemented Task2 from TODOS.md by creating a new 'client' module and setting up a task to copy its output to the main project:
 1. Created a new 'client' module in the project with proper directory structure

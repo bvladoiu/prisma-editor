@@ -7,6 +7,7 @@ import org.w3c.dom.HTMLElement
 import org.w3c.dom.Element
 import prisma.editor.css.FontsLoader
 import prisma.editor.css.Main
+import prisma.editor.css.ScriptLoader
 import kotlin.js.JSON
 
 /**
@@ -41,6 +42,9 @@ open class Page {
 
         // Add the drawer to the page
         addDrawer(container)
+
+        // Load scripts
+        ScriptLoader.addScriptsToBody()
 
         return container
     }
