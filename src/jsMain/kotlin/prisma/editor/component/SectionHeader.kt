@@ -21,6 +21,39 @@ class SectionHeader(
         load()
     }
 
+    /**
+     * Turns the component into an editable state.
+     * @return The editable HTMLElement
+     */
+    fun edit(): HTMLElement {
+        val element = preview()
+
+        // Make the title editable
+        val titleElement = element.querySelector("h2")
+        titleElement?.setAttribute("contenteditable", "true")
+
+        // Add checkbox for isDivider
+        val dividerCheckbox = document.create.div {
+            style = "margin-top: 8px; display: flex; align-items: center;"
+
+            input {
+                type = InputType.checkBox
+                checked = isDivider
+                id = "divider-checkbox"
+                onChange = "this.parentElement.parentElement.kotlinInstance.toggleDivider(this.checked)"
+            }
+
+            label {
+                htmlFor = "divider-checkbox"
+                style = "margin-left: 8px; font-size: 14px; color: var(--color-white);"
+                +"Show divider"
+            }
+        }
+        element.appendChild(dividerCheckbox)
+
+        return element
+    }
+
     fun preview(): HTMLElement {
         return document.create.header {
             attributes[TAG] = ""
@@ -64,6 +97,17 @@ class SectionHeader(
             console.warn("No existing element with attribute [$TAG] found to refresh.")
             document.body?.appendChild(preview())
         }
+    }
+
+    /**
+     * Toggles the divider state.
+     * This is called from the checkbox in the edit view.
+     */
+    @JsName("toggleDivider")
+    fun toggleDivider(checked: Boolean) {
+        isDivider = checked
+        val element = document.querySelector("[$TAG]")
+        element?.setAttribute("data-divider", isDivider.toString())
     }
 
     companion object {

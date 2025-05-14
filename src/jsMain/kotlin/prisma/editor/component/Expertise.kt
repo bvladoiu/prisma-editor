@@ -14,6 +14,33 @@ class Expertise(var name: String, var description: String) {
         load()
     }
 
+    /**
+     * Turns the component into an editable state.
+     * @return The editable HTMLElement
+     */
+    fun edit(): HTMLElement {
+        val element = preview()
+
+        // Make the name editable
+        val nameElement = element.querySelector("h3")
+        nameElement?.setAttribute("contenteditable", "true")
+
+        // Make the description editable
+        val descriptionElement = element.querySelector("p")
+        descriptionElement?.setAttribute("contenteditable", "true")
+
+        // Add delete button
+        val deleteButton = document.create.button {
+            attributes["class"] = "delete-button"
+            attributes["onclick"] = "this.parentElement.remove()"
+            attributes["title"] = "Delete this expertise"
+            +"-"
+        }
+        element.insertBefore(deleteButton, element.firstChild)
+
+        return element
+    }
+
     fun preview(): HTMLElement {
         return document.create.article {
             attributes[TAG] = ""

@@ -1,5 +1,23 @@
 # Tasks
 
+## Implement edit mode for components - 07/26/2025
+Implemented Task 2 from TODOS.md by adding an edit() method to components that turns them into an "editable" state. The implementation includes:
+1. Added edit() method to Text component that makes it contenteditable and adds a delete button
+2. Added edit() method to Section component that makes the title editable and adds delete and add buttons
+3. Added static methods to Section companion object for adding new content and grid items
+4. Added CSS rules for delete and add buttons with proper styling
+5. Modified Editor.toggleEditMode() to toggle all components between preview and edit modes
+6. Implemented toggleComponentsToEditMode() and toggleComponentsToPreviewMode() functions to handle the DOM manipulation
+7. Added edit() method to ArticleCard component that makes title, author, and date editable
+8. Added edit() method to Latest component with ability to add new articles
+9. Added edit() method to Expertise component that makes name and description editable
+10. Added edit() method to SectionContent component with ability to add new content
+11. Added edit() method to SectionHeader component with ability to toggle divider
+12. Added static methods to Latest, SectionContent companion objects for adding new items
+13. Updated Editor.toggleComponentsToEditMode() and toggleComponentsToPreviewMode() to handle all component types
+
+This enhancement allows users to edit content directly in the browser by clicking the FAB button with the edit icon. When in edit mode, text elements become editable, container components show "+" buttons to add new elements, and all components display "-" buttons for deletion. The FAB button changes to a save icon when in edit mode, and clicking it again saves the changes and returns to preview mode.
+
 ## Fix compilation errors with Config object accessibility - 07/25/2025
 Fixed compilation/build errors related to the Config object in commonMain not being accessible to jsMain and jvmMain code. The implementation includes:
 1. Updated build.gradle.kts to explicitly include kotlin("stdlib-common") in both jsMain and jvmMain dependencies

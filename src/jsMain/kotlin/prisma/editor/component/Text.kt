@@ -22,6 +22,26 @@ class Text(
         load()
     }
 
+    /**
+     * Turns the component into an editable state.
+     * @return The editable HTMLElement
+     */
+    fun edit(): HTMLElement {
+        val element = preview()
+        element.setAttribute("contenteditable", "true")
+
+        // Add delete button
+        val deleteButton = document.create.button {
+            attributes["class"] = "delete-button"
+            attributes["onclick"] = "this.parentElement.remove()"
+            attributes["title"] = "Delete this element"
+            +"-"
+        }
+        element.appendChild(deleteButton)
+
+        return element
+    }
+
     fun preview(): HTMLElement {
         return when (tag.lowercase()) {
             "h1" -> document.create.h1 {

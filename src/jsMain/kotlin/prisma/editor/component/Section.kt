@@ -7,6 +7,7 @@ import org.w3c.dom.HTMLElement
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
 import prisma.editor.css.Typography
+import prisma.editor.component.Text.TextType
 import kotlin.js.JSON
 
 /**
@@ -26,6 +27,53 @@ class Section(
 
     init {
         load()
+    }
+
+    /**
+     * Turns the component into an editable state.
+     * @return The editable HTMLElement
+     */
+    fun edit(): HTMLElement {
+        val element = preview()
+
+        // Make the title editable if it exists
+        val headerElement = element.querySelector("[${HEADER_ATTR}] h2")
+        headerElement?.setAttribute("contenteditable", "true")
+
+        // Add delete button to the section
+        val deleteButton = document.create.button {
+            attributes["class"] = "delete-button"
+            attributes["onclick"] = "this.parentElement.remove()"
+            attributes["title"] = "Delete this section"
+            +"-"
+        }
+        element.insertBefore(deleteButton, element.firstChild)
+
+        // Add "+" button to content area
+        val contentElement = element.querySelector("[${CONTENT_ATTR}]")
+        if (contentElement != null) {
+            val addContentButton = document.create.button {
+                attributes["class"] = "add-button"
+                attributes["onclick"] = "prisma.editor.component.Section.addNewContent(this)"
+                attributes["title"] = "Add new content"
+                +"+"
+            }
+            contentElement.appendChild(addContentButton)
+        }
+
+        // Add "+" button to grid area
+        val gridElement = element.querySelector("[${GRID_ATTR}]")
+        if (gridElement != null) {
+            val addGridItemButton = document.create.button {
+                attributes["class"] = "add-button"
+                attributes["onclick"] = "prisma.editor.component.Section.addNewGridItem(this)"
+                attributes["title"] = "Add new grid item"
+                +"+"
+            }
+            gridElement.appendChild(addGridItemButton)
+        }
+
+        return element
     }
 
     /**
@@ -160,6 +208,30 @@ class Section(
         const val CONTENT_ATTR = "section-content"
         const val GRID_ATTR = "section-grid"
 
+        /**
+         * Adds a new content item to the section.
+         * This is called from the "+" button in the content area.
+         */
+        @JsName("addNewContent")
+        fun addNewContent(button: dynamic) {
+            val contentElement = button.parentElement
+            val text = Text("New content item. Click to edit.", TextType.REGULAR)
+            val textElement = text.edit()
+            contentElement.insertBefore(textElement, button)
+        }
+
+        /**
+         * Adds a new grid item to the section.
+         * This is called from the "+" button in the grid area.
+         */
+        @JsName("addNewGridItem")
+        fun addNewGridItem(button: dynamic) {
+            val gridElement = button.parentElement
+            val text = Text("New grid item. Click to edit.", TextType.REGULAR)
+            val textElement = text.edit()
+            gridElement.insertBefore(textElement, button)
+        }
+
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
                 "[$TAG]" to {
@@ -171,6 +243,7 @@ class Section(
                     marginRight = "auto"
                     backgroundColor = "var(--color-very-light-transparent)"
                     borderRadius = Theme.spacing
+                    position = "relative"  // For positioning delete button
                 },
 
                 "[$HEADER_ATTR]" to {
@@ -191,6 +264,41 @@ class Section(
                     setProperty("grid-template-columns", "repeat(auto-fill, minmax(250px, 1fr))")
                     setProperty("gap", Theme.spacing)
                     marginTop = Theme.spacing
+                },
+
+                ".delete-button" to {
+                    position = "absolute"
+                    top = "5px"
+                    right = "5px"
+                    width = "24px"
+                    height = "24px"
+                    borderRadius = "50%"
+                    backgroundColor = "var(--color-error)"
+                    color = "white"
+                    border = "none"
+                    cursor = "pointer"
+                    display = "flex"
+                    justifyContent = "center"
+                    alignItems = "center"
+                    fontSize = "18px"
+                    fontWeight = "bold"
+                    zIndex = "1"
+                },
+
+                ".add-button" to {
+                    width = "30px"
+                    height = "30px"
+                    borderRadius = "50%"
+                    backgroundColor = "var(--color-primary)"
+                    color = "white"
+                    border = "none"
+                    cursor = "pointer"
+                    display = "flex"
+                    justifyContent = "center"
+                    alignItems = "center"
+                    fontSize = "20px"
+                    fontWeight = "bold"
+                    margin = "10px auto"
                 }
             )
         }

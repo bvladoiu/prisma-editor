@@ -6,7 +6,9 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.html.dom.create
 import kotlinx.html.p
+import org.w3c.dom.Element
 import org.w3c.dom.HTMLElement
+import org.w3c.dom.NodeList
 import prisma.editor.component.*
 import prisma.editor.pages.Home
 import kotlin.js.JSON
@@ -73,8 +75,14 @@ object Editor {
 
         if (isEditing) {
             fabIcon?.textContent = "save"
+
+            // Toggle all components to edit mode
+            toggleComponentsToEditMode()
         } else {
             fabIcon?.textContent = "edit"
+
+            // Toggle all components to preview mode
+            toggleComponentsToPreviewMode()
 
             if (bottomDrawer != null) {
                 // Update the drawer's values from the form inputs
@@ -89,6 +97,246 @@ object Editor {
                 commit()
             }
         }
+    }
+
+    /**
+     * Toggles all components to edit mode.
+     * Finds all elements with kotlinInstance property and calls edit() on them.
+     */
+    private fun toggleComponentsToEditMode() {
+        // Get all elements with section-container attribute (Section components)
+        val sectionElements = document.querySelectorAll("[${Section.TAG}]")
+        for (i in 0 until sectionElements.length) {
+            val element = sectionElements.item(i) as? Element
+            if (element != null) {
+                val component = element.asDynamic().kotlinInstance as? Section
+                if (component != null) {
+                    val parent = element.asDynamic().parentElement
+                    if (parent != null) {
+                        val editableElement = component.edit()
+                        parent.replaceChild(editableElement, element)
+                    }
+                }
+            }
+        }
+
+        // Get all elements with typography-text attribute (Text components)
+        val textElements = document.querySelectorAll("[${Text.TAG}]")
+        for (i in 0 until textElements.length) {
+            val element = textElements.item(i) as? Element
+            if (element != null) {
+                val component = element.asDynamic().kotlinInstance as? Text
+                if (component != null) {
+                    val parent = element.asDynamic().parentElement
+                    if (parent != null) {
+                        val editableElement = component.edit()
+                        parent.replaceChild(editableElement, element)
+                    }
+                }
+            }
+        }
+
+        // Get all elements with updates-list attribute (Latest components)
+        val latestElements = document.querySelectorAll("[${Latest.TAG}]")
+        for (i in 0 until latestElements.length) {
+            val element = latestElements.item(i) as? Element
+            if (element != null) {
+                val component = element.asDynamic().kotlinInstance as? Latest
+                if (component != null) {
+                    val parent = element.asDynamic().parentElement
+                    if (parent != null) {
+                        val editableElement = component.edit()
+                        parent.replaceChild(editableElement, element)
+                    }
+                }
+            }
+        }
+
+        // Get all elements with update-item attribute (ArticleCard components)
+        val articleElements = document.querySelectorAll("[${ArticleCard.TAG}]")
+        for (i in 0 until articleElements.length) {
+            val element = articleElements.item(i) as? Element
+            if (element != null) {
+                val component = element.asDynamic().kotlinInstance as? ArticleCard
+                if (component != null) {
+                    val parent = element.asDynamic().parentElement
+                    if (parent != null) {
+                        val editableElement = component.edit()
+                        parent.replaceChild(editableElement, element)
+                    }
+                }
+            }
+        }
+
+        // Get all elements with expertise attribute (Expertise components)
+        val expertiseElements = document.querySelectorAll("[${Expertise.TAG}]")
+        for (i in 0 until expertiseElements.length) {
+            val element = expertiseElements.item(i) as? Element
+            if (element != null) {
+                val component = element.asDynamic().kotlinInstance as? Expertise
+                if (component != null) {
+                    val parent = element.asDynamic().parentElement
+                    if (parent != null) {
+                        val editableElement = component.edit()
+                        parent.replaceChild(editableElement, element)
+                    }
+                }
+            }
+        }
+
+        // Get all elements with section-content attribute (SectionContent components)
+        val sectionContentElements = document.querySelectorAll("[${SectionContent.TAG}]")
+        for (i in 0 until sectionContentElements.length) {
+            val element = sectionContentElements.item(i) as? Element
+            if (element != null) {
+                val component = element.asDynamic().kotlinInstance as? SectionContent
+                if (component != null) {
+                    val parent = element.asDynamic().parentElement
+                    if (parent != null) {
+                        val editableElement = component.edit()
+                        parent.replaceChild(editableElement, element)
+                    }
+                }
+            }
+        }
+
+        // Get all elements with section-header attribute (SectionHeader components)
+        val sectionHeaderElements = document.querySelectorAll("[${SectionHeader.TAG}]")
+        for (i in 0 until sectionHeaderElements.length) {
+            val element = sectionHeaderElements.item(i) as? Element
+            if (element != null) {
+                val component = element.asDynamic().kotlinInstance as? SectionHeader
+                if (component != null) {
+                    val parent = element.asDynamic().parentElement
+                    if (parent != null) {
+                        val editableElement = component.edit()
+                        parent.replaceChild(editableElement, element)
+                    }
+                }
+            }
+        }
+
+        // Add more component types as needed
+    }
+
+    /**
+     * Toggles all components to preview mode.
+     * Finds all elements with kotlinInstance property and calls preview() on them.
+     */
+    private fun toggleComponentsToPreviewMode() {
+        // Get all elements with section-container attribute (Section components)
+        val sectionElements = document.querySelectorAll("[${Section.TAG}]")
+        for (i in 0 until sectionElements.length) {
+            val element = sectionElements.item(i) as? Element
+            if (element != null) {
+                val component = element.asDynamic().kotlinInstance as? Section
+                if (component != null) {
+                    val parent = element.asDynamic().parentElement
+                    if (parent != null) {
+                        val previewElement = component.preview()
+                        parent.replaceChild(previewElement, element)
+                    }
+                }
+            }
+        }
+
+        // Get all elements with typography-text attribute (Text components)
+        val textElements = document.querySelectorAll("[${Text.TAG}]")
+        for (i in 0 until textElements.length) {
+            val element = textElements.item(i) as? Element
+            if (element != null) {
+                val component = element.asDynamic().kotlinInstance as? Text
+                if (component != null) {
+                    val parent = element.asDynamic().parentElement
+                    if (parent != null) {
+                        val previewElement = component.preview()
+                        parent.replaceChild(previewElement, element)
+                    }
+                }
+            }
+        }
+
+        // Get all elements with updates-list attribute (Latest components)
+        val latestElements = document.querySelectorAll("[${Latest.TAG}]")
+        for (i in 0 until latestElements.length) {
+            val element = latestElements.item(i) as? Element
+            if (element != null) {
+                val component = element.asDynamic().kotlinInstance as? Latest
+                if (component != null) {
+                    val parent = element.asDynamic().parentElement
+                    if (parent != null) {
+                        val previewElement = component.preview()
+                        parent.replaceChild(previewElement, element)
+                    }
+                }
+            }
+        }
+
+        // Get all elements with update-item attribute (ArticleCard components)
+        val articleElements = document.querySelectorAll("[${ArticleCard.TAG}]")
+        for (i in 0 until articleElements.length) {
+            val element = articleElements.item(i) as? Element
+            if (element != null) {
+                val component = element.asDynamic().kotlinInstance as? ArticleCard
+                if (component != null) {
+                    val parent = element.asDynamic().parentElement
+                    if (parent != null) {
+                        val previewElement = component.preview()
+                        parent.replaceChild(previewElement, element)
+                    }
+                }
+            }
+        }
+
+        // Get all elements with expertise attribute (Expertise components)
+        val expertiseElements = document.querySelectorAll("[${Expertise.TAG}]")
+        for (i in 0 until expertiseElements.length) {
+            val element = expertiseElements.item(i) as? Element
+            if (element != null) {
+                val component = element.asDynamic().kotlinInstance as? Expertise
+                if (component != null) {
+                    val parent = element.asDynamic().parentElement
+                    if (parent != null) {
+                        val previewElement = component.preview()
+                        parent.replaceChild(previewElement, element)
+                    }
+                }
+            }
+        }
+
+        // Get all elements with section-content attribute (SectionContent components)
+        val sectionContentElements = document.querySelectorAll("[${SectionContent.TAG}]")
+        for (i in 0 until sectionContentElements.length) {
+            val element = sectionContentElements.item(i) as? Element
+            if (element != null) {
+                val component = element.asDynamic().kotlinInstance as? SectionContent
+                if (component != null) {
+                    val parent = element.asDynamic().parentElement
+                    if (parent != null) {
+                        val previewElement = component.preview()
+                        parent.replaceChild(previewElement, element)
+                    }
+                }
+            }
+        }
+
+        // Get all elements with section-header attribute (SectionHeader components)
+        val sectionHeaderElements = document.querySelectorAll("[${SectionHeader.TAG}]")
+        for (i in 0 until sectionHeaderElements.length) {
+            val element = sectionHeaderElements.item(i) as? Element
+            if (element != null) {
+                val component = element.asDynamic().kotlinInstance as? SectionHeader
+                if (component != null) {
+                    val parent = element.asDynamic().parentElement
+                    if (parent != null) {
+                        val previewElement = component.preview()
+                        parent.replaceChild(previewElement, element)
+                    }
+                }
+            }
+        }
+
+        // Add more component types as needed
     }
 
 

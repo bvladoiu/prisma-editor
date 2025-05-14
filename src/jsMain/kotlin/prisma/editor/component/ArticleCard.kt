@@ -12,6 +12,37 @@ class ArticleCard(var title: String, var author: String, var date: String) {
         load()
     }
 
+    /**
+     * Turns the component into an editable state.
+     * @return The editable HTMLElement
+     */
+    fun edit(): HTMLElement {
+        val element = preview()
+
+        // Make the title editable
+        val titleElement = element.querySelector("h3")
+        titleElement?.setAttribute("contenteditable", "true")
+
+        // Make the author editable
+        val authorElement = element.querySelector("[$AUTHOR_TAG]")
+        authorElement?.setAttribute("contenteditable", "true")
+
+        // Make the date editable
+        val dateElement = element.querySelector("time")
+        dateElement?.setAttribute("contenteditable", "true")
+
+        // Add delete button
+        val deleteButton = document.create.button {
+            attributes["class"] = "delete-button"
+            attributes["onclick"] = "this.parentElement.remove()"
+            attributes["title"] = "Delete this article"
+            +"-"
+        }
+        element.insertBefore(deleteButton, element.firstChild)
+
+        return element
+    }
+
     fun preview(): HTMLElement {
         return document.create.li {
             attributes[TAG] = ""
