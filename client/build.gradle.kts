@@ -41,7 +41,3 @@ tasks.register<Copy>("copyJsToMainProject") {
     into("${project.rootDir}/src/jsMain/resources/js")
 }
 
-// Make the build task depend on the copy task
-tasks.named("build") {
-    dependsOn("copyJsToMainProject")
-}

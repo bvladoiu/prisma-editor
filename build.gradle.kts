@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.graalvmNative)
+    // REMOVE the application plugin: application
 }
 
 group = "prisma.editor"
@@ -14,6 +15,12 @@ kotlin {
         }
         compilations.all {
             kotlinOptions.jvmTarget = "17"
+        }
+
+        binaries {
+            executable {
+                mainClass = "prisma.editor.JvmMainKt"
+            }
         }
     }
     js(IR) {
@@ -48,40 +55,6 @@ java {
         vendor.set(JvmVendorSpec.matching("GraalVM Community"))
     }
 }
-
 graalvmNative {
     toolchainDetection.set(true)
-
-    binaries {
-        register("main") {
-            mainClass.set("prisma.editor.JvmMainKt")
-            buildArgs.add("--no-fallback")
-            buildArgs.add("-H:+ReportExceptionStackTraces")
-            buildArgs.add("-H:+PrintClassInitialization")
-
-            resources.autodetect()
-
-            agent {
-                enabled.set(true)
-            }
-        }
-    }
-
-    metadataRepository {
-        enabled.set(true)
-    }
-}
-
-tasks.register<JavaExec>("runWithAgent") {
-    group = "GraalVM"
-    description = "Run the application with the GraalVM native image agent"
-
-    dependsOn("jvmJar")
-
-    mainClass.set("prisma.editor.JvmMainKt")
-    classpath = kotlin.jvm().compilations["main"].output.allOutputs + kotlin.jvm().compilations["main"].runtimeDependencyFiles
-
-    jvmArgs = listOf(
-        "-agentlib:native-image-agent=config-output-dir=build/native/agent-output"
-    )
 }
