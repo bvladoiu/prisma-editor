@@ -23,25 +23,30 @@ kotlin {
     }
 }
 
-// Task to copy the JS output to the main project's resources
+// Task to copy the JS output to the main project's resources (both jsMain and jvmMain)
 tasks.register<Copy>("copyJsToMainProject") {
     dependsOn("jsBrowserProductionWebpack")
 
     from("$buildDir/dist/js/productionExecutable")
     include("*.js")
 
-    // Create js directory if it doesn't exist
+    // Create js directories if they don't exist
     doFirst {
         mkdir("${project.rootDir}/src/jsMain/resources/js")
+        mkdir("${project.rootDir}/src/jvmMain/resources/js")
     }
 
     // Rename the output file to client.js
     rename { "client.js" }
 
+    // Copy to both jsMain and jvmMain resources
     into("${project.rootDir}/src/jsMain/resources/js")
-}
 
-// Make the build task depend on the copy task
-tasks.named("build") {
-    dependsOn("copyJsToMainProject")
+    // Create a second copy task for jvmMain
+    doLast {
+        copy {
+            from("${project.rootDir}/src/jsMain/resources/js/client.js")
+            into("${project.rootDir}/src/jvmMain/resources/js")
+        }
+    }
 }
