@@ -21,7 +21,6 @@ class FloatingActionButton(
     fun preview(): HTMLElement {
         return document.create.button {
             attributes[TAG] = ""
-            id = "floating-action-button"
             onClickFunction = { onClick() }
             asDynamic().kotlinInstance = this@FloatingActionButton
 

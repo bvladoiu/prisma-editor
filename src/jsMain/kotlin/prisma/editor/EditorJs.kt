@@ -13,11 +13,16 @@ import prisma.editor.pages.Home
 import kotlin.js.JSON
 
 object EditorJs {
-    private var isEditing: Boolean = false
-
-    val editFab = FloatingActionButton("edit", { toggleEditMode() })
 
     const val TAG = "editor"
+
+    private var isEditing: Boolean = false
+
+    val editFab = FloatingActionButton("edit") {
+        toggle(!isEditing)
+    }
+
+    val bottomDrawer = BottomDrawer()
 
     init {
         load()
@@ -31,7 +36,7 @@ object EditorJs {
         val scaffoldElement = editorScaffold.preview()
 
         val contentArea = scaffoldElement.querySelector("[content-area]") as HTMLElement
-        addBottomDrawer(contentArea)
+        contentArea.appendChild(bottomDrawer.preview())
 
         val mainContent = scaffoldElement.querySelector("#main-content") as HTMLElement
 
@@ -45,20 +50,8 @@ object EditorJs {
 
         root.appendChild(scaffoldElement)
         root.appendChild(editFab.preview())
-
-        // No need for script element anymore as drawer functionality is handled by components
     }
 
-    @JsName("toggleEditMode")
-    fun toggleEditMode() {
-        toggle(!isEditing)
-    }
-
-    /**
-     * Toggles between edit and preview modes.
-     *
-     * @param toEditMode If true, switches to edit mode. If false, switches to preview mode.
-     */
     fun toggle(toEditMode: Boolean) {
         isEditing = toEditMode
 
@@ -66,22 +59,22 @@ object EditorJs {
         BottomDrawer.toggleDrawer()
 
         // Change FAB icon
-        val fab = document.getElementById("floating-action-button") as? HTMLElement
-        val fabIcon = fab?.querySelector("[material-icon]") as? HTMLElement
+        if (isEditing) {
+            editFab.iconName = "save"
+        } else {
+            editFab.iconName = "edit"
+        }
+        editFab.refresh()
 
         // Get the bottom drawer component
         val bottomDrawer = document.querySelector("[${BottomDrawer.TAG}]")?.asDynamic()?.kotlinInstance as? BottomDrawer
 
         if (isEditing) {
-            fabIcon?.textContent = "save"
-
             // Toggle all components to edit mode
             toggleComponents(true)
         } else {
-            fabIcon?.textContent = "edit"
-
             // Toggle all components to preview mode
-            toggleComponents(false)
+            toggleComponentsToPreviewMode()
 
             if (bottomDrawer != null) {
                 // Update the drawer's values from the form inputs
@@ -250,13 +243,6 @@ object EditorJs {
             Config.currentPageTag = data.pageTag as String
         }
     }
-}
-
-
-private fun addBottomDrawer(contentArea: HTMLElement) {
-    val bottomDrawer = BottomDrawer()
-    val bottomDrawerElement = bottomDrawer.preview()
-    contentArea.appendChild(bottomDrawerElement)
 }
 
 private fun addHomePage(mainContent: HTMLElement) {
