@@ -16,18 +16,17 @@ fun main() {
 
     setupCli(page)
 
-    // Add prisma.js as an intrinsic script
     page.addInitScript(Paths.get("src\\jsMain\\resources\\js\\prisma.js"))
 
-    val devServerUrl = "http://localhost:8080"
-    page.navigate(devServerUrl)
+    val indexHtmlPath = Paths.get("src\\jvmMain\\resources\\index.html").toAbsolutePath().toString()
+    val fileUrl = "file:///" + indexHtmlPath.replace("\\", "/")
+
+    page.navigate(fileUrl)
 
     Runtime.getRuntime().addShutdownHook(thread(start = false) {
     })
 }
 
-// Store current site and language settings using Config object
-// No need for local variables as we use Config properties
 
 fun setupCli(page: Page) {
     page.onConsoleMessage { message: ConsoleMessage ->
