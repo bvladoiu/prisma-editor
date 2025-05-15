@@ -69,7 +69,7 @@ class Footer(
 
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
-                "[$TAG]" to {
+                "[TAG='$TAG']" to {
                     backgroundColor = "var(--color-dark-background)"
                     padding = spacing
                     color = "var(--color-light-gray)"
@@ -77,12 +77,12 @@ class Footer(
                     marginTop = spacing
                 },
 
-                "[$CONTENT_TAG]" to {
+                "[TAG='$CONTENT_TAG']" to {
                     maxWidth = "600px"
                     margin = "0 auto"
                     padding = spacing
                 },
-                "[$TAG] a" to {
+                "[TAG='$TAG'] a" to {
                     color = "var(--color-white)"
                     textDecoration = "underline"
                 }

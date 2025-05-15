@@ -32,7 +32,7 @@ class Image(
 
     fun preview(): HTMLElement {
         return document.create.figure {
-            attributes[TAG] = ""
+            attributes["TAG"] = TAG
             asDynamic().kotlinInstance = this@Image
 
             img {
@@ -57,7 +57,7 @@ class Image(
      */
     fun render(): FlowContent.() -> Unit = {
         figure {
-            attributes[TAG] = ""
+            attributes["TAG"] = TAG
 
             img {
                 attributes["src"] = src

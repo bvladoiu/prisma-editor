@@ -15,7 +15,7 @@ class EditorScaffold {
     fun preview(): HTMLElement {
         val scaffold = document.create.div {
             id = "editor-scaffold"
-            attributes[TAG] = ""
+            attributes["TAG"] = TAG
             asDynamic().kotlinInstance = this@EditorScaffold
         }
 
@@ -24,11 +24,11 @@ class EditorScaffold {
 
         val contentArea = document.create.div {
             id = "content-area"
-            attributes[CONTENT_AREA_TAG] = ""
+            attributes["TAG"] = CONTENT_AREA_TAG
         }
         val mainContent = document.create.main {
             id = "main-content"
-            attributes[MAIN_CONTENT_TAG] = ""
+            attributes["TAG"] = MAIN_CONTENT_TAG
         }
 
         contentArea.appendChild(mainContent)
@@ -39,10 +39,10 @@ class EditorScaffold {
 
     private fun createAppBar(): HTMLElement {
         val header = document.create.header {
-            attributes[APP_BAR_TAG] = ""
+            attributes["TAG"] = APP_BAR_TAG
 
             button {
-                attributes[MENU_BUTTON_TAG] = ""
+                attributes["TAG"] = MENU_BUTTON_TAG
                 id = "menu-button"
                 attributes["onclick"] = "prisma.editor.component.Drawer.toggleDrawer()"
 
@@ -51,7 +51,7 @@ class EditorScaffold {
                 menuIcon.render().invoke(this)
             }
             h1 {
-                attributes[APP_BAR_TITLE_TAG] = ""
+                attributes["TAG"] = APP_BAR_TITLE_TAG
                 classes = setOf(Typography.HEADLINE)
                 +"Prisma Editor"
             }
@@ -98,26 +98,26 @@ class EditorScaffold {
 
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
-                "[$TAG]" to {
+                "[TAG='$TAG']" to {
                     display = "flex"
                     flexDirection = "column"
                     height = "100vh"
                     width = "100%"
                 },
 
-                "[$CONTENT_AREA_TAG]" to {
+                "[TAG='$CONTENT_AREA_TAG']" to {
                     display = "flex"
                     flexGrow = "1"
                     setProperty("overflow", "hidden")
                 },
 
-                "[$MAIN_CONTENT_TAG]" to {
+                "[TAG='$MAIN_CONTENT_TAG']" to {
                     flexGrow = "1"
                     padding = Theme.spacing
                     setProperty("overflow", "auto")
                 },
 
-                "[$APP_BAR_TAG]" to {
+                "[TAG='$APP_BAR_TAG']" to {
                     display = "flex"
                     alignItems = "center"
                     padding = "${Theme.spacing} ${Theme.spacing}"
@@ -127,7 +127,7 @@ class EditorScaffold {
                     setProperty("box-shadow", "0 ${Theme.spacing} ${Theme.spacing} ${Theme.shadowLight}")
                 },
 
-                "[$MENU_BUTTON_TAG]" to {
+                "[TAG='$MENU_BUTTON_TAG']" to {
                     backgroundColor = "transparent"
                     border = "0"
                     color = Theme.white
@@ -136,12 +136,12 @@ class EditorScaffold {
                     marginRight = Theme.spacing
                 },
 
-                "[$MENU_ICON_TAG]" to {
+                "[TAG='$MENU_ICON_TAG']" to {
                     fontSize = Theme.iconSize
                     lineHeight = "1"
                 },
 
-                "[$APP_BAR_TITLE_TAG]" to {
+                "[TAG='$APP_BAR_TITLE_TAG']" to {
                     margin = "0"
                 }
             )

@@ -18,7 +18,7 @@ class Drawer(var items: List<NavLink> = emptyList(), var opened: Boolean = false
     fun preview(): HTMLElement {
         val nav = document.create.nav {
             id = "drawer"
-            attributes[TAG] = ""
+            attributes["TAG"] = TAG
             asDynamic().kotlinInstance = this@Drawer
             if (opened) {
                 attributes["style"] = "transform: translateX(0px);"
@@ -26,7 +26,7 @@ class Drawer(var items: List<NavLink> = emptyList(), var opened: Boolean = false
         }
 
         val itemsList = document.create.ul {
-            attributes[ITEMS_TAG] = ""
+            attributes["TAG"] = ITEMS_TAG
         }
 
         items.forEach { navLink ->
@@ -102,7 +102,7 @@ class Drawer(var items: List<NavLink> = emptyList(), var opened: Boolean = false
 
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
-                "[$TAG]" to {
+                "[TAG='$TAG']" to {
                     width = "240px"
                     height = "100%"
                     backgroundColor = Theme.white

@@ -47,7 +47,7 @@ class Latest(var articles: List<ArticleCard> = emptyList()) {
 
     fun preview(): HTMLElement {
         val ul = document.create.ul {
-            attributes[TAG] = ""
+            attributes["TAG"] = TAG
             asDynamic().kotlinInstance = this@Latest
         }
 
@@ -102,7 +102,7 @@ class Latest(var articles: List<ArticleCard> = emptyList()) {
 
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
-                "[$TAG]" to {
+                "[TAG='$TAG']" to {
                     display = "flex"
                     flexDirection = "column"
                     setProperty("gap", Theme.spacing)

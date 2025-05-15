@@ -21,7 +21,7 @@ class Hero(
 
     fun preview(): HTMLElement {
         return document.create.header {
-            attributes[TAG] = ""
+            attributes["TAG"] = TAG
             attributes["role"] = "banner"
             asDynamic().kotlinInstance = this@Hero
             h1 {
@@ -74,22 +74,22 @@ class Hero(
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
 
-                "[$TAG]" to {
+                "[TAG='$TAG']" to {
                     textAlign = "center"
                     padding = spacing
                 },
 
-                "[$TAG] h1" to {
+                "[TAG='$TAG'] h1" to {
                     margin = spacing
                 },
 
-                "[$TAG] p" to {
+                "[TAG='$TAG'] p" to {
                     maxWidth = "600px"
                     marginLeft = "auto"
                     marginRight = "auto"
                 },
 
-                "[$TAG] button" to {
+                "[TAG='$TAG'] button" to {
                     backgroundColor = Theme.secondary
                     color = Theme.white
                     padding = spacing

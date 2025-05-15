@@ -46,11 +46,11 @@ class ArticleCard(var title: String, var author: String, var date: String) {
 
     fun preview(): HTMLElement {
         return document.create.li {
-            attributes[TAG] = ""
+            attributes["TAG"] = TAG
             asDynamic().kotlinInstance = this@ArticleCard
 
             header {
-                attributes[HEADER_TAG] = ""
+                attributes["TAG"] = HEADER_TAG
 
                 h3 {
                     attributes[Typography.HEADLINE] = ""
@@ -64,7 +64,7 @@ class ArticleCard(var title: String, var author: String, var date: String) {
             }
 
             footer {
-                attributes[AUTHOR_TAG] = ""
+                attributes["TAG"] = AUTHOR_TAG
                 attributes[Typography.CAPTION] = ""
                 +"By $author"
             }
@@ -109,28 +109,28 @@ class ArticleCard(var title: String, var author: String, var date: String) {
 
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
-                "[$TAG]" to {
+                "[TAG='$TAG']" to {
                     padding = "${Theme.spacing} 0"
                     borderBottom = "1px solid var(--color-light-transparent)"
                 },
 
-                "[$HEADER_TAG]" to {
+                "[TAG='$HEADER_TAG']" to {
                     display = "flex"
                     justifyContent = "space-between"
                     alignItems = "center"
                     marginBottom = Theme.spacing
                 },
 
-                "[$HEADER_TAG] h3" to {
+                "[TAG='$HEADER_TAG'] h3" to {
                     margin = "0"
                     color = "var(--color-white)"
                 },
 
-                "[$HEADER_TAG] span" to {
+                "[TAG='$HEADER_TAG'] span" to {
                     color = "var(--color-medium-transparent)"
                 },
 
-                "[$AUTHOR_TAG]" to {
+                "[TAG='$AUTHOR_TAG']" to {
                     color = "var(--color-medium-transparent)"
                 }
             )

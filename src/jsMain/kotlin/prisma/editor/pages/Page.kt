@@ -36,7 +36,7 @@ open class Page {
         // Create the page container
         val container = document.create.div {
             attributes["page-container"] = ""
-            attributes[tag] = ""
+            attributes["TAG"] = tag
             asDynamic().kotlinInstance = this@Page
         }
 

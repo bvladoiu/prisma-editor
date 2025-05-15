@@ -20,7 +20,7 @@ class FloatingActionButton(
 
     fun preview(): HTMLElement {
         return document.create.button {
-            attributes[TAG] = ""
+            attributes["TAG"] = TAG
             onClickFunction = { onClick() }
             asDynamic().kotlinInstance = this@FloatingActionButton
 
@@ -44,7 +44,7 @@ class FloatingActionButton(
 
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
-                "[$TAG]" to {
+                "[TAG='$TAG']" to {
                     position = "fixed"
                     right = Theme.spacing
                     bottom = Theme.spacing

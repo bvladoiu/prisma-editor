@@ -44,7 +44,7 @@ class Expertise(var name: String, var description: String) {
 
     fun preview(): HTMLElement {
         return document.create.article {
-            attributes[TAG] = ""
+            attributes["TAG"] = TAG
             asDynamic().kotlinInstance = this@Expertise
             h3 {
                 attributes[Typography.TAGLINE] = ""
@@ -91,19 +91,19 @@ class Expertise(var name: String, var description: String) {
 
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
-                "[$TAG]" to {
+                "[TAG='$TAG']" to {
                     padding = Theme.spacing
                     backgroundColor = "var(--color-light-transparent)"
                     borderRadius = "4px"
                     height = "100%"
                 },
 
-                "[$TAG] h3" to {
+                "[TAG='$TAG'] h3" to {
                     marginBottom = "8px"
                     color = Theme.white
                 },
 
-                "[$TAG] p" to {
+                "[TAG='$TAG'] p" to {
                     margin = "0"
                 }
             )

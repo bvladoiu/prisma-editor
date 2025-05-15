@@ -116,10 +116,10 @@ class SectionHeader(
 
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
-                "[$TAG]" to {
+                "[TAG='$TAG']" to {
                     marginBottom = Theme.spacing
                 },
-                "[$TAG][data-divider='true']" to {
+                "[TAG='$TAG'][data-divider='true']" to {
                     paddingBottom = Theme.spacing
                     borderBottom = "1px solid var(--color-medium-gray)"
                 }

@@ -41,10 +41,9 @@ class BottomDrawer(
     fun preview(): HTMLElement {
         val drawer = document.create.aside {
             id = "bottom-drawer"
-            attributes[TAG] = ""
+            attributes["TAG"] = TAG
             attributes["role"] = "dialog"
             attributes["aria-labelledby"] = "drawer-title"
-            attributes[EditorJs.TAG] = ""
             asDynamic().kotlinInstance = this@BottomDrawer
 
             if (isOpen) {
@@ -53,15 +52,15 @@ class BottomDrawer(
 
             h3 {
                 id = "drawer-title"
-                attributes[Typography.HEADLINE] = ""
+                attributes["TAG"] = Typography.HEADLINE
                 +"Site, Language, and Page Settings"
             }
 
             form {
-                attributes[CONTENT_TAG] = ""
+                attributes["TAG"] = CONTENT_TAG
 
                 div {
-                    attributes[FIELD_TAG] = ""
+                    attributes["TAG"] = FIELD_TAG
                     attributes["role"] = "group"
                     attributes["aria-labelledby"] = "site-group-label"
 
@@ -94,7 +93,7 @@ class BottomDrawer(
                 }
 
                 div {
-                    attributes[FIELD_TAG] = ""
+                    attributes["TAG"] = FIELD_TAG
                     attributes["role"] = "group"
                     attributes["aria-labelledby"] = "language-group-label"
 
@@ -116,7 +115,7 @@ class BottomDrawer(
                 }
 
                 div {
-                    attributes[FIELD_TAG] = ""
+                    attributes["TAG"] = FIELD_TAG
                     attributes["role"] = "group"
                     attributes["aria-labelledby"] = "page-group-label"
 
@@ -270,7 +269,7 @@ class BottomDrawer(
 
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
-                "[$TAG]" to {
+                "[TAG='$TAG']" to {
                     position = "fixed"
                     bottom = "0"
                     left = "0"
