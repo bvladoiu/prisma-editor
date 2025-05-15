@@ -55,39 +55,24 @@ object EditorJs {
     fun toggle(toEditMode: Boolean) {
         isEditing = toEditMode
 
-        // Toggle bottom drawer
         BottomDrawer.toggleDrawer()
 
-        // Change FAB icon
         if (isEditing) {
             editFab.iconName = "save"
         } else {
             editFab.iconName = "edit"
         }
         editFab.refresh()
+        toggleComponents(isEditing)
+        if (!isEditing) {
+            bottomDrawer.updateValues()
 
-        // Get the bottom drawer component
-        val bottomDrawer = document.querySelector("[${BottomDrawer.TAG}]")?.asDynamic()?.kotlinInstance as? BottomDrawer
+            Config.currentSite = bottomDrawer.currentSite
+            Config.currentLanguage = bottomDrawer.currentLanguage
+            Config.currentPageTag = bottomDrawer.currentPageTag
 
-        if (isEditing) {
-            // Toggle all components to edit mode
-            toggleComponents(true)
-        } else {
-            // Toggle all components to preview mode
-            toggleComponentsToPreviewMode()
+            bottomDrawer.commit()
 
-            if (bottomDrawer != null) {
-                // Update the drawer's values from the form inputs
-                bottomDrawer.updateValues()
-
-                // Update the properties
-                Config.currentSite = bottomDrawer.currentSite
-                Config.currentLanguage = bottomDrawer.currentLanguage
-                Config.currentPageTag = bottomDrawer.currentPageTag
-
-                // Save the properties
-                commit()
-            }
         }
     }
 
@@ -98,123 +83,20 @@ object EditorJs {
      * @param toEditMode If true, switches components to edit mode. If false, switches to preview mode.
      */
     fun toggleComponents(toEditMode: Boolean) {
-        // Get all elements with section-container attribute (Section components)
-        val sectionElements = document.querySelectorAll("[${Section.TAG}]")
-        for (i in 0 until sectionElements.length) {
-            val element = sectionElements.item(i) as? Element
-            if (element != null) {
-                val component = element.asDynamic().kotlinInstance as? Section
-                if (component != null) {
-                    val parent = element.asDynamic().parentElement
-                    if (parent != null) {
-                        val newElement = if (toEditMode) component.edit() else component.preview()
-                        parent.replaceChild(newElement, element)
-                    }
+        val allElements = document.querySelectorAll("*")
+
+        for (i in 0 until allElements.length) {
+            val element = allElements.item(i) as? HTMLElement
+            val component = element?.asDynamic()?.kotlinInstance
+            if (component != null) {
+                if (toEditMode) {
+                    component.edit()
+                } else {
+                    component.preview()
                 }
             }
         }
-
-        // Text components have been replaced with regular HTML elements with typography classes
-
-        // Get all elements with updates-list attribute (Latest components)
-        val latestElements = document.querySelectorAll("[${Latest.TAG}]")
-        for (i in 0 until latestElements.length) {
-            val element = latestElements.item(i) as? Element
-            if (element != null) {
-                val component = element.asDynamic().kotlinInstance as? Latest
-                if (component != null) {
-                    val parent = element.asDynamic().parentElement
-                    if (parent != null) {
-                        val newElement = if (toEditMode) component.edit() else component.preview()
-                        parent.replaceChild(newElement, element)
-                    }
-                }
-            }
-        }
-
-        // Get all elements with update-item attribute (ArticleCard components)
-        val articleElements = document.querySelectorAll("[${ArticleCard.TAG}]")
-        for (i in 0 until articleElements.length) {
-            val element = articleElements.item(i) as? Element
-            if (element != null) {
-                val component = element.asDynamic().kotlinInstance as? ArticleCard
-                if (component != null) {
-                    val parent = element.asDynamic().parentElement
-                    if (parent != null) {
-                        val newElement = if (toEditMode) component.edit() else component.preview()
-                        parent.replaceChild(newElement, element)
-                    }
-                }
-            }
-        }
-
-        // Get all elements with expertise attribute (Expertise components)
-        val expertiseElements = document.querySelectorAll("[${Expertise.TAG}]")
-        for (i in 0 until expertiseElements.length) {
-            val element = expertiseElements.item(i) as? Element
-            if (element != null) {
-                val component = element.asDynamic().kotlinInstance as? Expertise
-                if (component != null) {
-                    val parent = element.asDynamic().parentElement
-                    if (parent != null) {
-                        val newElement = if (toEditMode) component.edit() else component.preview()
-                        parent.replaceChild(newElement, element)
-                    }
-                }
-            }
-        }
-
-        // Get all elements with section-content attribute (SectionContent components)
-        val sectionContentElements = document.querySelectorAll("[${SectionContent.TAG}]")
-        for (i in 0 until sectionContentElements.length) {
-            val element = sectionContentElements.item(i) as? Element
-            if (element != null) {
-                val component = element.asDynamic().kotlinInstance as? SectionContent
-                if (component != null) {
-                    val parent = element.asDynamic().parentElement
-                    if (parent != null) {
-                        val newElement = if (toEditMode) component.edit() else component.preview()
-                        parent.replaceChild(newElement, element)
-                    }
-                }
-            }
-        }
-
-        // Get all elements with section-header attribute (SectionHeader components)
-        val sectionHeaderElements = document.querySelectorAll("[${SectionHeader.TAG}]")
-        for (i in 0 until sectionHeaderElements.length) {
-            val element = sectionHeaderElements.item(i) as? Element
-            if (element != null) {
-                val component = element.asDynamic().kotlinInstance as? SectionHeader
-                if (component != null) {
-                    val parent = element.asDynamic().parentElement
-                    if (parent != null) {
-                        val newElement = if (toEditMode) component.edit() else component.preview()
-                        parent.replaceChild(newElement, element)
-                    }
-                }
-            }
-        }
-
-        // Add more component types as needed
     }
-
-    /**
-     * Toggles all components to edit mode.
-     * Finds all elements with kotlinInstance property and calls edit() on them.
-     */
-    private fun toggleComponentsToEditMode() {
-        toggleComponents(true)
-    }
-
-    /**
-     * Toggles all components to preview mode.
-     * Finds all elements with kotlinInstance property and calls preview() on them.
-     */
-    private fun toggleComponentsToPreviewMode() {
-        toggleComponents(false)
-    }
-
 
     private fun commit() {
         val data = mapOf(
@@ -228,8 +110,6 @@ object EditorJs {
 
     private fun load() {
         console.log("load:$TAG")
-        // The actual loading will be handled by the JVM side
-        // which will call receiveData with the saved properties
     }
 
     fun set(data: dynamic) {
@@ -254,6 +134,7 @@ private fun addHomePage(mainContent: HTMLElement) {
         }
     }, 0)
 }
+
 
 @JsName("receiveData")
 fun receiveData(tag: String, jsonString: String) {
