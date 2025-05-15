@@ -3,6 +3,7 @@ package prisma.editor.component
 import kotlinx.browser.document
 import kotlinx.html.*
 import kotlinx.html.dom.*
+import kotlinx.html.js.onClickFunction
 import org.w3c.dom.HTMLElement
 import prisma.editor.css.*
 import kotlin.js.JSON
@@ -14,42 +15,19 @@ import kotlin.js.JSON
  */
 class FloatingActionButton(
     var iconName: String,
-    var onClick: String = ""
+    var onClick: () -> Unit = {}
 ) {
-    init {
-        load()
-    }
 
     fun preview(): HTMLElement {
         return document.create.button {
             attributes[TAG] = ""
             id = "floating-action-button"
-            attributes["onclick"] = onClick
+            onClickFunction = { onClick() }
             asDynamic().kotlinInstance = this@FloatingActionButton
 
-            // Add the icon using render() instead of preview()
             val icon = Icon(iconName)
             icon.render().invoke(this)
         }
-    }
-
-    fun commit() {
-        val data = mapOf(
-            "iconName" to iconName,
-            "onClick" to onClick
-        )
-        val jsonData = JSON.stringify(data)
-        console.log("save:$TAG", jsonData)
-    }
-
-    fun load() {
-        console.log("load:$TAG")
-    }
-
-    fun set(data: dynamic) {
-        iconName = data.iconName ?: iconName
-        onClick = data.onClick ?: onClick
-        refresh()
     }
 
     fun refresh() {

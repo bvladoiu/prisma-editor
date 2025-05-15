@@ -7,7 +7,7 @@ import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLOptionElement
 import org.w3c.dom.HTMLSelectElement
-import prisma.editor.Editor
+import prisma.editor.EditorJs
 import prisma.editor.Config
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
@@ -44,7 +44,7 @@ class BottomDrawer(
             attributes[TAG] = ""
             attributes["role"] = "dialog"
             attributes["aria-labelledby"] = "drawer-title"
-            attributes[Editor.TAG] = ""
+            attributes[EditorJs.TAG] = ""
             asDynamic().kotlinInstance = this@BottomDrawer
 
             if (isOpen) {

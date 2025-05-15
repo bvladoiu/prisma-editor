@@ -7,7 +7,6 @@ import org.w3c.dom.HTMLElement
 import prisma.editor.Config
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
-import prisma.editor.css.Typography
 import kotlin.js.JSON
 
 
@@ -97,7 +96,7 @@ class Drawer(var items: List<NavLink> = emptyList(), var opened: Boolean = false
 
             // Then navigate to the route after a short delay
             kotlinx.browser.window.setTimeout({
-                prisma.editor.Editor.openPage(route)
+                prisma.editor.EditorJs.openPage(route)
             }, 300)
         }
 
