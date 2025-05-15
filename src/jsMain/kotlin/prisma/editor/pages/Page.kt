@@ -54,8 +54,9 @@ open class Page {
      * @param container The page container element.
      */
     protected fun addDrawer(container: HTMLElement) {
-        val homeLink = prisma.editor.component.NavLink("Home", "home", "home", true)
-        val drawer = prisma.editor.component.Drawer(listOf(homeLink))
+        val homeLink = prisma.editor.component.NavLink("Home", "home", "home", false)
+        val catalogLink = prisma.editor.component.NavLink("Catalog", "catalog", "view_list", true)
+        val drawer = prisma.editor.component.Drawer(listOf(homeLink, catalogLink))
         val drawerElement = drawer.preview()
         container.appendChild(drawerElement)
     }

@@ -9,6 +9,7 @@ import kotlinx.html.p
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLElement
 import prisma.editor.component.*
+import prisma.editor.pages.Catalog
 import prisma.editor.pages.Home
 import kotlin.js.JSON
 
@@ -42,6 +43,7 @@ object EditorJs {
 
         when (name.lowercase()) {
             "home" -> addHomePage(mainContent)
+            "catalog" -> addCatalogPage(mainContent)
             else -> {
                 val notFound = document.create.p { +"Page not found" }
                 mainContent.appendChild(notFound)
@@ -135,6 +137,16 @@ private fun addHomePage(mainContent: HTMLElement) {
     }, 0)
 }
 
+private fun addCatalogPage(mainContent: HTMLElement) {
+    window.setTimeout({
+        GlobalScope.launch {
+            val catalogComponent = Catalog()
+            val catalogElement = catalogComponent.create()
+            mainContent.appendChild(catalogElement)
+        }
+    }, 0)
+}
+
 
 @JsName("receiveData")
 fun receiveData(tag: String, jsonString: String) {
@@ -155,6 +167,6 @@ fun receiveData(tag: String, jsonString: String) {
 fun main() {
     window.onload = {
         console.log("window.onload")
-        EditorJs.openPage("home")
+        EditorJs.openPage("catalog")
     }
 }

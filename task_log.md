@@ -1,5 +1,18 @@
 # Tasks
 
+## Create Catalog page for component showcase - 08/08/2025
+Implemented Task3 from TODOS.md by creating a secondary page called Catalog for showcasing all components:
+1. Created a new Catalog page component in the pages package that extends the Page class
+2. Added a 'common' site to the Config object for storing component data
+3. Implemented component showcase sections for Hero, Expertise, ArticleCard, KeywordStrip, Section, and FloatingActionButton
+4. Added buttons for each component to save and load data using their commit/set/load APIs
+5. Updated the EditorJs.kt file to handle the "catalog" page case and make it the default page
+6. Updated the Config.kt file to set the default page tag to "catalog-page"
+7. Added a navigation link for the Catalog page in the drawer
+8. Added CSS rules for the component showcase with proper styling
+
+This implementation satisfies the requirements by creating a Catalog page that showcases all components with their commit/set/load APIs, saving and retrieving data against the 'common' site name and language, and making the Catalog page the default page when the editor opens.
+
 ## Update ICON and MENU_LABEL selectors to use parent-child attribute pattern - 08/07/2025
 Updated the CSS selectors for ICON and MENU_LABEL variants to use a parent-child attribute pattern instead of applying both attributes to the same element:
 1. Modified Typography.kt to change ICON variant selectors from "[$ICON][emphasized]" to "[emphasized] [$ICON]"

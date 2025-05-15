@@ -16,7 +16,8 @@ object Config {
      */
     val SITES = mapOf(
         "contadeal" to Site("contadeal", "ContaDeal"),
-        "prisma" to Site("prisma", "PRISMA-Software")
+        "prisma" to Site("prisma", "PRISMA-Software"),
+        "common" to Site("common", "Common")
     )
 
     /**
@@ -24,7 +25,8 @@ object Config {
      */
     val SITE_LANGUAGES = mapOf(
         "contadeal" to listOf("en", "ro"),
-        "prisma" to listOf("en", "de")
+        "prisma" to listOf("en", "de"),
+        "common" to listOf("en")
     )
 
     /**
@@ -40,7 +42,7 @@ object Config {
     /**
      * Current page tag being edited
      */
-    var currentPageTag: String = "home-page"
+    var currentPageTag: String = "catalog-page"
 
     /**
      * Updates the current site and ensures the language is valid for that site
