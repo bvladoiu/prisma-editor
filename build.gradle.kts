@@ -10,6 +10,7 @@ kotlin {
     jvm {
         mainRun {
             mainClass.set("prisma.editor.JvmMainKt")
+
         }
     }
     js(IR) {
