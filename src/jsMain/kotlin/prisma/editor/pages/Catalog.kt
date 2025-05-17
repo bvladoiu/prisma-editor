@@ -1,14 +1,14 @@
 package prisma.editor.pages
 
 import kotlinx.browser.document
-import kotlinx.html.*
-import kotlinx.html.dom.*
+import kotlinx.html.button
+import kotlinx.html.div
+import kotlinx.html.dom.create
 import kotlinx.html.js.onClickFunction
+import kotlinx.html.p
 import org.w3c.dom.HTMLElement
-import org.w3c.dom.events.Event
 import prisma.editor.Config
 import prisma.editor.component.*
-import kotlin.js.JSON
 
 /**
  * Catalog page for showcasing all components with their commit/set/load APIs.
@@ -91,8 +91,8 @@ class Catalog : Page() {
 
         // Add header section
         val headerSection = Section(
-            title = "Component Catalog",
-            isDivider = false
+            initialTitle = "Component Catalog",
+            initialIsDivider = false
         )
         val headerElement = headerSection.preview()
 
@@ -136,8 +136,8 @@ class Catalog : Page() {
 
     private fun addComponentSection(container: HTMLElement, title: String, componentElement: HTMLElement) {
         val section = Section(
-            title = title,
-            isDivider = true
+            initialTitle = title,
+            initialIsDivider = true
         )
         val sectionElement = section.preview()
 
@@ -187,40 +187,40 @@ class Catalog : Page() {
 
     private fun createHeroComponent(): HTMLElement {
         val hero = Hero(
-            name = "Hero Component Example",
-            description = "This is an example of the Hero component with its commit/set/load APIs.",
-            buttonText = "Action Button"
+            initialName = "Hero Component Example",
+            initialDescription = "This is an example of the Hero component with its commit/set/load APIs.",
+            initialButtonText = "Action Button"
         )
         return hero.preview()
     }
 
     private fun createExpertiseComponent(): HTMLElement {
         val expertise = Expertise(
-            name = "Expertise Component Example",
-            description = "This is an example of the Expertise component with its commit/set/load APIs."
+            initialName = "Expertise Component Example",
+            initialDescription = "This is an example of the Expertise component with its commit/set/load APIs."
         )
         return expertise.preview()
     }
 
     private fun createArticleCardComponent(): HTMLElement {
         val articleCard = ArticleCard(
-            title = "Article Card Example",
-            author = "Author Name",
-            date = "Jan 1, 2024"
+            initialTitle = "Article Card Example",
+            initialAuthor = "Author Name",
+            initialDate = "Jan 1, 2024"
         )
         return articleCard.preview()
     }
 
     private fun createKeywordStripComponent(): HTMLElement {
         val keywords = listOf("Keyword1", "Keyword2", "Keyword3", "Keyword4", "Keyword5")
-        val keywordStrip = KeywordStrip(keywords)
+        val keywordStrip = KeywordStrip(initialKeywords = keywords)
         return keywordStrip.preview()
     }
 
     private fun createSectionComponent(): HTMLElement {
         val section = Section(
-            title = "Section Component Example",
-            isDivider = false
+            initialTitle = "Section Component Example",
+            initialIsDivider = false
         )
         val sectionElement = section.preview()
 

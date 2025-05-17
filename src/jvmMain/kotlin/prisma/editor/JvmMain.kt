@@ -1,6 +1,7 @@
 package prisma.editor
 
-import com.microsoft.playwright.*
+import com.microsoft.playwright.BrowserType
+import com.microsoft.playwright.Playwright
 import java.nio.file.Paths
 import kotlin.concurrent.thread
 
@@ -15,13 +16,12 @@ fun main() {
 
     EditorJvm.setupCli(page)
 
-    page.addInitScript(Paths.get("src\\jsMain\\resources\\js\\prisma.js"))
+    page.addInitScript(Paths.get("output/resources/js/prisma.js"))
 
-    val indexHtmlPath = Paths.get("src\\jvmMain\\resources\\index.html").toAbsolutePath().toString()
+    val indexHtmlPath = Paths.get("output/resources/editor.html").toAbsolutePath().toString()
     val fileUrl = "file:///" + indexHtmlPath.replace("\\", "/")
 
     page.navigate(fileUrl)
 
-    Runtime.getRuntime().addShutdownHook(thread(start = false) {
-    })
+    Runtime.getRuntime().addShutdownHook(thread(start = false) {})
 }

@@ -2,30 +2,38 @@ package prisma.editor.component
 
 import kotlinx.browser.document
 import kotlinx.html.*
-import kotlinx.html.dom.*
+import kotlinx.html.dom.create
 import org.w3c.dom.HTMLElement
 import prisma.editor.Config
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
 import prisma.editor.css.Typography
-import kotlin.js.JSON
 
 /**
  * Section component that represents a section of a page.
  * Provides a flexible container with optional title, content, and grid layout.
- * @param title The title of the section (optional).
- * @param isDivider Whether to show a divider line below the header.
- * @param marginTop The top margin of the section.
+ * @param initialTitle The title of the section (optional).
+ * @param initialIsDivider Whether to show a divider line below the header.
+ * @param initialMarginTop The top margin of the section.
  */
 class Section(
-    var title: String? = null,
-    var isDivider: Boolean = false,
-    var marginTop: String = Theme.spacing
+    initialTitle: String? = null,
+    initialIsDivider: Boolean = false,
+    initialMarginTop: String = Theme.spacing
 ) {
+    var title: String? = initialTitle
+        private set // Properties are updated via set() method
+    var isDivider: Boolean = initialIsDivider
+        private set
+    var marginTop: String = initialMarginTop
+        private set
+
     private val contentItems = mutableListOf<HTMLElement>()
     private val gridItems = mutableListOf<HTMLElement>()
+    private var rootElement: HTMLElement? = null
 
     init {
+        // Load initial data if necessary
         load()
     }
 
@@ -34,10 +42,10 @@ class Section(
      * @return The editable HTMLElement
      */
     fun edit(): HTMLElement {
-        val element = preview()
+        val element = buildHtml()
 
         // Make the title editable if it exists
-        val headerElement = element.querySelector("[${HEADER_ATTR}] h2")
+        val headerElement = element.querySelector("[data-component-tag='${HEADER_ATTR}'] h2")
         headerElement?.setAttribute("contenteditable", "true")
 
         // Add delete button to the section
@@ -50,7 +58,7 @@ class Section(
         element.insertBefore(deleteButton, element.firstChild)
 
         // Add "+" button to content area
-        val contentElement = element.querySelector("[${CONTENT_ATTR}]")
+        val contentElement = element.querySelector("[data-component-tag='${CONTENT_ATTR}']")
         if (contentElement != null) {
             val addContentButton = document.create.button {
                 attributes["class"] = "add-button"
@@ -62,7 +70,7 @@ class Section(
         }
 
         // Add "+" button to grid area
-        val gridElement = element.querySelector("[${GRID_ATTR}]")
+        val gridElement = element.querySelector("[data-component-tag='${GRID_ATTR}']")
         if (gridElement != null) {
             val addGridItemButton = document.create.button {
                 attributes["class"] = "add-button"

@@ -10,7 +10,9 @@ kotlin {
     jvm {
         mainRun {
             mainClass.set("prisma.editor.JvmMainKt")
-
+        }
+        compilations.all {
+            kotlinOptions.jvmTarget = "17"
         }
     }
     js(IR) {
@@ -61,6 +63,35 @@ tasks.register<Copy>("copyJsToMainProject") {
             from("${project.projectDir}/src/jsMain/resources/js")
             include("*.js")
             into("${project.projectDir}/src/jvmMain/resources/js")
+        }
+    }
+}
+
+// Task to copy jvmMain/resources to output/resources and run the editor
+tasks.register<Task>("runEditor") {
+    dependsOn("jvmJar")
+
+    doFirst {
+        // Create output/resources directory if it doesn't exist
+        mkdir("${project.projectDir}/output/resources")
+
+        // Copy jvmMain/resources to output/resources
+        copy {
+            from("${project.projectDir}/src/jvmMain/resources")
+            into("${project.projectDir}/output/resources")
+        }
+    }
+
+    doLast {
+        // Run the application from the project root directory
+        exec {
+            workingDir = file("${project.projectDir}")
+            executable = "java"
+            val classpath = files(
+                "${project.buildDir}/libs/${project.name}-jvm-${project.version}.jar",
+                configurations.getByName("jvmRuntimeClasspath")
+            ).asPath
+            args = listOf("-cp", classpath, "prisma.editor.JvmMainKt")
         }
     }
 }

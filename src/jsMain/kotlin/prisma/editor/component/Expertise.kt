@@ -1,17 +1,31 @@
 package prisma.editor.component
 
 import kotlinx.browser.document
-import kotlinx.html.*
-import kotlinx.html.dom.*
+import kotlinx.html.article
+import kotlinx.html.button
+import kotlinx.html.dom.create
+import kotlinx.html.h3
+import kotlinx.html.p
 import org.w3c.dom.HTMLElement
 import prisma.editor.Config
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
 import prisma.editor.css.Typography
-import kotlin.js.JSON
 
-class Expertise(var name: String, var description: String) {
+class Expertise(
+    // Initial properties can be set via constructor
+    initialName: String = "",
+    initialDescription: String = ""
+) {
+    var name: String = initialName
+        private set // Properties are updated via set() method
+    var description: String = initialDescription
+        private set
+
+    private var rootElement: HTMLElement? = null
+
     init {
+        // Load initial data if necessary
         load()
     }
 
@@ -20,7 +34,7 @@ class Expertise(var name: String, var description: String) {
      * @return The editable HTMLElement
      */
     fun edit(): HTMLElement {
-        val element = preview()
+        val element = buildHtml()
 
         // Make the name editable
         val nameElement = element.querySelector("h3")
@@ -42,10 +56,12 @@ class Expertise(var name: String, var description: String) {
         return element
     }
 
-    fun preview(): HTMLElement {
+    // Generates the HTML structure for the component based on current properties
+    private fun buildHtml(): HTMLElement {
         return document.create.article {
-            attributes["TAG"] = TAG
-            asDynamic().kotlinInstance = this@Expertise
+            attributes["data-component-tag"] = TAG
+            // Store a reference to the Kotlin component instance on the DOM element
+            this@article.asDynamic().kotlinInstance = this@Expertise
             h3 {
                 attributes[Typography.TAGLINE] = ""
                 +name
@@ -57,53 +73,120 @@ class Expertise(var name: String, var description: String) {
         }
     }
 
+    /**
+     * Renders the component into the given parentElement.
+     * If the component was already rendered elsewhere, it will be moved.
+     * If called on an already rendered component within the same parent, it effectively refreshes it.
+     */
+    fun renderTo(parentElement: HTMLElement): HTMLElement {
+        val newElement = buildHtml()
+
+        // If this component instance is already associated with a DOM element,
+        // remove it from its current parent before appending to the new parent.
+        rootElement?.remove()
+
+        parentElement.appendChild(newElement)
+        rootElement = newElement
+        return newElement
+    }
+
+    /**
+     * Returns a preview of the component without rendering it to the DOM.
+     * This is useful for previewing the component before committing it.
+     */
+    fun preview(): HTMLElement {
+        return buildHtml()
+    }
+
+    /**
+     * Placeholder for committing data, e.g., saving to a backend.
+     */
     fun commit() {
         val data = mapOf(
             "name" to name,
             "description" to description
         )
         val jsonData = JSON.stringify(data)
+        // In a real app, this might be an API call
         console.log("save:${Config.currentSite}_${Config.currentLanguage}_$TAG", jsonData)
     }
 
+    /**
+     * Placeholder for loading initial data.
+     * This might involve fetching data and then calling set() to update the component.
+     */
     fun load() {
-        console.log("load:${Config.currentSite}_${Config.currentLanguage}_$TAG")
+        // Example: Fetch data and then call set.
+        // val fetchedData = MyApi.fetchExpertiseData(Config.currentSite, Config.currentLanguage)
+        // set(fetchedData)
+        console.log("load:${Config.currentSite}_${Config.currentLanguage}_$TAG: (Simulated - component created with initial or default values)")
     }
 
+    /**
+     * Updates the component's data and refreshes its DOM representation if it's already rendered.
+     * @param data A dynamic object expected to have optional name and description properties.
+     */
     fun set(data: dynamic) {
-        name = data.name ?: name
-        description = data.description ?: description
-        refresh()
-    }
+        var changed = false
 
-    fun refresh() {
-        val existingElement = document.querySelector("[$TAG]")
-        if (existingElement != null) {
-            existingElement.parentElement?.replaceChild(preview(), existingElement)
-        } else {
-            console.warn("No existing element with attribute [$TAG] found to refresh.")
-            document.body?.appendChild(preview())
+        val newName = data.name as? String
+        if (newName != null && newName != name) {
+            name = newName
+            changed = true
+        }
+
+        val newDescription = data.description as? String
+        if (newDescription != null && newDescription != description) {
+            description = newDescription
+            changed = true
+        }
+
+        if (changed) {
+            refreshDOM()
         }
     }
 
+    /**
+     * Refreshes the DOM of the component in place if it has been rendered and is still in the DOM.
+     * This is typically called after properties are updated via set().
+     */
+    fun refreshDOM() {
+        val currentElement = rootElement ?: return // Not rendered yet
+        val parent = currentElement.parentNode ?: return // Rendered but detached from DOM
+
+        val newElement = buildHtml()
+        parent.replaceChild(newElement, currentElement)
+        rootElement = newElement // Update the stored reference to the new element
+    }
+
+    /**
+     * Removes the component's DOM element from the document.
+     */
+    fun detach() {
+        rootElement?.remove()
+        rootElement = null
+    }
+
     companion object {
+        // TAG is used for styling via data-component-tag and potentially for logging/identification.
         const val TAG = "expertise"
 
         fun cssRules(): List<CssRuleDefinition> {
+            val selectorBase = "[data-component-tag='$TAG']"
             return listOf(
-                "[TAG='$TAG']" to {
+                selectorBase to {
                     padding = Theme.spacing
-                    backgroundColor = "var(--color-light-transparent)"
+                    backgroundColor = Theme.lightTransparent
                     borderRadius = "4px"
                     height = "100%"
                 },
 
-                "[TAG='$TAG'] h3" to {
+                "$selectorBase h3" to {
                     marginBottom = "8px"
                     color = Theme.white
                 },
 
-                "[TAG='$TAG'] p" to {
+                "$selectorBase p" to {
                     margin = "0"
                 }
             )
