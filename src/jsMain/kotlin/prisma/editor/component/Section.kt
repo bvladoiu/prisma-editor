@@ -9,20 +9,13 @@ import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
 import prisma.editor.css.Typography
 
-/**
- * Section component that represents a section of a page.
- * Provides a flexible container with optional title, content, and grid layout.
- * @param initialTitle The title of the section (optional).
- * @param initialIsDivider Whether to show a divider line below the header.
- * @param initialMarginTop The top margin of the section.
- */
 class Section(
     initialTitle: String? = null,
     initialIsDivider: Boolean = false,
     initialMarginTop: String = Theme.spacing
 ) {
     var title: String? = initialTitle
-        private set // Properties are updated via set() method
+        private set
     var isDivider: Boolean = initialIsDivider
         private set
     var marginTop: String = initialMarginTop
@@ -33,22 +26,15 @@ class Section(
     private var rootElement: HTMLElement? = null
 
     init {
-        // Load initial data if necessary
         load()
     }
 
-    /**
-     * Turns the component into an editable state.
-     * @return The editable HTMLElement
-     */
     fun edit(): HTMLElement {
-        val element = buildHtml()
+        val element = preview()
 
-        // Make the title editable if it exists
         val headerElement = element.querySelector("[data-component-tag='${HEADER_ATTR}'] h2")
         headerElement?.setAttribute("contenteditable", "true")
 
-        // Add delete button to the section
         val deleteButton = document.create.button {
             attributes["class"] = "delete-button"
             attributes["onclick"] = "this.parentElement.remove()"
@@ -57,7 +43,6 @@ class Section(
         }
         element.insertBefore(deleteButton, element.firstChild)
 
-        // Add "+" button to content area
         val contentElement = element.querySelector("[data-component-tag='${CONTENT_ATTR}']")
         if (contentElement != null) {
             val addContentButton = document.create.button {
@@ -69,7 +54,6 @@ class Section(
             contentElement.appendChild(addContentButton)
         }
 
-        // Add "+" button to grid area
         val gridElement = element.querySelector("[data-component-tag='${GRID_ATTR}']")
         if (gridElement != null) {
             val addGridItemButton = document.create.button {
@@ -84,23 +68,14 @@ class Section(
         return element
     }
 
-    /**
-     * Adds a content element to the section.
-     * @param element The element to add to the content area.
-     */
     fun addContent(element: HTMLElement) {
         contentItems.add(element)
     }
 
-    /**
-     * Adds content using FlowContent to the section.
-     * @param content The FlowContent to add to the content area.
-     */
     fun addContent(flowContent: FlowContent.() -> Unit) {
         val element = document.create.div {
             apply(flowContent)
         }
-        // If the div only has one child, use that child directly
         if (element.childElementCount == 1) {
             contentItems.add(element.firstElementChild as HTMLElement)
         } else {
@@ -108,18 +83,10 @@ class Section(
         }
     }
 
-    /**
-     * Adds an item to the grid layout at the bottom of the section.
-     * @param element The element to add to the grid.
-     */
     fun addGridItem(element: HTMLElement) {
         gridItems.add(element)
     }
 
-    /**
-     * Adds multiple items to the grid layout at the bottom of the section.
-     * @param elements The elements to add to the grid.
-     */
     fun addGridItems(elements: List<HTMLElement>) {
         gridItems.addAll(elements)
     }
@@ -131,7 +98,6 @@ class Section(
             asDynamic().kotlinInstance = this@Section
         }
 
-        // Add header if title is provided
         if (title != null) {
             val headerElement = document.create.header {
                 attributes[HEADER_ATTR] = ""
@@ -145,7 +111,6 @@ class Section(
             sectionElement.appendChild(headerElement)
         }
 
-        // Add content items if any
         if (contentItems.isNotEmpty()) {
             val contentElement = document.create.div {
                 attributes[CONTENT_ATTR] = ""
@@ -159,7 +124,6 @@ class Section(
             sectionElement.appendChild(contentElement)
         }
 
-        // Add grid items if any
         if (gridItems.isNotEmpty()) {
             val gridElement = document.create.div {
                 attributes[GRID_ATTR] = ""
@@ -216,10 +180,6 @@ class Section(
         const val CONTENT_ATTR = "section-content"
         const val GRID_ATTR = "section-grid"
 
-        /**
-         * Adds a new content item to the section.
-         * This is called from the "+" button in the content area.
-         */
         @JsName("addNewContent")
         fun addNewContent(button: dynamic) {
             val contentElement = button.parentElement
@@ -229,7 +189,6 @@ class Section(
                 +"New content item. Click to edit."
             }
 
-            // Add delete button
             val deleteButton = document.create.button {
                 attributes["class"] = "delete-button"
                 attributes["onclick"] = "this.parentElement.remove()"
@@ -241,10 +200,6 @@ class Section(
             contentElement.insertBefore(textElement, button)
         }
 
-        /**
-         * Adds a new grid item to the section.
-         * This is called from the "+" button in the grid area.
-         */
         @JsName("addNewGridItem")
         fun addNewGridItem(button: dynamic) {
             val gridElement = button.parentElement
@@ -254,7 +209,6 @@ class Section(
                 +"New grid item. Click to edit."
             }
 
-            // Add delete button
             val deleteButton = document.create.button {
                 attributes["class"] = "delete-button"
                 attributes["onclick"] = "this.parentElement.remove()"
@@ -277,7 +231,7 @@ class Section(
                     marginRight = "auto"
                     backgroundColor = "var(--color-very-light-transparent)"
                     borderRadius = Theme.spacing
-                    position = "relative"  // For positioning delete button
+                    position = "relative"
                 },
 
                 "[$HEADER_ATTR]" to {

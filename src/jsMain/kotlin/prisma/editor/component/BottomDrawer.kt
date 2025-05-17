@@ -14,15 +14,9 @@ import prisma.editor.css.Theme
 import prisma.editor.css.Typography
 import kotlin.js.JSON
 
-/**
- * BottomDrawer component that renders a drawer at the bottom of the screen
- * for editing site, language, and page settings.
- * @param isOpen Whether the drawer is open
- */
 class BottomDrawer(
     var isOpen: Boolean = false
 ) {
-    // Use Config's properties for site, language, and page tag
     var currentSite: String
         get() = Config.currentSite
         set(value) { Config.currentSite = value }
@@ -80,7 +74,6 @@ class BottomDrawer(
                         attributes[Typography.BODY] = ""
                         attributes["onchange"] = "prisma.editor.component.BottomDrawer.updateLanguageOptions()"
 
-                        // Add options for sites
                         option {
                             value = "contadeal"
                             +"ContaDeal"
@@ -134,22 +127,18 @@ class BottomDrawer(
                         id = "page-select"
                         attributes[Typography.BODY] = ""
 
-                        // Add options for pages
                         option {
                             value = "home-page"
                             +"Home"
                         }
-                        // Add more page options as needed
                     }
                 }
             }
         }
 
-        // Initialize language options and page select based on current values
         window.setTimeout({
             updateLanguageOptions()
 
-            // Set the current page tag in the select element
             val pageSelect = document.getElementById("page-select") as? HTMLSelectElement
             if (pageSelect != null) {
                 pageSelect.value = currentPageTag
@@ -233,17 +222,14 @@ class BottomDrawer(
             if (siteSelect != null && languageSelect != null && bottomDrawer != null) {
                 val selectedSite = siteSelect.value
 
-                // Clear existing options
                 languageSelect.innerHTML = ""
 
-                // Get languages for the selected site
                 val languages = when (selectedSite) {
                     "contadeal" -> arrayOf("en", "ro")
                     "prisma" -> arrayOf("en", "de")
                     else -> arrayOf("en")
                 }
 
-                // Add new options
                 for (language in languages) {
                     val option = document.createElement("option") as HTMLOptionElement
                     option.value = language
@@ -251,10 +237,8 @@ class BottomDrawer(
                     languageSelect.add(option)
                 }
 
-                // Try to set the current language
                 languageSelect.value = bottomDrawer.currentLanguage
 
-                // If the value didn't change (language not available), select the first option
                 if (languageSelect.value != bottomDrawer.currentLanguage && languageSelect.options.length > 0) {
                     languageSelect.selectedIndex = 0
                 }

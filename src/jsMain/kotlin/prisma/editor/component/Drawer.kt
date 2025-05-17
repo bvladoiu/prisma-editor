@@ -43,7 +43,6 @@ class Drawer(var items: List<NavLink> = emptyList(), var opened: Boolean = false
         val drawer = document.getElementById("drawer") as? HTMLElement
         drawer?.style?.transform = if (opened) "translateX(0px)" else "translateX(-240px)"
 
-        // Update menu icon
         val menuIcon = document.getElementById("menu-icon") as? HTMLElement
         menuIcon?.textContent = if (opened) "close" else "menu"
     }
