@@ -69,4 +69,19 @@ object Main {
             console.error("/* Master stylesheet not found */");
         }
     }
+
+    fun export(): String {
+        // First try to find the stylesheet we created
+        val styleElement = document.getElementById("main-css-stylesheet") as? HTMLStyleElement
+        val sheet = styleElement?.sheet as? CSSStyleSheet
+
+        if (sheet != null) {
+            // Convert all CSS rules to a string
+            return sheet.cssRules.asList().joinToString("\n") { it.cssText }
+        } else {
+            // If stylesheet not found, create a new one and export its content
+            val newSheet = stylesheet()
+            return newSheet.cssRules.asList().joinToString("\n") { it.cssText }
+        }
+    }
 }
