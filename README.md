@@ -1,6 +1,6 @@
 # Prisma Editor - Developer Guide
 
-React Sucks! A Kotlin Multiplatform project for editing static content.
+A Kotlin Multiplatform project for editing static content with a component-based architecture.
 
 ## Project Structure
 
@@ -12,7 +12,7 @@ React Sucks! A Kotlin Multiplatform project for editing static content.
 
 ### Prerequisites
 
-- JDK 11 or higher
+- JDK 17 or higher
 - Gradle
 
 ### Building
@@ -21,18 +21,36 @@ React Sucks! A Kotlin Multiplatform project for editing static content.
 ./gradlew build
 ```
 
+You can also use the custom task to copy the JS output to both jsMain and jvmMain resources:
+
+```bash
+./gradlew copyJsToMainProject
+```
+
 ### Running
 
 #### Web Application
 
+For development with hot-reload:
 ```bash
 ./gradlew jsBrowserDevelopmentRun
+```
+
+For production build:
+```bash
+./gradlew jsBrowserProductionRun
 ```
 
 #### Desktop Application
 
 ```bash
 ./gradlew jvmRun
+```
+
+You can also use the custom task to copy resources and run the editor:
+
+```bash
+./gradlew runEditor
 ```
 
 ## Workflow
@@ -108,6 +126,38 @@ This checklist outlines the standard process for implementing tasks and merging 
 ### Updating TODOS.md
 1. Remove the completed task from TODO and make sure it's addressed in task_log.md
 2. Commit the updated TODOS.md and task_log.md
+
+## Project Features
+
+### Component Catalog
+
+The project includes a Catalog page that showcases all available components. This page is the default page when the editor opens and allows you to:
+- View all components in one place
+- Test component functionality
+- Save and load component data using their commit/set/load APIs
+
+### Configuration System
+
+The project uses a Config object in the commonMain sourceset to track:
+- Sites being worked on by content editors (e.g., PRISMA-Software, ContaDeal)
+- Languages available for each site (e.g., en/de for PRISMA-Software, en/ro for ContaDeal)
+- Current site, language, and page tag
+
+This configuration is accessible from both JVM and JS code, allowing for consistent settings across platforms.
+
+### Current Project Status
+
+#### Completed Tasks
+- Created a Catalog page for component showcase
+- Implemented FontsLoader for optimized font loading
+- Created client module with build task
+- Integrated ScriptLoader for script loading
+- Updated CSS selectors to use parent-child attribute pattern
+- Added semantic color variable layer and removed hardcoded colors
+
+#### Pending Tasks
+- Remove hardcoded content from Home page and implement saving/loading from map files
+- Implement UI for displaying and saving component data against site/language combinations
 
 ## License
 
