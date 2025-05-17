@@ -19,8 +19,8 @@ class Home : Page() {
         // Add home-page attribute
         container.setAttribute("home-page", "")
         val heroSection = Section(
-            title = "Embedded Software Solutions — Secure for Every Industry",
-            isDivider = false
+            initialTitle = "Embedded Software Solutions — Secure for Every Industry",
+            initialIsDivider = false
         )
         val heroElement = heroSection.preview()
 
@@ -41,8 +41,8 @@ class Home : Page() {
 
         container.appendChild(heroElement)
         val expertiseSection = Section(
-            title = "Our Core Expertise",
-            isDivider = true
+            initialTitle = "Our Core Expertise",
+            initialIsDivider = true
         )
         val expertiseElement = expertiseSection.preview()
 
@@ -66,7 +66,7 @@ class Home : Page() {
         )
 
         expertiseItems.forEach { (title, description) ->
-            val expertiseComponent = Expertise(title, description)
+            val expertiseComponent = Expertise(initialName = title, initialDescription = description)
             val expertiseElement = expertiseComponent.preview()
             expertiseContainer.appendChild(expertiseElement)
         }
@@ -75,7 +75,7 @@ class Home : Page() {
 
         container.appendChild(expertiseElement)
         val keywordSection = Section(
-            isDivider = false
+            initialIsDivider = false
         )
         val keywordElement = keywordSection.preview()
 
@@ -88,15 +88,15 @@ class Home : Page() {
             "Cryptography", "Asynchronous Programming", "Performance Optimization"
         )
 
-        val keywordStrip = KeywordStrip(keywords)
+        val keywordStrip = KeywordStrip(initialKeywords = keywords)
         val keywordStripElement = keywordStrip.preview()
 
         keywordElement.querySelector("div")?.appendChild(keywordStripElement)
 
         container.appendChild(keywordElement)
         val whySection = Section(
-            title = "Why Work With Us?",
-            isDivider = true
+            initialTitle = "Why Work With Us?",
+            initialIsDivider = true
         )
         val whyElement = whySection.preview()
 
@@ -121,7 +121,7 @@ class Home : Page() {
         )
 
         reasons.forEach { (title, description) ->
-            val reasonComponent = Expertise(title, description)
+            val reasonComponent = Expertise(initialName = title, initialDescription = description)
             val reasonElement = reasonComponent.preview()
             reasonsContainer.appendChild(reasonElement)
         }
@@ -139,17 +139,17 @@ class Home : Page() {
 
         container.appendChild(whyElement)
         val latestSection = Section(
-            title = "Latest Updates",
-            isDivider = true
+            initialTitle = "Latest Updates",
+            initialIsDivider = true
         )
         val latestElement = latestSection.preview()
 
         val articles = listOf(
-            ArticleCard("Expanding Beyond Automotive", "David", "Apr 3, 2024"),
-            ArticleCard("How Can Marketing Help Your Business?", "Allen", "Apr 3, 2024")
+            ArticleCard(initialTitle = "Expanding Beyond Automotive", initialAuthor = "David", initialDate = "Apr 3, 2024"),
+            ArticleCard(initialTitle = "How Can Marketing Help Your Business?", initialAuthor = "Allen", initialDate = "Apr 3, 2024")
         )
 
-        val latestComponent = Latest(articles)
+        val latestComponent = Latest(initialArticles = articles)
         val latestListElement = latestComponent.preview()
 
         latestElement.querySelector("div")?.appendChild(latestListElement)
