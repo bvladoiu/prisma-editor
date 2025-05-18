@@ -18,7 +18,7 @@ class FloatingActionButton(
     var onClick: () -> Unit = {}
 ) {
 
-    fun preview(): HTMLElement {
+    fun buildHtml(): HTMLElement {
         return document.create.button {
             attributes["TAG"] = TAG
             onClickFunction = { onClick() }
@@ -32,10 +32,10 @@ class FloatingActionButton(
     fun refresh() {
         val existingElement = document.querySelector("[$TAG]")
         if (existingElement != null) {
-            existingElement.parentElement?.replaceChild(preview(), existingElement)
+            existingElement.parentElement?.replaceChild(buildHtml(), existingElement)
         } else {
             console.warn("No existing element with attribute [$TAG] found to refresh.")
-            document.body?.appendChild(preview())
+            document.body?.appendChild(buildHtml())
         }
     }
 

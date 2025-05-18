@@ -31,7 +31,7 @@ class Hero(
         load()
     }
 
-    private fun buildHtml(): HTMLElement {
+    fun buildHtml(): HTMLElement {
         return document.create.header {
             attributes["data-component-tag"] = TAG
             attributes["role"] = "banner"
@@ -51,10 +51,6 @@ class Hero(
         parentElement.appendChild(newElement)
         rootElement = newElement
         return newElement
-    }
-
-    fun preview(): HTMLElement {
-        return buildHtml()
     }
 
     fun set(data: dynamic) {

@@ -27,7 +27,7 @@ class KeywordStrip(
     }
 
     // Generates the HTML structure for the component based on current properties
-    private fun buildHtml(): HTMLElement {
+    fun buildHtml(): HTMLElement {
         return document.create.ul {
             attributes["data-component-tag"] = TAG
             // Store a reference to the Kotlin component instance on the DOM element
@@ -56,14 +56,6 @@ class KeywordStrip(
         parentElement.appendChild(newElement)
         rootElement = newElement
         return newElement
-    }
-
-    /**
-     * Returns a preview of the component without rendering it to the DOM.
-     * This is useful for previewing the component before committing it.
-     */
-    fun preview(): HTMLElement {
-        return buildHtml()
     }
 
     /**

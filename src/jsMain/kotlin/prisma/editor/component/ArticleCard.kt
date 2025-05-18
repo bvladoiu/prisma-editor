@@ -50,7 +50,7 @@ class ArticleCard(
         return element
     }
 
-    private fun buildHtml(): HTMLElement {
+    fun buildHtml(): HTMLElement {
         return document.create.li {
             attributes["data-component-tag"] = TAG
             this@li.asDynamic().kotlinInstance = this@ArticleCard
@@ -85,10 +85,6 @@ class ArticleCard(
         parentElement.appendChild(newElement)
         rootElement = newElement
         return newElement
-    }
-
-    fun preview(): HTMLElement {
-        return buildHtml()
     }
 
     fun commit() {

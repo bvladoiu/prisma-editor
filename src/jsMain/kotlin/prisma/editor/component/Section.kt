@@ -30,7 +30,7 @@ class Section(
     }
 
     fun edit(): HTMLElement {
-        val element = preview()
+        val element = buildHtml()
 
         val headerElement = element.querySelector("[data-component-tag='${HEADER_ATTR}'] h2")
         headerElement?.setAttribute("contenteditable", "true")
@@ -91,7 +91,7 @@ class Section(
         gridItems.addAll(elements)
     }
 
-    fun preview(): HTMLElement {
+    fun buildHtml(): HTMLElement {
         val sectionElement = document.create.section {
             attributes[TAG] = ""
             attributes["data-margin-top"] = marginTop
@@ -167,10 +167,10 @@ class Section(
     fun refresh() {
         val existingElement = document.querySelector("[$TAG]")
         if (existingElement != null) {
-            existingElement.parentElement?.replaceChild(preview(), existingElement)
+            existingElement.parentElement?.replaceChild(buildHtml(), existingElement)
         } else {
             console.warn("No existing element with attribute [$TAG] found to refresh.")
-            document.body?.appendChild(preview())
+            document.body?.appendChild(buildHtml())
         }
     }
 

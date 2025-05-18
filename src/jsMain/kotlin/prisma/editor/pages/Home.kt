@@ -22,7 +22,7 @@ class Home : Page() {
             initialTitle = "Embedded Software Solutions — Secure for Every Industry",
             initialIsDivider = false
         )
-        val heroElement = heroSection.preview()
+        val heroElement = heroSection.buildHtml()
 
         val heroContent = document.create.div {
             p {
@@ -44,7 +44,7 @@ class Home : Page() {
             initialTitle = "Our Core Expertise",
             initialIsDivider = true
         )
-        val expertiseElement = expertiseSection.preview()
+        val expertiseElement = expertiseSection.buildHtml()
 
         val expertiseContainer = document.create.div {
             attributes["expertise-grid"] = ""
@@ -67,7 +67,7 @@ class Home : Page() {
 
         expertiseItems.forEach { (title, description) ->
             val expertiseComponent = Expertise(initialName = title, initialDescription = description)
-            val expertiseElement = expertiseComponent.preview()
+            val expertiseElement = expertiseComponent.buildHtml()
             expertiseContainer.appendChild(expertiseElement)
         }
 
@@ -77,7 +77,7 @@ class Home : Page() {
         val keywordSection = Section(
             initialIsDivider = false
         )
-        val keywordElement = keywordSection.preview()
+        val keywordElement = keywordSection.buildHtml()
 
         val keywords = listOf(
             "ISO 26262", "ASPICE", "AUTOSAR", "Model-Based Development",
@@ -89,7 +89,7 @@ class Home : Page() {
         )
 
         val keywordStrip = KeywordStrip(initialKeywords = keywords)
-        val keywordStripElement = keywordStrip.preview()
+        val keywordStripElement = keywordStrip.buildHtml()
 
         keywordElement.querySelector("div")?.appendChild(keywordStripElement)
 
@@ -98,7 +98,7 @@ class Home : Page() {
             initialTitle = "Why Work With Us?",
             initialIsDivider = true
         )
-        val whyElement = whySection.preview()
+        val whyElement = whySection.buildHtml()
 
         val reasonsContainer = document.create.div {
             attributes["reasons-grid"] = ""
@@ -122,7 +122,7 @@ class Home : Page() {
 
         reasons.forEach { (title, description) ->
             val reasonComponent = Expertise(initialName = title, initialDescription = description)
-            val reasonElement = reasonComponent.preview()
+            val reasonElement = reasonComponent.buildHtml()
             reasonsContainer.appendChild(reasonElement)
         }
 
@@ -142,7 +142,7 @@ class Home : Page() {
             initialTitle = "Latest Updates",
             initialIsDivider = true
         )
-        val latestElement = latestSection.preview()
+        val latestElement = latestSection.buildHtml()
 
         val articles = listOf(
             ArticleCard(initialTitle = "Expanding Beyond Automotive", initialAuthor = "David", initialDate = "Apr 3, 2024"),
@@ -150,7 +150,7 @@ class Home : Page() {
         )
 
         val latestComponent = Latest(initialArticles = articles)
-        val latestListElement = latestComponent.preview()
+        val latestListElement = latestComponent.buildHtml()
 
         latestElement.querySelector("div")?.appendChild(latestListElement)
 

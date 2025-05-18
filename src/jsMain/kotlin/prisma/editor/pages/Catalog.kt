@@ -94,7 +94,7 @@ class Catalog : Page() {
             initialTitle = "Component Catalog",
             initialIsDivider = false
         )
-        val headerElement = headerSection.preview()
+        val headerElement = headerSection.buildHtml()
 
         val headerContent = document.create.div {
             p {
@@ -108,136 +108,361 @@ class Catalog : Page() {
         headerElement.querySelector("div")?.appendChild(headerContent)
         container.appendChild(headerElement)
 
-        // Add component showcase sections
-        addComponentShowcase(container)
+        // Hero Section + related dummy data + buildhtml + renderto
+            var title = "Hero Component"
+            var componentElement = Hero(
+                initialName = "Hero Component Example",
+                initialDescription = "This is an example of the Hero component with its commit/set/load APIs.",
+                initialButtonText = "Action Button"
+            ).buildHtml()
+
+            var section = Section(
+                initialTitle = title,
+                initialIsDivider = true
+            )
+            var sectionElement = section.buildHtml()
+
+            var componentContainer = document.create.div {
+                attributes["component-showcase"] = ""
+            }
+
+            componentContainer.appendChild(componentElement)
+
+            // Add buttons for component operations
+            var buttonsContainer = document.create.div {
+                attributes["component-buttons"] = ""
+
+                button {
+                    attributes["class"] = "component-button"
+                    attributes["data-component"] = componentElement.getAttribute("TAG") ?: ""
+                    attributes["data-action"] = "commit"
+                    +"Save"
+
+                    // Add click event listener
+                    onClickFunction = { event ->
+                        val componentTag = (event.currentTarget as HTMLElement).getAttribute("data-component")
+                        val component = document.querySelector("[TAG='$componentTag']")?.asDynamic()?.kotlinInstance
+                        component?.commit()
+                    }
+                }
+
+                button {
+                    attributes["class"] = "component-button"
+                    attributes["data-component"] = componentElement.getAttribute("TAG") ?: ""
+                    attributes["data-action"] = "load"
+                    +"Load"
+
+                    // Add click event listener
+                    onClickFunction = { event ->
+                        val componentTag = (event.currentTarget as HTMLElement).getAttribute("data-component")
+                        val component = document.querySelector("[TAG='$componentTag']")?.asDynamic()?.kotlinInstance
+                        component?.load()
+                    }
+                }
+            }
+
+            componentContainer.appendChild(buttonsContainer)
+            sectionElement.querySelector("div")?.appendChild(componentContainer)
+            container.appendChild(sectionElement)
+
+        // Expertise Section + related dummy data + buildhtml + renderto
+
+            title = "Expertise Component"
+            componentElement = Expertise(
+                initialName = "Expertise Component Example",
+                initialDescription = "This is an example of the Expertise component with its commit/set/load APIs."
+            ).buildHtml()
+
+            section = Section(
+                initialTitle = title,
+                initialIsDivider = true
+            )
+            sectionElement = section.buildHtml()
+
+            componentContainer = document.create.div {
+                attributes["component-showcase"] = ""
+            }
+
+            componentContainer.appendChild(componentElement)
+
+            // Add buttons for component operations
+            buttonsContainer = document.create.div {
+                attributes["component-buttons"] = ""
+
+                button {
+                    attributes["class"] = "component-button"
+                    attributes["data-component"] = componentElement.getAttribute("TAG") ?: ""
+                    attributes["data-action"] = "commit"
+                    +"Save"
+
+                    // Add click event listener
+                    onClickFunction = { event ->
+                        val componentTag = (event.currentTarget as HTMLElement).getAttribute("data-component")
+                        val component = document.querySelector("[TAG='$componentTag']")?.asDynamic()?.kotlinInstance
+                        component?.commit()
+                    }
+                }
+
+                button {
+                    attributes["class"] = "component-button"
+                    attributes["data-component"] = componentElement.getAttribute("TAG") ?: ""
+                    attributes["data-action"] = "load"
+                    +"Load"
+
+                    // Add click event listener
+                    onClickFunction = { event ->
+                        val componentTag = (event.currentTarget as HTMLElement).getAttribute("data-component")
+                        val component = document.querySelector("[TAG='$componentTag']")?.asDynamic()?.kotlinInstance
+                        component?.load()
+                    }
+                }
+            }
+
+            componentContainer.appendChild(buttonsContainer)
+            sectionElement.querySelector("div")?.appendChild(componentContainer)
+            container.appendChild(sectionElement)
+
+
+        // ArticleCard Section + related dummy data + buildhtml + renderto
+
+            title = "ArticleCard Component"
+            componentElement = ArticleCard(
+                initialTitle = "Article Card Example",
+                initialAuthor = "Author Name",
+                initialDate = "Jan 1, 2024"
+            ).buildHtml()
+
+            section = Section(
+                initialTitle = title,
+                initialIsDivider = true
+            )
+            sectionElement = section.buildHtml()
+
+            componentContainer = document.create.div {
+                attributes["component-showcase"] = ""
+            }
+
+            componentContainer.appendChild(componentElement)
+
+            // Add buttons for component operations
+            buttonsContainer = document.create.div {
+                attributes["component-buttons"] = ""
+
+                button {
+                    attributes["class"] = "component-button"
+                    attributes["data-component"] = componentElement.getAttribute("TAG") ?: ""
+                    attributes["data-action"] = "commit"
+                    +"Save"
+
+                    // Add click event listener
+                    onClickFunction = { event ->
+                        val componentTag = (event.currentTarget as HTMLElement).getAttribute("data-component")
+                        val component = document.querySelector("[TAG='$componentTag']")?.asDynamic()?.kotlinInstance
+                        component?.commit()
+                    }
+                }
+
+                button {
+                    attributes["class"] = "component-button"
+                    attributes["data-component"] = componentElement.getAttribute("TAG") ?: ""
+                    attributes["data-action"] = "load"
+                    +"Load"
+
+                    // Add click event listener
+                    onClickFunction = { event ->
+                        val componentTag = (event.currentTarget as HTMLElement).getAttribute("data-component")
+                        val component = document.querySelector("[TAG='$componentTag']")?.asDynamic()?.kotlinInstance
+                        component?.load()
+                    }
+                }
+            }
+
+            componentContainer.appendChild(buttonsContainer)
+            sectionElement.querySelector("div")?.appendChild(componentContainer)
+            container.appendChild(sectionElement)
+
+
+        // KeywordStrip Section + related dummy data + buildhtml + renderto
+
+            title = "KeywordStrip Component"
+            componentElement = KeywordStrip(
+                initialKeywords = listOf("Keyword1", "Keyword2", "Keyword3", "Keyword4", "Keyword5")
+            ).buildHtml()
+
+            section = Section(
+                initialTitle = title,
+                initialIsDivider = true
+            )
+            sectionElement = section.buildHtml()
+
+            componentContainer = document.create.div {
+                attributes["component-showcase"] = ""
+            }
+
+            componentContainer.appendChild(componentElement)
+
+            // Add buttons for component operations
+            buttonsContainer = document.create.div {
+                attributes["component-buttons"] = ""
+
+                button {
+                    attributes["class"] = "component-button"
+                    attributes["data-component"] = componentElement.getAttribute("TAG") ?: ""
+                    attributes["data-action"] = "commit"
+                    +"Save"
+
+                    // Add click event listener
+                    onClickFunction = { event ->
+                        val componentTag = (event.currentTarget as HTMLElement).getAttribute("data-component")
+                        val component = document.querySelector("[TAG='$componentTag']")?.asDynamic()?.kotlinInstance
+                        component?.commit()
+                    }
+                }
+
+                button {
+                    attributes["class"] = "component-button"
+                    attributes["data-component"] = componentElement.getAttribute("TAG") ?: ""
+                    attributes["data-action"] = "load"
+                    +"Load"
+
+                    // Add click event listener
+                    onClickFunction = { event ->
+                        val componentTag = (event.currentTarget as HTMLElement).getAttribute("data-component")
+                        val component = document.querySelector("[TAG='$componentTag']")?.asDynamic()?.kotlinInstance
+                        component?.load()
+                    }
+                }
+            }
+
+            componentContainer.appendChild(buttonsContainer)
+            sectionElement.querySelector("div")?.appendChild(componentContainer)
+            container.appendChild(sectionElement)
+
+
+        // Section Component + related dummy data + buildhtml + renderto
+
+            title = "Section Component"
+            var sectionComponent = Section(
+                initialTitle = "Section Component Example",
+                initialIsDivider = false
+            )
+            componentElement = sectionComponent.buildHtml()
+            var content = document.create.p {
+                +"This is an example of the Section component with its commit/set/load APIs."
+            }
+            componentElement.querySelector("div")?.appendChild(content)
+
+            section = Section(
+                initialTitle = title,
+                initialIsDivider = true
+            )
+            sectionElement = section.buildHtml()
+
+            componentContainer = document.create.div {
+                attributes["component-showcase"] = ""
+            }
+
+            componentContainer.appendChild(componentElement)
+
+            // Add buttons for component operations
+            buttonsContainer = document.create.div {
+                attributes["component-buttons"] = ""
+
+                button {
+                    attributes["class"] = "component-button"
+                    attributes["data-component"] = componentElement.getAttribute("TAG") ?: ""
+                    attributes["data-action"] = "commit"
+                    +"Save"
+
+                    // Add click event listener
+                    onClickFunction = { event ->
+                        val componentTag = (event.currentTarget as HTMLElement).getAttribute("data-component")
+                        val component = document.querySelector("[TAG='$componentTag']")?.asDynamic()?.kotlinInstance
+                        component?.commit()
+                    }
+                }
+
+                button {
+                    attributes["class"] = "component-button"
+                    attributes["data-component"] = componentElement.getAttribute("TAG") ?: ""
+                    attributes["data-action"] = "load"
+                    +"Load"
+
+                    // Add click event listener
+                    onClickFunction = { event ->
+                        val componentTag = (event.currentTarget as HTMLElement).getAttribute("data-component")
+                        val component = document.querySelector("[TAG='$componentTag']")?.asDynamic()?.kotlinInstance
+                        component?.load()
+                    }
+                }
+            }
+
+            componentContainer.appendChild(buttonsContainer)
+            sectionElement.querySelector("div")?.appendChild(componentContainer)
+            container.appendChild(sectionElement)
+
+
+        // FloatingActionButton Section + related dummy data + buildhtml + renderto
+
+            title = "FloatingActionButton Component"
+            componentElement = FloatingActionButton("add") {
+                console.log("FAB clicked")
+            }.buildHtml()
+
+            section = Section(
+                initialTitle = title,
+                initialIsDivider = true
+            )
+            sectionElement = section.buildHtml()
+
+            componentContainer = document.create.div {
+                attributes["component-showcase"] = ""
+            }
+
+            componentContainer.appendChild(componentElement)
+
+            // Add buttons for component operations
+            buttonsContainer = document.create.div {
+                attributes["component-buttons"] = ""
+
+                button {
+                    attributes["class"] = "component-button"
+                    attributes["data-component"] = componentElement.getAttribute("TAG") ?: ""
+                    attributes["data-action"] = "commit"
+                    +"Save"
+
+                    // Add click event listener
+                    onClickFunction = { event ->
+                        val componentTag = (event.currentTarget as HTMLElement).getAttribute("data-component")
+                        val component = document.querySelector("[TAG='$componentTag']")?.asDynamic()?.kotlinInstance
+                        component?.commit()
+                    }
+                }
+
+                button {
+                    attributes["class"] = "component-button"
+                    attributes["data-component"] = componentElement.getAttribute("TAG") ?: ""
+                    attributes["data-action"] = "load"
+                    +"Load"
+
+                    // Add click event listener
+                    onClickFunction = { event ->
+                        val componentTag = (event.currentTarget as HTMLElement).getAttribute("data-component")
+                        val component = document.querySelector("[TAG='$componentTag']")?.asDynamic()?.kotlinInstance
+                        component?.load()
+                    }
+                }
+            }
+
+            componentContainer.appendChild(buttonsContainer)
+            sectionElement.querySelector("div")?.appendChild(componentContainer)
+            container.appendChild(sectionElement)
+
 
         return container
     }
 
-    private fun addComponentShowcase(container: HTMLElement) {
-        // Hero component showcase
-        addComponentSection(container, "Hero Component", createHeroComponent())
 
-        // Expertise component showcase
-        addComponentSection(container, "Expertise Component", createExpertiseComponent())
-
-        // ArticleCard component showcase
-        addComponentSection(container, "ArticleCard Component", createArticleCardComponent())
-
-        // KeywordStrip component showcase
-        addComponentSection(container, "KeywordStrip Component", createKeywordStripComponent())
-
-        // Section component showcase
-        addComponentSection(container, "Section Component", createSectionComponent())
-
-        // FloatingActionButton component showcase
-        addComponentSection(container, "FloatingActionButton Component", createFabComponent())
-    }
-
-    private fun addComponentSection(container: HTMLElement, title: String, componentElement: HTMLElement) {
-        val section = Section(
-            initialTitle = title,
-            initialIsDivider = true
-        )
-        val sectionElement = section.preview()
-
-        val componentContainer = document.create.div {
-            attributes["component-showcase"] = ""
-        }
-
-        componentContainer.appendChild(componentElement)
-
-        // Add buttons for component operations
-        val buttonsContainer = document.create.div {
-            attributes["component-buttons"] = ""
-
-            button {
-                attributes["class"] = "component-button"
-                attributes["data-component"] = componentElement.getAttribute("TAG") ?: ""
-                attributes["data-action"] = "commit"
-                +"Save"
-
-                // Add click event listener
-                onClickFunction = { event ->
-                    val componentTag = (event.currentTarget as HTMLElement).getAttribute("data-component")
-                    val component = document.querySelector("[TAG='$componentTag']")?.asDynamic()?.kotlinInstance
-                    component?.commit()
-                }
-            }
-
-            button {
-                attributes["class"] = "component-button"
-                attributes["data-component"] = componentElement.getAttribute("TAG") ?: ""
-                attributes["data-action"] = "load"
-                +"Load"
-
-                // Add click event listener
-                onClickFunction = { event ->
-                    val componentTag = (event.currentTarget as HTMLElement).getAttribute("data-component")
-                    val component = document.querySelector("[TAG='$componentTag']")?.asDynamic()?.kotlinInstance
-                    component?.load()
-                }
-            }
-        }
-
-        componentContainer.appendChild(buttonsContainer)
-        sectionElement.querySelector("div")?.appendChild(componentContainer)
-        container.appendChild(sectionElement)
-    }
-
-    private fun createHeroComponent(): HTMLElement {
-        val hero = Hero(
-            initialName = "Hero Component Example",
-            initialDescription = "This is an example of the Hero component with its commit/set/load APIs.",
-            initialButtonText = "Action Button"
-        )
-        return hero.preview()
-    }
-
-    private fun createExpertiseComponent(): HTMLElement {
-        val expertise = Expertise(
-            initialName = "Expertise Component Example",
-            initialDescription = "This is an example of the Expertise component with its commit/set/load APIs."
-        )
-        return expertise.preview()
-    }
-
-    private fun createArticleCardComponent(): HTMLElement {
-        val articleCard = ArticleCard(
-            initialTitle = "Article Card Example",
-            initialAuthor = "Author Name",
-            initialDate = "Jan 1, 2024"
-        )
-        return articleCard.preview()
-    }
-
-    private fun createKeywordStripComponent(): HTMLElement {
-        val keywords = listOf("Keyword1", "Keyword2", "Keyword3", "Keyword4", "Keyword5")
-        val keywordStrip = KeywordStrip(initialKeywords = keywords)
-        return keywordStrip.preview()
-    }
-
-    private fun createSectionComponent(): HTMLElement {
-        val section = Section(
-            initialTitle = "Section Component Example",
-            initialIsDivider = false
-        )
-        val sectionElement = section.preview()
-
-        val content = document.create.p {
-            +"This is an example of the Section component with its commit/set/load APIs."
-        }
-
-        sectionElement.querySelector("div")?.appendChild(content)
-        return sectionElement
-    }
-
-    private fun createFabComponent(): HTMLElement {
-        val fab = FloatingActionButton("add") {
-            console.log("FAB clicked")
-        }
-        return fab.preview()
-    }
 
     override fun commit() {
         // Save all component data
