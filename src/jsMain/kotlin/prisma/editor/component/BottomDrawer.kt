@@ -5,6 +5,7 @@ import kotlinx.browser.window
 import kotlinx.html.*
 import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
+import org.w3c.dom.HTMLDialogElement
 import org.w3c.dom.HTMLOptionElement
 import org.w3c.dom.HTMLSelectElement
 import prisma.editor.EditorJs
@@ -33,15 +34,14 @@ class BottomDrawer(
     }
 
     fun preview(): HTMLElement {
-        val drawer = document.create.aside {
+        val dialog = document.create.dialog {
             id = "bottom-drawer"
             attributes["TAG"] = TAG
-            attributes["role"] = "dialog"
             attributes["aria-labelledby"] = "drawer-title"
             asDynamic().kotlinInstance = this@BottomDrawer
 
             if (isOpen) {
-                attributes["style"] = "transform: translateY(0px);"
+                attributes["open"] = ""
             }
 
             h3 {
@@ -145,7 +145,7 @@ class BottomDrawer(
             }
         }, 100)
 
-        return drawer
+        return dialog
     }
 
     fun commit() {
@@ -164,6 +164,7 @@ class BottomDrawer(
     }
 
     fun set(data: dynamic) {
+        // Update properties
         if (data.site != null) {
             currentSite = data.site as String
         }
@@ -176,23 +177,59 @@ class BottomDrawer(
         if (data.isOpen != null) {
             isOpen = data.isOpen as Boolean
         }
+
+        // Refresh the DOM element
         refresh()
+
+        // Ensure dialog state in DOM matches the 'isOpen' property after refresh
+        val dialog = document.getElementById("bottom-drawer") as? HTMLDialogElement
+        if (dialog != null) {
+            if (isOpen && !dialog.hasAttribute("open")) {
+                dialog.showModal()
+            } else if (!isOpen && dialog.hasAttribute("open")) {
+                dialog.close()
+            }
+        }
     }
 
     fun refresh() {
-        val existingElement = document.querySelector("[$TAG]")
+        val existingElement = document.querySelector("dialog[TAG='$TAG']") as? HTMLDialogElement
         if (existingElement != null) {
-            existingElement.parentElement?.replaceChild(preview(), existingElement)
+            // Store the current open state before replacing
+            val wasOpen = existingElement.hasAttribute("open")
+            val newElement = preview()
+
+            // Replace the element
+            existingElement.parentElement?.replaceChild(newElement, existingElement)
+
+            // Restore the open state on the new element if it was open
+            if (wasOpen) {
+                // Need a slight delay to re-show after replacement
+                window.setTimeout({
+                    (document.getElementById("bottom-drawer") as? HTMLDialogElement)?.showModal()
+                }, 0) // Use a 0ms delay to allow DOM update cycle
+            }
         } else {
-            console.warn("No existing element with attribute [$TAG] found to refresh.")
+            console.warn("No existing element with attribute [TAG='$TAG'] found to refresh.")
             document.body?.appendChild(preview())
+
+            // If appending and it should be open, show it
+            if (isOpen) {
+                (document.getElementById("bottom-drawer") as? HTMLDialogElement)?.showModal()
+            }
         }
     }
 
     fun toggle() {
         isOpen = !isOpen
-        val drawer = document.getElementById("bottom-drawer") as? HTMLElement
-        drawer?.style?.transform = if (isOpen) "translateY(0px)" else "translateY(100%)"
+        val dialog = document.getElementById("bottom-drawer") as? HTMLDialogElement
+        if (dialog != null) {
+            if (isOpen) {
+                dialog.showModal() // Use showModal() for a modal dialog with backdrop
+            } else {
+                dialog.close() // This sets dialog.open = false
+            }
+        }
     }
 
     fun updateValues() {
@@ -217,7 +254,7 @@ class BottomDrawer(
         fun updateLanguageOptions() {
             val siteSelect = document.getElementById("site-select") as? HTMLSelectElement
             val languageSelect = document.getElementById("language-select") as? HTMLSelectElement
-            val bottomDrawer = document.querySelector("[$TAG]")?.asDynamic()?.kotlinInstance as? BottomDrawer
+            val bottomDrawer = document.querySelector("dialog[TAG='$TAG']")?.asDynamic()?.kotlinInstance as? BottomDrawer
 
             if (siteSelect != null && languageSelect != null && bottomDrawer != null) {
                 val selectedSite = siteSelect.value
@@ -247,23 +284,35 @@ class BottomDrawer(
 
         @JsName("toggleDrawer")
         fun toggleDrawer() {
-            val drawer = document.querySelector("[$TAG]")?.asDynamic()?.kotlinInstance as? BottomDrawer
+            // Query the dialog element and call toggle() on the Kotlin instance
+            val drawer = document.querySelector("dialog[TAG='$TAG']")?.asDynamic()?.kotlinInstance as? BottomDrawer
             drawer?.toggle()
         }
 
         fun cssRules(): List<CssRuleDefinition> {
             return listOf(
-                "[TAG='$TAG']" to {
+                "dialog[TAG='$TAG']" to {
                     position = "fixed"
-                    bottom = "0"
+                    bottom = "-100%" // Start off-screen at the bottom
                     left = "0"
                     width = "100%"
+                    border = "none" // Remove default dialog border
+                    padding = Theme.spacing
+                    margin = "0" // Remove default dialog margin
                     backgroundColor = Theme.white
                     setProperty("box-shadow", "0 -${Theme.spacing} ${Theme.spacing} ${Theme.shadowLight}")
-                    padding = Theme.spacing
-                    transform = "translateY(100%)"
-                    transition = "transform 0.3s ease-in-out"
+                    setProperty("transition", "bottom 0.3s ease-in-out") // Add transition for animation
                     zIndex = "1000"
+                },
+
+                // Style the dialog when it's open
+                "dialog[TAG='$TAG'][open]" to {
+                    bottom = "0" // Slide up to view when open
+                },
+
+                // Style the backdrop created by showModal()
+                "dialog[TAG='$TAG']::backdrop" to {
+                    backgroundColor = "rgba(0, 0, 0, 0.5)" // Semi-transparent black overlay
                 },
 
                 "[$TAG] h3" to {

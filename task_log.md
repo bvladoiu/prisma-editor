@@ -473,3 +473,16 @@ Implemented a new layer of variable naming for all colors in the Theme.kt file a
    - NavigationMenu.kt: Replaced rgba(0,0,0,0.8) with Theme.shadowHeavy
 
 This change improves the maintainability of the codebase by centralizing all color definitions in the Theme.kt file and ensuring that no hardcoded colors are used anywhere in the project. The new layer of variable naming makes it easier to understand the purpose of each color and provides a clear separation between the actual color values and their semantic usage in the application.
+
+## Refactor BottomDrawer to use dialog element - 08/09/2025
+Refactored the BottomDrawer component to use the HTML dialog element following the pattern established in the Drawer component. The implementation includes:
+1. Added HTMLDialogElement import to BottomDrawer.kt
+2. Fixed the return statement in preview() method to return the dialog element
+3. Updated the toggle() method to use showModal() and close() methods instead of CSS transform
+4. Enhanced the set() method to explicitly handle the dialog's open state after refresh
+5. Updated the refresh() method to properly preserve the dialog's open state when replacing elements
+6. Updated the CSS rules to animate from the bottom using bottom property instead of transform
+7. Added styling for the dialog when it's open and for the backdrop created by showModal()
+8. Updated the toggleDrawer() and updateLanguageOptions() methods to use the new dialog selector
+
+This refactoring improves the component architecture by using the proper HTML dialog element for modal functionality, which provides built-in accessibility features and backdrop handling. The animation from the bottom is maintained but implemented in a more standard way using the dialog element's positioning properties. This change also ensures consistent implementation between the Drawer and BottomDrawer components, making the codebase more maintainable.
