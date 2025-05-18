@@ -5,6 +5,7 @@ import kotlinx.html.*
 import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.Element
+import prisma.editor.component.SectionsInitialData
 import prisma.editor.css.FontsLoader
 import prisma.editor.css.Main
 import prisma.editor.css.ScriptLoader
@@ -16,7 +17,11 @@ import kotlin.js.JSON
  * Note: Font loading is handled by FontsLoader within the Page component.
  */
 open class Page {
-    open val tag: String = TAG
+    open var tag: String = TAG
+    open var name: String = ""
+
+    // Store component data for serialized page creation
+    var componentData: dynamic = null
 
     init {
         load()
@@ -43,10 +48,62 @@ open class Page {
         // Add the drawer to the page
         addDrawer(container)
 
+        // Add sections from componentData if available
+        if (componentData != null) {
+            try {
+                // Iterate through sections in componentData
+                for (key in js("Object").keys(componentData)) {
+                    val sectionData = this.componentData[key]
+                    val title = sectionData.title as? String ?: ""
+                    val isDivider = sectionData.isDivider as? Boolean ?: false
+                    val sectionId = sectionData.sectionId as? String
+
+                    addSection(container, title, isDivider, sectionId)
+                }
+            } catch (e: Exception) {
+                console.error("Error creating sections from component data", e)
+            }
+        }
+
         // Load scripts
         ScriptLoader.addScriptsToBody()
 
         return container
+    }
+
+    /**
+     * Adds a section to the page container.
+     * @param container The page container element.
+     * @param title The title of the section.
+     * @param isDivider Whether the section has a divider.
+     * @param sectionId Optional identifier for the section to use predefined content.
+     * @return The created section element.
+     */
+    protected open fun addSection(container: HTMLElement, title: String, isDivider: Boolean = false, sectionId: String? = null): HTMLElement {
+        // Create a section based on sectionId if provided, otherwise create a basic section
+        val section = when (sectionId) {
+            "coreExpertise" -> SectionsInitialData.createCoreExpertiseSection()
+            "keywordStrip" -> SectionsInitialData.createKeywordStripSection()
+            "whyWorkWithUs" -> SectionsInitialData.createWhyWorkWithUsSection()
+            "latestUpdates" -> SectionsInitialData.createLatestUpdatesSection()
+            else -> prisma.editor.component.Section(
+                initialTitle = title,
+                initialIsDivider = isDivider
+            )
+        }
+
+        val sectionElement = section.buildHtml()
+        container.appendChild(sectionElement)
+        return sectionElement
+    }
+
+    /**
+     * Removes a section from the page container.
+     * @param container The page container element.
+     * @param sectionElement The section element to remove.
+     */
+    protected open fun removeSection(container: HTMLElement, sectionElement: HTMLElement) {
+        container.removeChild(sectionElement)
     }
 
     /**
@@ -67,7 +124,8 @@ open class Page {
      */
     open fun commit() {
         val data = mapOf(
-            "tag" to tag
+            "tag" to tag,
+            "name" to name
         )
         val jsonData = JSON.stringify(data)
         console.log("save:$tag", jsonData)
@@ -101,6 +159,25 @@ open class Page {
 
     companion object {
         const val TAG = "page"
+        const val HOME_TAG = "home-page"
+        const val CATALOG_TAG = "catalog-page"
+
+        /**
+         * Creates a page with the specified tag and name.
+         * @param tag The tag for the page.
+         * @param name The name of the page.
+         * @return The created page instance.
+         */
+        fun create(tag: String, name: String): Page {
+            val page = Page()
+            page.tag = tag
+            page.name = name
+
+            // Create empty component data
+            page.componentData = kotlin.js.json()
+
+            return page
+        }
 
         /**
          * CSS rules for the page container.

@@ -6,11 +6,9 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.html.dom.create
 import kotlinx.html.p
-import org.w3c.dom.Element
 import org.w3c.dom.HTMLElement
 import prisma.editor.component.*
-import prisma.editor.pages.Catalog
-import prisma.editor.pages.Home
+import prisma.editor.pages.PagesInitialData
 import kotlin.js.JSON
 
 object EditorJs {
@@ -51,7 +49,7 @@ object EditorJs {
         }
 
         root.appendChild(scaffoldElement)
-        root.appendChild(editFab.preview())
+        root.appendChild(editFab.buildHtml())
     }
 
     fun toggle(toEditMode: Boolean) {
@@ -130,7 +128,11 @@ object EditorJs {
 private fun addHomePage(mainContent: HTMLElement) {
     window.setTimeout({
         GlobalScope.launch {
-            val homeComponent = Home()
+            val homeComponent = if (Config.currentLanguage == "de") {
+                PagesInitialData.createDeHomePage()
+            } else {
+                PagesInitialData.createEnHomePage()
+            }
             val homeElement = homeComponent.create()
             mainContent.appendChild(homeElement)
         }
@@ -140,7 +142,11 @@ private fun addHomePage(mainContent: HTMLElement) {
 private fun addCatalogPage(mainContent: HTMLElement) {
     window.setTimeout({
         GlobalScope.launch {
-            val catalogComponent = Catalog()
+            val catalogComponent = if (Config.currentLanguage == "de") {
+                PagesInitialData.createDeCatalogPage()
+            } else {
+                PagesInitialData.createEnCatalogPage()
+            }
             val catalogElement = catalogComponent.create()
             mainContent.appendChild(catalogElement)
         }
