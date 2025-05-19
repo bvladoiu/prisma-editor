@@ -4,6 +4,7 @@ import kotlinx.browser.document
 import kotlinx.html.*
 import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
+import prisma.editor.pages.Page as EditorPage // Alias to avoid conflict
 import prisma.editor.Config
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
@@ -37,6 +38,29 @@ class NavigationMenu(
                             href = "#"
                             attributes[Typography.MENU_LABEL] = ""
                             +item
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun buildHtml(pages: List<EditorPage>, currentPageTag: String): String {
+        return createHTML().nav {
+            attributes[TAG] = ""
+            a {
+                href = "#" // Brand link can be # or home page
+                attributes[BRAND_TAG] = ""
+                attributes[Typography.HEADLINE] = ""
+                +brand
+            }
+            ul {
+                attributes[MENU_TAG] = ""
+                pages.forEach { page ->
+                    li {
+                        a(href = page.tag + ".html", classes = if (page.tag == currentPageTag) "active" else null) {
+                            attributes[Typography.MENU_LABEL] = ""
+                            +page.name
                         }
                     }
                 }
