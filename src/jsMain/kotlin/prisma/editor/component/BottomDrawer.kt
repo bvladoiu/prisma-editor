@@ -11,7 +11,8 @@ import org.w3c.dom.asList
 import org.w3c.dom.events.Event
 import org.w3c.dom.get
 import prisma.editor.EditorJs
-import prisma.editor.PageDataModel
+import prisma.editor.component.NavLink
+import prisma.editor.Link
 import prisma.editor.Config
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
@@ -169,9 +170,9 @@ class BottomDrawer(
                         attributes["TAG"] = CONTENT_TAG // Reuse CONTENT_TAG for form content layout
 
                         // Slug Input
- div {
+ div { // Changed label from "Page Slug:" to "URL:"
  attributes["TAG"] = FIELD_TAG
- label { htmlFor = "new-page-slug"; attributes[Typography.CAPTION] = ""; +"Page Slug:" }
+ label { htmlFor = "new-page-slug"; attributes[Typography.CAPTION] = ""; +"URL:" }
  input { id = "new-page-slug"; type = InputType.text; attributes[Typography.BODY] = "" }
                         }
 
@@ -235,18 +236,18 @@ class BottomDrawer(
  event.preventDefault() // Prevent default form submission
 
                 val slug = newPageSlugInput?.value?.trim()
-                if (slug.isNullOrEmpty()) {
-                    window.alert("Page slug cannot be empty.")
+ if (slug.isNullOrEmpty()) { // Changed alert message to refer to URL
+                    window.alert("Page URL cannot be empty.")
                     return@addEventListener
                 }
 
                 val names = mutableMapOf<String, String>()
                 val currentSiteConfig = Config.sites[currentSite]
                 currentSiteConfig?.languages?.forEach { lang ->
-                    val nameInput = document.getElementById("new-page-name-${lang}") as? HTMLInputElement
+ val nameInput = document.getElementById("new-page-name-${lang}") as? HTMLInputElement // Keep getting names by lang
                     val name = nameInput?.value?.trim()
                     if (!name.isNullOrEmpty()) {
-                        names[lang] = name
+ names[lang] = name // Populate names map
                     }
                 }
 
@@ -292,7 +293,7 @@ class BottomDrawer(
         console.log("load:${Config.currentSite}_${Config.currentLanguage}_$TAG")
     }
 
-    fun setPageList(pageList: List<PageDataModel>) {
+    fun setPageList(pageList: List<Link>) {
         val pageListContainer = document.getElementById("page-list-container")
         if (pageListContainer != null) {
             pageListContainer.innerHTML = "" // Clear previous list
@@ -310,8 +311,8 @@ class BottomDrawer(
                     attributes[Typography.BODY] = ""
                     pageList.forEach { page ->
                         option {
-                            value = page.slug // Use slug for value
-                            text = page.names[Config.currentLanguage] ?: page.slug // Use localized name or slug for text
+ value = page.url // Use URL for value
+                            text = page.localizedName // Use localized name for text
                         }
                     }
                     // Set the selected value to the current page tag
@@ -322,10 +323,10 @@ class BottomDrawer(
             })
 
             // Display list of pages with actions
- pageList.forEach { page ->
+ pageList.forEach { link ->
  pageListContainer.appendChild(document.create.div {
-                    // Display slug and localized name
- attributes["TAG"] = "page-item" // Unique tag for each page item
+                    // Display url and localized name
+ attributes["TAG"] = "page-item" // Unique tag for each page item (kept tag name)
  attributes[Typography.BODY] = ""
  +"$pageName (${page.url}) " // Display name and URL with a space for buttons
 
@@ -339,7 +340,7 @@ class BottomDrawer(
  +"Edit"
  addEventListener("click", { event: Event ->
  // This command might need to be handled to load the page content for editing
- console.log("editPage:${page.slug}") // Use slug for edit command
+ console.log("editPage:${link.url}") // Use URL for edit command
  event.stopPropagation() // Prevent potential parent element clicks
  })
  }
@@ -407,46 +408,6 @@ class BottomDrawer(
             }
         }
     }
-
-    fun toggle() {
-        isOpen = !isOpen
-        val dialog = document.getElementById("bottom-drawer") as? HTMLDialogElement
-        if (dialog != null) {
-            if (isOpen) {
-                dialog.showModal() // Use showModal() for a modal dialog with backdrop
-            } else {
-                dialog.close() // This sets dialog.open = false
-            }
-        }
-    }
-
- @JsName("updateCurrentPage")
- fun updateCurrentPage() { // This function updates both site and language
-        val siteSelect = document.getElementById("site-select") as? HTMLSelectElement
-        val languageSelect = document.getElementById("language-select") as? HTMLSelectElement
-        val pageSelect = document.getElementById("page-select") as? HTMLSelectElement
-
-        if (siteSelect != null && languageSelect != null && pageSelect != null) { // Check if all required elements exist
- currentSite = siteSelect.value
-
-            // Only update language if it has actually changed to avoid unnecessary page reload
- if (currentLanguage != languageSelect.value) {
- currentLanguage = languageSelect.value
- // When language changes, we need to request the new page list and potentially reload the current page content
- load() // This will now trigger fetching pages as well
- }
-
- currentPageTag = pageSelect.value
- commit()
-        }
-    }
-
-    companion object {
-        const val TAG = "bottom-drawer"
-        const val CONTENT_TAG = "bottom-drawer-content"
-        const val FIELD_TAG = "bottom-drawer-field"
-
-        @JsName("updateLanguageOptions")
  fun updateLanguageOptions() { // This function populates the language dropdown based on the selected site
             val siteSelect = document.getElementById("site-select") as? HTMLSelectElement
             val languageSelect = document.getElementById("language-select") as? HTMLSelectElement

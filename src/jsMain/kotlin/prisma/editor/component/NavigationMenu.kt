@@ -5,13 +5,12 @@ import kotlinx.html.*
 import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
 import prisma.editor.pages.Page as EditorPage // Alias to avoid conflict
+import prisma.editor.Link
 import prisma.editor.Config
 import prisma.editor.EditorJs
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
 import prisma.editor.css.Typography
-import kotlin.js.JSON
-
 
 class NavigationMenu(
     private val editor: EditorJs,
@@ -81,22 +80,24 @@ class NavigationMenu(
         return createHTML().ul { items.forEach { item -> li { a(href = "#") { +item } } } }
     }
 
-    fun buildHtml(pages: List<EditorPage>, currentPageTag: String): String {
+    fun buildHtml(links: List<Link>, currentLinkUrl: String): String {
         return createHTML().nav {
             attributes[TAG] = ""
             a {
-                href = "#" // Brand link can be # or home page
+                // Brand link can be # or home page - using # for now
+                href = "#"
                 attributes[BRAND_TAG] = ""
                 attributes[Typography.HEADLINE] = ""
                 +brand
             }
             ul {
                 attributes[MENU_TAG] = ""
-                pages.forEach { page ->
+                links.forEach { link ->
                     li {
-                        a(href = page.tag + ".html", classes = if (page.tag == currentPageTag) "active" else null) {
+                        // Use link.url for the href and link.localizedName for the text
+                        a(href = "/" + link.url, classes = if (link.url == currentLinkUrl) "active" else null) {
                             attributes[Typography.MENU_LABEL] = ""
-                            +page.name
+                            +link.localizedName
                         }
                     }
                 }
