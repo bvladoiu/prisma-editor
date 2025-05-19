@@ -32,10 +32,10 @@ object EditorJs {
         root.innerHTML = ""
 
         val editorScaffold = EditorScaffold()
-        val scaffoldElement = editorScaffold.preview()
+ val scaffoldElement = editorScaffold.buildEditorDom()
 
         val contentArea = scaffoldElement.querySelector("[content-area]") as HTMLElement
-        contentArea.appendChild(bottomDrawer.preview())
+ contentArea.appendChild(bottomDrawer.buildEditorDom())
 
         val mainContent = scaffoldElement.querySelector("#main-content") as HTMLElement
 

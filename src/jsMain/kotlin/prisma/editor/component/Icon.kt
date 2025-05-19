@@ -1,12 +1,10 @@
 package prisma.editor.component
 
-import kotlinx.browser.document
 import kotlinx.html.FlowContent
-import kotlinx.html.dom.create
 import kotlinx.html.span
-import org.w3c.dom.HTMLElement
 import prisma.editor.css.FontsLoader
 import prisma.editor.css.Typography.ICON
+import prisma.editor.css.CssRuleDefinition
 
 /**
  * Icon component that renders a Material Symbols icon.
@@ -19,22 +17,30 @@ class Icon(
         FontsLoader.registerIcon(name)
     }
 
-    fun preview(): HTMLElement {
-        return document.create.span {
-            attributes[ICON] = ""
-            asDynamic().kotlinInstance = this@Icon
-            +name
+    companion object {
+        // CSS rules for the embedded icon span
+        fun cssRules(): List<CssRuleDefinition> {
+            return listOf(
+                "[${ICON}]" to {
+                    // Add any specific CSS rules for the icon span here if needed
+                    // For example:
+                    // fontSize = "24px"
+                    // color = "blue"
+                }
+            )
         }
     }
+}
 
-    /**
-     * Renders the icon component as FlowContent that can be embedded in other components.
-     * @return FlowContent that can be embedded in other components
-     */
-    fun render(): FlowContent.() -> Unit = {
-        span {
-            attributes[ICON] = ""
+/**
+ * Renders the icon as a span with the appropriate attributes within the FlowContent.
+ * This is an extension function for embedding the icon using the kotlinx.html DSL.
+ * @param name The name of the Material Symbols icon.
+ */
+fun FlowContent.icon(name: String) {
+    Icon(name) // Register the icon when used
+    span {
+        attributes[ICON] = ""
             +name
-        }
     }
 }

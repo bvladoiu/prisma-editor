@@ -3,8 +3,11 @@ package prisma.editor.component
 import kotlinx.browser.document
 import kotlinx.html.*
 import kotlinx.html.dom.*
+import kotlinx.html.stream.createHTML // Import for buildStaticHtml
 import org.w3c.dom.HTMLElement
 import prisma.editor.Config
+import prisma.editor.Config.isEditing
+
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
 import prisma.editor.css.Typography

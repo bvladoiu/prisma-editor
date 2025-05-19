@@ -31,11 +31,39 @@ class Hero(
         load()
     }
 
-    fun buildHtml(): HTMLElement {
+    /**
+     * Generates the HTML structure for the editor's live view.
+     * Includes editor-specific attributes and elements based on `Config.isEditing`.
+     */
+    fun buildEditorDom(): HTMLElement {
         return document.create.header {
             attributes["data-component-tag"] = TAG
             attributes["role"] = "banner"
-            this@header.asDynamic().kotlinInstance = this@Hero
+
+            // Store a reference to the Kotlin component instance on the DOM element in editor mode
+            if (Config.isEditing) {
+                 asDynamic().kotlinInstance = this@Hero
+            }
+
+            h1 { +name }
+            p { +description }
+            button { +buttonText }
+        }
+    }
+
+    /**
+     * Generates the static HTML string for the published site.
+     * Does NOT include any editor-specific attributes or elements.
+     */
+    fun buildStaticHtml(): String {
+         return document.create.header {
+            attributes["data-component-tag"] = TAG
+            attributes["role"] = "banner"
+            h1 { +name }
+            p { +description }
+            button { +buttonText }
+        }.outerHTML // Get the HTML string
+    }
 
             h1 { +name }
             p { +description }
@@ -44,7 +72,7 @@ class Hero(
     }
 
     fun renderTo(parentElement: HTMLElement): HTMLElement {
-        val newElement = buildHtml()
+        val newElement = buildEditorDom()
 
         rootElement?.remove()
 
@@ -79,21 +107,34 @@ class Hero(
         }
     }
 
+     /**
+     * Returns the component's state as a serializable object.
+     */
+    fun toData(): Any {
+        return mapOf(
+            "name" to name,
+            "description" to description,
+            "buttonText" to buttonText
+        )
+    }
+
     fun refreshDOM() {
         val currentElement = rootElement ?: return
         val parent = currentElement.parentNode ?: return
 
         val newElement = buildHtml()
+        // Pass the current editing state implicitly via Config.isEditing
+        val newElement = buildEditorDom()
         parent.replaceChild(newElement, currentElement)
-        rootElement = newElement
+        rootElement = newElement // Update the stored reference to the new element
     }
 
+    /**
+     * Placeholder for committing data, e.g., saving to a backend.
+     * Uses the toData() method to get the current state.
+     */
     fun commit() {
-        val data = mapOf(
-            "name" to name,
-            "description" to description,
-            "buttonText" to buttonText
-        )
+        val data = toData()
         val jsonData = JSON.stringify(data)
         console.log("save:${Config.currentSite}_${Config.currentLanguage}_$TAG", jsonData)
     }

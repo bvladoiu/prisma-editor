@@ -35,7 +35,7 @@ class BottomDrawer(
         load()
     }
 
-    fun preview(): HTMLElement {
+    fun buildEditorDom(): HTMLElement {
         val dialog = document.create.dialog {
             id = "bottom-drawer"
             attributes["TAG"] = TAG
@@ -294,8 +294,7 @@ class BottomDrawer(
         val existingElement = document.querySelector("dialog[TAG='$TAG']") as? HTMLDialogElement
         if (existingElement != null) {
             // Store the current open state before replacing
-            val wasOpen = existingElement.hasAttribute("open")
-            val newElement = preview()
+            val wasOpen = existingElement.hasAttribute("open")            val newElement = buildEditorDom()
 
             // Replace the element
             existingElement.parentElement?.replaceChild(newElement, existingElement)
@@ -309,7 +308,7 @@ class BottomDrawer(
             }
         } else {
  console.warn("No existing element with attribute [TAG='$TAG'] found to refresh.")
- document.body?.appendChild(preview())
+ document.body?.appendChild(buildEditorDom())
 
             // If appending and it should be open, show it
             if (isOpen) {

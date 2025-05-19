@@ -4,6 +4,7 @@ import kotlinx.browser.document
 import kotlinx.html.*
 import kotlinx.html.dom.create
 import org.w3c.dom.HTMLElement
+import kotlinx.html.stream.createHTML
 import prisma.editor.Config
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
@@ -27,7 +28,13 @@ class ArticleCard(
         load()
     }
 
-    fun buildHtml(isEditing: Boolean = false): HTMLElement {
+    /**
+     * Generates the HTML structure for the editor's live view.
+     * Returns an HTMLElement using kotlinx.html.dom.
+     * Includes editor-specific elements like contenteditable attributes and a delete button.
+     */
+ fun buildEditorDom(): HTMLElement {
+ @Suppress("MoveVariableDeclarationIntoWhen") // Keeping variable declarations outside for clarity in buildEditorDom
         val element = document.create.li {
             attributes["data-component-tag"] = TAG
             this@li.asDynamic().kotlinInstance = this@ArticleCard
@@ -42,41 +49,55 @@ class ArticleCard(
 
                 time {
                     attributes[Typography.SMALL_TEXT] = ""
+                    attributes["contenteditable"] = "true"
                     +date
                 }
             }
 
             footer {
                 attributes["data-component-tag"] = AUTHOR_TAG
-                attributes[Typography.CAPTION] = ""
+                attributes[Typography.CAPTION] = "" // Editor-specific
                 +"By $author"
             }
         }
 
-        if (isEditing) {
-            val titleElement = element.querySelector("h3")
-            titleElement?.setAttribute("contenteditable", "true")
+ val titleElement = element.querySelector("h3")
+ titleElement?.setAttribute("contenteditable", "true")
 
-            val authorElement = element.querySelector("[data-component-tag='$AUTHOR_TAG']")
-            authorElement?.setAttribute("contenteditable", "true")
+ val authorElement = element.querySelector("[data-component-tag='$AUTHOR_TAG']")
+ authorElement?.setAttribute("contenteditable", "true")
 
-            val dateElement = element.querySelector("time")
-            dateElement?.setAttribute("contenteditable", "true")
+ val dateElement = element.querySelector("time")
+ dateElement?.setAttribute("contenteditable", "true")
 
-            val deleteButton = document.create.button {
-                attributes["class"] = "delete-button"
-                attributes["onclick"] = "this.parentElement.remove()"
-                attributes["title"] = "Delete this article"
-                +"-"
-            }
-            element.insertBefore(deleteButton, element.firstChild)
+ val deleteButton = document.create.button {
+ attributes["class"] = "delete-button"
+ attributes["onclick"] = "this.parentElement.remove()" // This should ideally call a @JsName function
+ attributes["title"] = "Delete this article"
+            +"-"
         }
+ element.insertBefore(deleteButton, element.firstChild)
 
         return element
     }
 
+    /**
+     * Generates the clean, static HTML string for client-side export.\n
+     * Returns a String using kotlinx.html.stream.createHTML.\n
+     * Excludes editor-specific elements and attributes.\n
+     */
+    fun buildStaticHtml(): String = createHTML().li {
+        attributes["data-component-tag"] = TAG
+
+        header {
+            h3 { +title }
+            time { +date }
+        }
+        footer { +"By $author" }
+    }
+
     fun renderTo(parentElement: HTMLElement): HTMLElement {
-        val newElement = buildHtml()
+        val newElement = buildEditorDom()
 
         rootElement?.remove()
 
@@ -129,7 +150,7 @@ class ArticleCard(
         val currentElement = rootElement ?: return
         val parent = currentElement.parentNode ?: return
 
-        val newElement = buildHtml()
+        val newElement = buildEditorDom()
         parent.replaceChild(newElement, currentElement)
         rootElement = newElement
     }

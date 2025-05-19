@@ -4,6 +4,7 @@ import kotlinx.browser.document
 import kotlinx.html.*
 import kotlinx.html.dom.*
 import org.w3c.dom.*
+import kotlinx.html.stream.createHTML
 import prisma.editor.Config
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme.spacing
@@ -13,11 +14,13 @@ class Footer(
     var copyright: String = "Prisma-Software © 2024, All rights reserved.",
     var links: List<String> = listOf("Privacy Policy", "Terms of Service")
 ) {
+ private var rootElement: HTMLElement? = null
+
     init {
         load()
     }
 
-    fun preview(): HTMLElement {
+    fun buildEditorDom(): HTMLElement {
         return document.create.footer {
             attributes[TAG] = ""
             asDynamic().kotlinInstance = this@Footer
@@ -33,6 +36,36 @@ class Footer(
             }
         }
     }
+
+    fun buildStaticHtml(): String {
+ return createHTML().footer {
+ attributes[TAG] = "" // Keep TAG for potential static CSS
+            p { +copyright }
+ nav {
+ attributes[CONTENT_TAG] = "" // Keep CONTENT_TAG for potential static CSS
+ links.forEach { link ->
+ a {
+ href = "#"
+ +link
+ }
+ }
+ }
+ }
+ }
+
+ fun renderTo(parentElement: HTMLElement): HTMLElement {
+ val newElement = buildEditorDom()
+ rootElement?.remove()
+ parentElement.appendChild(newElement)
+ rootElement = newElement
+ return newElement
+ }
+
+ fun detach() {
+ rootElement?.remove()
+ rootElement = null
+ }
+
 
     fun commit() {
         val data = mapOf(
@@ -54,12 +87,10 @@ class Footer(
     }
 
     fun refresh() {
-        val existingElement = document.querySelector("[$TAG]")
-        if (existingElement != null) {
-            existingElement.parentElement?.replaceChild(preview(), existingElement)
-        } else {
-            console.warn("No existing element with attribute [$TAG] found to refresh.")
-            document.body?.appendChild(preview())
+        val parent = rootElement?.parentElement
+ if (parent != null) {
+ detach()
+ renderTo(parent)
         }
     }
 

@@ -3,11 +3,13 @@ package prisma.editor.component
 import kotlinx.browser.document
 import kotlinx.html.button
 import kotlinx.html.dom.create
+import kotlinx.html.stream.createHTML // Import for buildStaticHtml
 import kotlinx.html.ul
 import org.w3c.dom.HTMLElement
 import prisma.editor.Config
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
+import kotlin.js.JSON // Import JSON for serialization
 
 
 class Latest(

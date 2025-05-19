@@ -7,6 +7,7 @@ import kotlinx.html.dom.create
 import kotlinx.html.h3
 import kotlinx.html.p
 import org.w3c.dom.HTMLElement
+import kotlinx.html.stream.createHTML
 import prisma.editor.Config
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
@@ -30,7 +31,7 @@ class Expertise(
     }
 
     // Generates the HTML structure for the component based on current properties
-    fun buildHtml(isEditing: Boolean = false): HTMLElement {
+    fun buildEditorDom(): HTMLElement {
         val element = document.create.article {
             attributes["data-component-tag"] = TAG
             // Store a reference to the Kotlin component instance on the DOM element
@@ -45,35 +46,49 @@ class Expertise(
             }
         }
 
-        if (isEditing) {
-            // Make the name editable
-            val nameElement = element.querySelector("h3")
-            nameElement?.setAttribute("contenteditable", "true")
+        // Make the name editable
+        val nameElement = element.querySelector("h3")
+        nameElement?.setAttribute("contenteditable", "true")
 
-            // Make the description editable
-            val descriptionElement = element.querySelector("p")
-            descriptionElement?.setAttribute("contenteditable", "true")
+        // Make the description editable
+        val descriptionElement = element.querySelector("p")
+        descriptionElement?.setAttribute("contenteditable", "true")
 
-            // Add delete button
-            val deleteButton = document.create.button {
-                attributes["class"] = "delete-button"
-                attributes["onclick"] = "this.parentElement.remove()"
-                attributes["title"] = "Delete this expertise"
-                +"-"
-            }
-            element.insertBefore(deleteButton, element.firstChild)
+        // Add delete button
+        val deleteButton = document.create.button {
+            attributes["class"] = "delete-button"
+            attributes["onclick"] = "prisma.editor.component.Expertise.deleteExpertise(this.parentElement)"
+            attributes["title"] = "Delete this expertise"
+            +"-"
         }
+        element.insertBefore(deleteButton, element.firstChild)
 
         return element
     }
 
+    /**
+     * Generates the clean, static HTML string intended for the final client-side page export.
+     * Uses kotlinx.html.stream.createHTML.
+     * Must not include any editor-specific elements, attributes, or JavaScript event handlers.
+     */
+    fun buildStaticHtml(): String = createHTML().article {
+        attributes["data-component-tag"] = TAG
+        h3 {
+            attributes[Typography.TAGLINE] = ""
+            +name
+        }
+        p {
+            attributes[Typography.BODY] = ""
+            +description
+        }
+    }
     /**
      * Renders the component into the given parentElement.
      * If the component was already rendered elsewhere, it will be moved.
      * If called on an already rendered component within the same parent, it effectively refreshes it.
      */
     fun renderTo(parentElement: HTMLElement): HTMLElement {
-        val newElement = buildHtml()
+        val newElement = buildEditorDom()
 
         // If this component instance is already associated with a DOM element,
         // remove it from its current parent before appending to the new parent.
@@ -140,7 +155,7 @@ class Expertise(
         val currentElement = rootElement ?: return // Not rendered yet
         val parent = currentElement.parentNode ?: return // Rendered but detached from DOM
 
-        val newElement = buildHtml()
+        val newElement = buildEditorDom()
         parent.replaceChild(newElement, currentElement)
         rootElement = newElement // Update the stored reference to the new element
     }
@@ -156,6 +171,13 @@ class Expertise(
     companion object {
         // TAG is used for styling via data-component-tag and potentially for logging/identification.
         const val TAG = "expertise"
+
+        @JsName("deleteExpertise")
+ fun deleteExpertise(element: HTMLElement) {
+ // Find the Kotlin instance associated with the element and detach it
+            (element.asDynamic().kotlinInstance as? Expertise)?.detach()
+ element.remove()
+        }
 
         fun cssRules(): List<CssRuleDefinition> {
             val selectorBase = "[data-component-tag='$TAG']"

@@ -4,12 +4,14 @@ import kotlinx.browser.document
 import kotlinx.html.classes
 import kotlinx.html.dom.create
 import kotlinx.html.li
+import kotlinx.html.stream.createHTML
 import kotlinx.html.ul
 import org.w3c.dom.HTMLElement
 import prisma.editor.Config
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
 import prisma.editor.css.Typography
+import kotlin.js.JSON // Import JSON for serialization
 
 
 class KeywordStrip(
@@ -26,12 +28,32 @@ class KeywordStrip(
         load()
     }
 
-    // Generates the HTML structure for the component based on current properties
-    fun buildHtml(): HTMLElement {
+    /**
+     * Generates the HTML structure for the editor's live view.
+     * Returns an HTMLElement using kotlinx.html.dom.
+     */
+    fun buildEditorDom(): HTMLElement {
         return document.create.ul {
             attributes["data-component-tag"] = TAG
             // Store a reference to the Kotlin component instance on the DOM element
             this@ul.asDynamic().kotlinInstance = this@KeywordStrip
+            keywords.forEach { keyword ->
+                li {
+                    classes = setOf(Typography.SMALL_TEXT)
+                    +keyword
+                }
+            }
+        }
+    }
+
+    /**
+     * Generates the static HTML string for client-side export.
+     * Returns a String using kotlinx.html.stream.createHTML.
+     * Should not contain editor-specific elements or attributes.
+     */
+    fun buildStaticHtml(): String {
+        return createHTML().ul {
+             attributes["data-component-tag"] = TAG
             keywords.forEach { keyword ->
                 li {
                     classes = setOf(Typography.SMALL_TEXT)
@@ -47,7 +69,7 @@ class KeywordStrip(
      * If called on an already rendered component within the same parent, it effectively refreshes it.
      */
     fun renderTo(parentElement: HTMLElement): HTMLElement {
-        val newElement = buildHtml()
+        val newElement = buildEditorDom()
 
         // If this component instance is already associated with a DOM element,
         // remove it from its current parent before appending to the new parent.
@@ -100,6 +122,15 @@ class KeywordStrip(
     }
 
     /**
+     * Returns the component's state as a serializable object.
+     */
+    fun toData(): Any {
+        return mapOf(
+            "keywords" to keywords
+        )
+    }
+
+    /**
      * Refreshes the DOM of the component in place if it has been rendered and is still in the DOM.
      * This is typically called after properties are updated via set().
      */
@@ -107,7 +138,7 @@ class KeywordStrip(
         val currentElement = rootElement ?: return // Not rendered yet
         val parent = currentElement.parentNode ?: return // Rendered but detached from DOM
 
-        val newElement = buildHtml()
+        val newElement = buildEditorDom()
         parent.replaceChild(newElement, currentElement)
         rootElement = newElement // Update the stored reference to the new element
     }
