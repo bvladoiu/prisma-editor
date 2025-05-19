@@ -125,6 +125,11 @@ object EditorJs {
     }
 }
 
+@JsName("receivePageList")
+fun receivePageList(pageList: dynamic) {
+    EditorJs.bottomDrawer.setPageList(pageList)
+}
+
 private fun addHomePage(mainContent: HTMLElement) {
     window.setTimeout({
         GlobalScope.launch {

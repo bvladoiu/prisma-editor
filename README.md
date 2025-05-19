@@ -84,6 +84,10 @@ You can also use the custom task to copy resources and run the editor:
 
 ## Styling
 
+The editor is designed to allow the creation and management of specific pages like Home, Press, Dev-Blog, Company, and Contact solely through serialized data. This means these page types should utilize the generic `Page` component and its data properties, without requiring dedicated code components for each specific page type.
+
+## Styling
+
 - Use Theme for colors, spacing, typography
 - Define CSS with attribute selectors in companion objects
 - Avoid inline styles; use centralized stylesheets
@@ -162,8 +166,12 @@ This configuration is accessible from both JVM and JS code, allowing for consist
 - Added semantic color variable layer and removed hardcoded colors
 
 #### Pending Tasks
-- Remove hardcoded content from Home page and implement saving/loading from map files
-- Implement UI for displaying and saving component data against site/language combinations
+- Implement a user interface in the JS frontend to display and manage the current configuration (sites and languages), allowing users to select the active site and language. This UI should also include functionality and UI elements for adding new language options.
+- Implement the UI and underlying functionality for creating new pages. Users should be able to specify a page name and potentially a template or initial structure.
+- Implement the UI and underlying functionality for editing existing pages. This should go beyond just editing component data and include managing the page structure and settings.
+- Refine the saving and loading mechanism in `EditorJvm` to handle different pages and their respective component data effectively. This should involve organizing the saved data by site, language, and page tag.
+- Implement the export functionality, including UI for triggering HTML/CSS export, generating static HTML and CSS, and linking the JS bundle.
+- Ensure that the Home, Press, Dev-Blog, Company, and Contact pages can be created and managed solely through serialized data using the generic `Page` component.
 
 ## License
 

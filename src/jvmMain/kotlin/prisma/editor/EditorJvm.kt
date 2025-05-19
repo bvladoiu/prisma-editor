@@ -43,6 +43,16 @@ object EditorJvm {
                     }
                 }
 
+                "getPages" -> {
+                    if (filename != null) {
+                        val filenameParts = filename.split(":")
+                        if (filenameParts.size == 2) {
+                            val site = filenameParts[0]
+                            val language = filenameParts[1]
+                            sendPageList(site, language)
+                        }
+                    }
+                }
                 else -> trace(message)
             }
         }
@@ -114,6 +124,16 @@ object EditorJvm {
             )
             page?.evaluate("(data) => receiveData(data.tag, data.jsonString)", dataToPass)
         }
+    }
+
+    /**
+     * Sends a list of pages for a given site and language to the JS side.
+     */
+    private fun sendPageList(site: String, language: String) {
+        // TODO: Implement logic to get actual pages based on site and language
+        val samplePages = listOf(mapOf("name" to "Home", "url" to "/home.html"), mapOf("name" to "Catalog", "url" to "/catalog.html"))
+        val dataToPass = mapOf("pages" to samplePages)
+        page?.evaluate(\"(data) => receivePageList(data.pages)\", dataToPass)
     }
 
     /**
