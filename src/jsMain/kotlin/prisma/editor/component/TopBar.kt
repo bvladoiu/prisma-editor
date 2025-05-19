@@ -5,6 +5,7 @@ import kotlinx.html.*
 import kotlinx.html.dom.create
 import org.w3c.dom.HTMLElement
 import prisma.editor.Config
+import prisma.editor.component.LangSelect
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
 import prisma.editor.component.MenuButton
@@ -18,6 +19,7 @@ class TopBar {
     private var rootElement: HTMLElement? = null
 
     private val logo = Logo("/images/logo.png", "Home", "/")
+ private val langSelect = LangSelect()
     private val menuButton = MenuButton()
 
     init {
@@ -38,10 +40,9 @@ class TopBar {
                 +"[Theme Select Placeholder]"
             }
 
-            // Placeholder for Language Select
             div {
                 attributes["topbar-language-select"] = ""
-                +"[Language Select Placeholder]"
+ unsafe { +langSelect.buildHtml().outerHTML }
             }
 
             unsafe { +logo.buildStaticHtml() }
@@ -82,10 +83,9 @@ class TopBar {
             // Placeholder for Theme Select
             div { attributes["topbar-theme-select"] = "" }
 
-            // Placeholder for Language Select
             div { attributes["topbar-language-select"] = "" }
+ unsafe { +langSelect.buildHtml().outerHTML }
             unsafe { +logo.buildStaticHtml() }
-            // Placeholder for Home Link
             a(href = "#") { attributes["topbar-home-link"] = "" }
 
             // Placeholder for CTA Button

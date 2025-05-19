@@ -19,11 +19,23 @@ Top-Level Components **must** adhere to the following standards:
 
 ### 3.1. Data Handling
 
+### Component Data Serialization
+
+Component data is serialized to and deserialized from JSON strings. The `toData()` method on each component should return a serializable representation of its state, including a `componentType` field to identify the component. The `set(data: dynamic)` method should update the component's state from the deserialized data. Saving and loading of component data is handled at the page level, which iterates through the components on the page and calls their `commit()` and `load()` methods. The actual saving and loading mechanism is implemented in `EditorJs` and `EditorJvm`, and involves sending and receiving JSON data over the console.
+
+Add a comment to the `commit()`, `load()`, and `set()` methods in component classes like this:
+
+
 *   Component data should be stored in class properties (`var` or `val` as appropriate).
 *   Initial data can be passed via the constructor.
 *   Data updates must be handled by a `set(data: dynamic)` method.
 
 ### 3.2. HTML Generation
+
+*   **Attaching Kotlin Instance to DOM Element**:
+    *   **Purpose:** Crucial for maintaining the bidirectional link between the DOM element and its corresponding Kotlin component instance within the editor. This allows event handlers in JavaScript to easily access the Kotlin object and call its methods, avoiding direct manipulation of the DOM tree from Kotlin logic where possible, thus preserving the component's lifecycle management within Kotlin.
+    *   **Implementation:** Within the `buildEditorDom()` method, immediately after creating the component's root `HTMLElement` using `kotlinx.html.dom`, add the line:
+
 
 *   **`buildEditorDom(): HTMLElement`**:
     *   **Purpose:** Generates the DOM structure for the editor's interactive live view.
