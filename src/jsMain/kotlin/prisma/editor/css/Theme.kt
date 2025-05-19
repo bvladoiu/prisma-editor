@@ -3,6 +3,7 @@ package prisma.editor.css
 
 object Theme {
 
+    // --- Raw Color Values ---
     // Actual color values with semantic names
     val brandBlue = "#56b2f0"
     val brandPurple = "#7112a1"
@@ -21,6 +22,7 @@ object Theme {
     val blackShadowMedium = "rgba(0, 0, 0, 0.3)"
     val blackShadowHeavy = "rgba(0, 0, 0, 0.8)"
 
+    // --- CSS Variable References (Semantic Colors) ---
     // CSS variable references
     val primary = "var(--color-primary)"
     val secondary = "var(--color-secondary)"

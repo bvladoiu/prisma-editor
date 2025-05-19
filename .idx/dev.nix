@@ -18,7 +18,10 @@
   idx = {
     # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
     extensions = [
-      # "vscodevim.vim"
+      "kotlin.kotlin-vscode"
+ "vscjava.vscode-gradle"
+ "ecmel.vscode-html-css"
+ "xabikos.JavaScriptSnippets"
     ];
 
     # Enable previews

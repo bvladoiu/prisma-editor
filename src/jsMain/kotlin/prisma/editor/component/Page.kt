@@ -1,13 +1,13 @@
-package prisma.editor.pages
+package prisma.editor.component
 
 import kotlinx.browser.document
 import kotlinx.html.*
-import kotlinx.html.dom.*
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.Element
 import prisma.editor.component.SectionsInitialData
 import prisma.editor.css.FontsLoader
 import prisma.editor.css.Main
+import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.ScriptLoader
 import kotlin.js.JSON
 
@@ -19,6 +19,8 @@ import kotlin.js.JSON
 open class Page {
     open var tag: String = TAG
     open var name: String = ""
+
+ private val topBar = TopBar()
 
     // Store component data for serialized page creation
     var componentData: dynamic = null
@@ -38,27 +40,31 @@ open class Page {
         // Add main stylesheet
         Main.stylesheet()
 
-        // Create the page container
-        val container = document.create.div {
-            attributes["page-container"] = ""
-            attributes["TAG"] = tag
-            asDynamic().kotlinInstance = this@Page
-        }
+        val body = document.body!!
+
+        // Add the top bar directly to the body
+ body.innerHTML += topBar.buildStaticHtml()
 
         // Add the drawer to the page
-        addDrawer(container)
+        addDrawer(body)
+
+        // Create and append the main element for sections
+        val mainElement = document.createElement("main") as HTMLElement
+ body.appendChild(mainElement)
 
         // Add sections from componentData if available
         if (componentData != null) {
+ // This logic needs to be moved to buildEditorDom/buildStaticHtml or a dedicated render method
+ // For now, we will add sections directly to the main element
             try {
-                // Iterate through sections in componentData
+                // Iterate through sections in componentData and add them to the main element
                 for (key in js("Object").keys(componentData)) {
                     val sectionData = this.componentData[key]
                     val title = sectionData.title as? String ?: ""
                     val isDivider = sectionData.isDivider as? Boolean ?: false
                     val sectionId = sectionData.sectionId as? String
 
-                    addSection(container, title, isDivider, sectionId)
+ addSection(mainElement, title, isDivider, sectionId)
                 }
             } catch (e: Exception) {
                 console.error("Error creating sections from component data", e)
@@ -68,7 +74,7 @@ open class Page {
         // Load scripts
         ScriptLoader.addScriptsToBody()
 
-        return container
+        return body
     }
 
     /**
@@ -93,7 +99,7 @@ open class Page {
         }
 
         val sectionElement = section.buildHtml()
-        container.appendChild(sectionElement)
+        mainElement.appendChild(sectionElement) // Append section to the main element
         return sectionElement
     }
 
@@ -150,11 +156,12 @@ open class Page {
      */
     open fun refresh() {
         val existingElement = document.querySelector("[$tag]")
-        if (existingElement != null) {
-            existingElement.parentElement?.replaceChild(create(), existingElement)
+        if (existingElement != null && existingElement == document.body) { // Only refresh the body if it's the current page element
+            val newPageElement = create() // This will rebuild and append to body
+ topBar.renderTo(newPageElement) // Render the top bar within the new page element
         } else {
             console.warn("No existing element with attribute [$tag] found to refresh.")
-        }
+ document.body?.appendChild(create()) // If no element found, just create and append
     }
 
     companion object {
@@ -179,16 +186,35 @@ open class Page {
             return page
         }
 
+        private fun layoutCssRules(): List<CssRuleDefinition> {
+            // Assuming TopBar.TAG will be defined elsewhere
+            val topBarSelector = "[${TopBar.TAG}]"
+            return listOf(
+                "[page-container]" to {
+                    // Adjust padding-top to accommodate the fixed top bar.
+                    // Theme.topBarHeight should be a constant defining the height of the TopBar.
+                    // For now, use a placeholder or calculate based on TopBar's defined height.
+                    // Let's assume TopBar has a fixed height of 60px for this example.
+                    // A better approach would be to read TopBar's actual height or have a shared constant.
+                    paddingTop = "60px"
+                    width = "100%"
+                    minHeight = "100vh"
+                },
+                topBarSelector to {
+                    position = "fixed"
+                    top = "0"
+                    left = "0"
+                    right = "0"
+                    zIndex = "100" // Ensure the top bar stays on top
+                }
+            )
+        }
+
         /**
          * CSS rules for the page container.
          */
         fun cssRules(): List<prisma.editor.css.CssRuleDefinition> {
-            return listOf(
-                "[page-container]" to {
-                    width = "100%"
-                    minHeight = "100vh"
-                }
-            )
+            return layoutCssRules() // Call the layoutCssRules method
         }
     }
 }
