@@ -1,17 +1,26 @@
 # TODO
 
-Task4: Remove the hardcoded content from Home page and have it saved/loaded from map files in the jvm code and passed through to the js code using the commit/set/load cli api already implemented.
+Task1: Implement a user interface in the JS frontend to display and manage the current configuration (sites and languages). This UI should allow users to select the active site and language and trigger saving and loading of page data using the existing mechanisms in `EditorJvm`.
 
-Task5: Implement UI for displaying current Config (sites and languages) and saving component data against site/language combinations. This should include a dropdown or similar UI element to select the current site and language, and ensure that all component data is saved and loaded with respect to the selected site/language.
+Task2: Remove the hardcoded page content in `PagesInitialData.kt`. Modify the application flow to load page data dynamically from the JVM based on the selected site, language, and page tag. The loaded data should then be used to populate the components on the page.
 
+Task3: Implement the export functionality. This should include:
+    - Generating static HTML files for each page based on the component data.
+    - Consolidating the CSS rules from all components into a single main CSS file.
+    - Ensuring the client-side JavaScript bundle is correctly generated and linked in the exported HTML files.
+
+Task4: Enhance the saving and loading mechanism in `EditorJvm` to handle different pages and their respective component data effectively. This might involve organizing the saved data by site, language, and page tag.
+
+Task5: Consider adding a UI or command-line interface in the JVM application for managing sites and languages persistently (e.g., adding, removing, or modifying site/language configurations).
 
 # DONE
 
-Task3: Create a secondary page called Catalog for showcasing all our components so far. The example of the Home page is not to be followed!!! This new catalog page must save and retrieve data into components using their commit/set/load apis that save/retrieve data against a site name and a language. Add another site name in the Config object in common code called 'common'. Make the catalog page be the default page the editor opens on.
-
-Task2: Make prisma.js from index not be linked in index.html but have it installed as intrinsic script in the jvm code of the project. Remove all google font links from index.html and ensure they are working from the Page component in js logic of the project that should now be installed as intrinsic script. Remove client.js link from index.html and create a ScriptLoader object then integrate it in Page. in the spirit of FontsLoader.
-
-Task1: Implement an object IconLoader to be used as an hook/aggregator of icon names. modify the Icon component to achieve this (the render method). have the IconLoader provide a method to be employed in head elements that adds query parameters with icon names to avoid downloading all thousands of icons long icon font. ensure it follows the best practices of the font service. icons must be in alphabetical name (check if also the axis must be in alphabetical names). Omit the optical size axis because it causes bugs when its not automanaged by the browser. Better yet call this object FontsLoader and look at Typography css object what other variable fonts our project uses in adition to material-symbols (as variable font) and make a respective method for each one so that they can be employed in head tags to get our typography related fonts/variable fonts by linking to the google font service and ensuring best practices for accessing it.
-
+- Created a Catalog page for component showcase.
+- Implemented FontsLoader for optimized font loading.
+- Created client module with build task.
+- Integrated ScriptLoader for script loading.
+- Updated CSS selectors to use parent-child attribute pattern.
+- Added semantic color variable layer and removed hardcoded colors.
+- Implemented a basic saving and loading mechanism for component data in `EditorJvm` communicating with `EditorJs` via console messages.
 
 # OUTSTANDING:

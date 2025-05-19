@@ -7,6 +7,7 @@ A Kotlin Multiplatform project for editing static content with a component-based
 - `src/commonMain`: Shared code between JS and JVM platforms
 - `src/jsMain`: JavaScript/Web frontend
 - `src/jvmMain`: JVM/Desktop application
+- `client`: Module for building the client-side JavaScript bundle.
 
 ## Development
 
@@ -56,7 +57,7 @@ You can also use the custom task to copy resources and run the editor:
 ## Workflow
 
 - Scan project before starting tasks to understand structure/patterns
-- Check OUTSTANDING in TODOS.md; promote items to tasks when needed
+- Check TODO in TODOS.md for pending tasks
 - Create descriptive feature branches from develop (e.g., `task1-css-rules`)
 - Add new files to git. Make sure there are no untracked/unaccounted for files.
 - Update task_log.md with brief entry for completed work
@@ -101,10 +102,11 @@ You can also use the custom task to copy resources and run the editor:
 This checklist outlines the standard process for implementing tasks and merging feature branches into the develop branch.
 
 ### Starting a Task
-1. Check the OUTSTANDING section in TODOS.md and promote any items to tasks if needed
-2. Select a task from the TODO section
-3. Create a new branch from develop with a descriptive name (e.g., `task1-consistent-css-rules`)
+1. Check the TODO section in TODOS.md and select a task.
+2. Create a new branch from develop with a descriptive name (e.g., `task1-ui-config`).
 
+### Implementing the Task
+1. Understand the requirements of the task
 ### Implementing the Task
 1. Understand the requirements of the task
 2. Make the necessary code changes
@@ -124,8 +126,10 @@ This checklist outlines the standard process for implementing tasks and merging 
 3. Delete the feature branch after successful merge
 
 ### Updating TODOS.md
-1. Remove the completed task from TODO and make sure it's addressed in task_log.md
-2. Commit the updated TODOS.md and task_log.md
+1. Update the TODO section in TODOS.md to reflect the completed task.
+2. Add a detailed entry for the completed task in task_log.md.
+3. Commit the updated TODOS.md and task_log.md.
+
 
 ## Project Features
 
@@ -135,6 +139,7 @@ The project includes a Catalog page that showcases all available components. Thi
 - View all components in one place
 - Test component functionality
 - Save and load component data using their commit/set/load APIs
+- Save and load component data using their commit/set/load APIs (via console interaction with the JVM)
 
 ### Configuration System
 
@@ -144,6 +149,7 @@ The project uses a Config object in the commonMain sourceset to track:
 - Current site, language, and page tag
 
 This configuration is accessible from both JVM and JS code, allowing for consistent settings across platforms.
+This configuration is accessible from both JVM and JS code, allowing for consistent settings across platforms. A basic saving and loading mechanism for component data based on this configuration exists in the JVM, communicating with the JS frontend via console messages.
 
 ### Current Project Status
 
