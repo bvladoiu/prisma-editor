@@ -55,37 +55,7 @@ class SectionContent {
         children.addAll(elements)
     }
 
-    /**
-     * Turns the component into an editable state.
-     * @return The editable HTMLElement
-     */
-    fun edit(): HTMLElement {
-        val element = preview()
-
-        // Make all child elements editable
-        val childElements = element.children
-        for (i in 0 until childElements.length) {
-            val childElement = childElements.item(i) ?: continue
-            val component = childElement.asDynamic().kotlinInstance
-            if (component != null && component.edit != null) {
-                val editableElement = component.edit()
-                element.replaceChild(editableElement, childElement)
-            }
-        }
-
-        // Add "+" button to add new content
-        val addButton = document.create.button {
-            attributes["class"] = "add-button"
-            attributes["onclick"] = "prisma.editor.component.SectionContent.addNewContent(this)"
-            attributes["title"] = "Add new content"
-            +"+"
-        }
-        element.appendChild(addButton)
-
-        return element
-    }
-
-    fun preview(): HTMLElement {
+    fun buildHtml(isEditing: Boolean = false): HTMLElement {
         val contentElement = document.create.div {
             attributes[TAG] = ""
             attributes["role"] = "region"
@@ -93,8 +63,30 @@ class SectionContent {
         }
 
         // Add all child elements
-        children.forEach { child ->
-            contentElement.appendChild(child)
+        if (isEditing) {
+            // Make all child elements editable
+            children.forEach { child ->
+                val component = child.asDynamic().kotlinInstance
+                if (component != null && component.buildHtml != null) {
+                    val editableElement = component.buildHtml(true)
+                    contentElement.appendChild(editableElement)
+                } else {
+                    contentElement.appendChild(child)
+                }
+            }
+
+            // Add "+" button to add new content
+            val addButton = document.create.button {
+                attributes["class"] = "add-button"
+                attributes["onclick"] = "prisma.editor.component.SectionContent.addNewContent(this)"
+                attributes["title"] = "Add new content"
+                +"+"
+            }
+            contentElement.appendChild(addButton)
+        } else {
+            children.forEach { child ->
+                contentElement.appendChild(child)
+            }
         }
 
         return contentElement
@@ -120,10 +112,10 @@ class SectionContent {
     fun refresh() {
         val existingElement = document.querySelector("[$TAG]")
         if (existingElement != null) {
-            existingElement.parentElement?.replaceChild(preview(), existingElement)
+            existingElement.parentElement?.replaceChild(buildHtml(), existingElement)
         } else {
             console.warn("No existing element with attribute [$TAG] found to refresh.")
-            document.body?.appendChild(preview())
+            document.body?.appendChild(buildHtml())
         }
     }
 

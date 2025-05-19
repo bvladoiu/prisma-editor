@@ -24,42 +24,23 @@ class Latest(
         load()
     }
 
-    /**
-     * Turns the component into an editable state.
-     * @return The editable HTMLElement
-     */
-    fun edit(): HTMLElement {
-        val element = buildHtml()
-
-        // Convert all article cards to editable mode
-        val articleElements = element.querySelectorAll("[data-component-tag='${ArticleCard.TAG}']")
-        for (i in 0 until articleElements.length) {
-            val articleElement = articleElements.item(i) ?: continue
-            val article = articleElement.asDynamic().kotlinInstance as? ArticleCard
-            if (article != null) {
-                val editableArticle = article.edit()
-                articleElement.parentElement?.replaceChild(editableArticle, articleElement)
-            }
-        }
-
-        // Add "+" button to add new articles
-        val addButton = document.create.button {
-            attributes["class"] = "add-button"
-            attributes["onclick"] = "prisma.editor.component.Latest.addNewArticle(this)"
-            attributes["title"] = "Add new article"
-            +"+"
-        }
+    private fun addPlusButton(element: HTMLElement) {
+        val addButton = document.create.button { attributes["class"] = "add-button"
+           // attributes["onclick"] = "prisma.editor.component.Latest.addNewArticle(this)" attributes["title"] = "Add new article"
+            +"+" }
         element.appendChild(addButton)
-
-        return element
     }
 
     // Generates the HTML structure for the component based on current properties
-    fun buildHtml(): HTMLElement {
+    fun buildHtml(isEditing: Boolean = false): HTMLElement {
         val ul = document.create.ul {
             attributes["data-component-tag"] = TAG
             // Store a reference to the Kotlin component instance on the DOM element
             this@ul.asDynamic().kotlinInstance = this@Latest
+        }
+
+        if (isEditing) {
+            addPlusButton(ul)
         }
 
         articles.forEach { article ->
@@ -164,7 +145,7 @@ class Latest(
                 initialAuthor = "Author Name",
                 initialDate = "Date"
             )
-            val articleElement = article.edit()
+            val articleElement = article.buildHtml(isEditing = true)
             listElement.insertBefore(articleElement, button)
         }
 

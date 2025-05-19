@@ -27,31 +27,8 @@ class ArticleCard(
         load()
     }
 
-    fun edit(): HTMLElement {
-        val element = buildHtml()
-
-        val titleElement = element.querySelector("h3")
-        titleElement?.setAttribute("contenteditable", "true")
-
-        val authorElement = element.querySelector("[data-component-tag='$AUTHOR_TAG']")
-        authorElement?.setAttribute("contenteditable", "true")
-
-        val dateElement = element.querySelector("time")
-        dateElement?.setAttribute("contenteditable", "true")
-
-        val deleteButton = document.create.button {
-            attributes["class"] = "delete-button"
-            attributes["onclick"] = "this.parentElement.remove()"
-            attributes["title"] = "Delete this article"
-            +"-"
-        }
-        element.insertBefore(deleteButton, element.firstChild)
-
-        return element
-    }
-
-    fun buildHtml(): HTMLElement {
-        return document.create.li {
+    fun buildHtml(isEditing: Boolean = false): HTMLElement {
+        val element = document.create.li {
             attributes["data-component-tag"] = TAG
             this@li.asDynamic().kotlinInstance = this@ArticleCard
 
@@ -75,6 +52,27 @@ class ArticleCard(
                 +"By $author"
             }
         }
+
+        if (isEditing) {
+            val titleElement = element.querySelector("h3")
+            titleElement?.setAttribute("contenteditable", "true")
+
+            val authorElement = element.querySelector("[data-component-tag='$AUTHOR_TAG']")
+            authorElement?.setAttribute("contenteditable", "true")
+
+            val dateElement = element.querySelector("time")
+            dateElement?.setAttribute("contenteditable", "true")
+
+            val deleteButton = document.create.button {
+                attributes["class"] = "delete-button"
+                attributes["onclick"] = "this.parentElement.remove()"
+                attributes["title"] = "Delete this article"
+                +"-"
+            }
+            element.insertBefore(deleteButton, element.firstChild)
+        }
+
+        return element
     }
 
     fun renderTo(parentElement: HTMLElement): HTMLElement {

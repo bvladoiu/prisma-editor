@@ -22,41 +22,8 @@ class SectionHeader(
         load()
     }
 
-    /**
-     * Turns the component into an editable state.
-     * @return The editable HTMLElement
-     */
-    fun edit(): HTMLElement {
-        val element = preview()
-
-        // Make the title editable
-        val titleElement = element.querySelector("h2")
-        titleElement?.setAttribute("contenteditable", "true")
-
-        // Add checkbox for isDivider
-        val dividerCheckbox = document.create.div {
-            style = "margin-top: 8px; display: flex; align-items: center;"
-
-            input {
-                type = InputType.checkBox
-                checked = isDivider
-                id = "divider-checkbox"
-                onChange = "this.parentElement.parentElement.kotlinInstance.toggleDivider(this.checked)"
-            }
-
-            label {
-                htmlFor = "divider-checkbox"
-                style = "margin-left: 8px; font-size: 14px; color: var(--color-white);"
-                +"Show divider"
-            }
-        }
-        element.appendChild(dividerCheckbox)
-
-        return element
-    }
-
-    fun preview(): HTMLElement {
-        return document.create.header {
+    fun buildHtml(isEditing: Boolean = false): HTMLElement {
+        val element = document.create.header {
             attributes[TAG] = ""
             attributes["data-divider"] = isDivider.toString()
             asDynamic().kotlinInstance = this@SectionHeader
@@ -67,6 +34,33 @@ class SectionHeader(
                 +title
             }
         }
+
+        if (isEditing) {
+            // Make the title editable
+            val titleElement = element.querySelector("h2")
+            titleElement?.setAttribute("contenteditable", "true")
+
+            // Add checkbox for isDivider
+            val dividerCheckbox = document.create.div {
+                style = "margin-top: 8px; display: flex; align-items: center;"
+
+                input {
+                    type = InputType.checkBox
+                    checked = isDivider
+                    id = "divider-checkbox"
+                    onChange = "this.parentElement.parentElement.kotlinInstance.toggleDivider(this.checked)"
+                }
+
+                label {
+                    htmlFor = "divider-checkbox"
+                    style = "margin-left: 8px; font-size: 14px; color: var(--color-white);"
+                    +"Show divider"
+                }
+            }
+            element.appendChild(dividerCheckbox)
+        }
+
+        return element
     }
 
     fun commit() {
@@ -93,10 +87,10 @@ class SectionHeader(
     fun refresh() {
         val existingElement = document.querySelector("[$TAG]")
         if (existingElement != null) {
-            existingElement.parentElement?.replaceChild(preview(), existingElement)
+            existingElement.parentElement?.replaceChild(buildHtml(), existingElement)
         } else {
             console.warn("No existing element with attribute [$TAG] found to refresh.")
-            document.body?.appendChild(preview())
+            document.body?.appendChild(buildHtml())
         }
     }
 

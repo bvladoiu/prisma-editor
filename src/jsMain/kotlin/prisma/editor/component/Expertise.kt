@@ -29,36 +29,9 @@ class Expertise(
         load()
     }
 
-    /**
-     * Turns the component into an editable state.
-     * @return The editable HTMLElement
-     */
-    fun edit(): HTMLElement {
-        val element = buildHtml()
-
-        // Make the name editable
-        val nameElement = element.querySelector("h3")
-        nameElement?.setAttribute("contenteditable", "true")
-
-        // Make the description editable
-        val descriptionElement = element.querySelector("p")
-        descriptionElement?.setAttribute("contenteditable", "true")
-
-        // Add delete button
-        val deleteButton = document.create.button {
-            attributes["class"] = "delete-button"
-            attributes["onclick"] = "this.parentElement.remove()"
-            attributes["title"] = "Delete this expertise"
-            +"-"
-        }
-        element.insertBefore(deleteButton, element.firstChild)
-
-        return element
-    }
-
     // Generates the HTML structure for the component based on current properties
-    fun buildHtml(): HTMLElement {
-        return document.create.article {
+    fun buildHtml(isEditing: Boolean = false): HTMLElement {
+        val element = document.create.article {
             attributes["data-component-tag"] = TAG
             // Store a reference to the Kotlin component instance on the DOM element
             this@article.asDynamic().kotlinInstance = this@Expertise
@@ -71,6 +44,27 @@ class Expertise(
                 +description
             }
         }
+
+        if (isEditing) {
+            // Make the name editable
+            val nameElement = element.querySelector("h3")
+            nameElement?.setAttribute("contenteditable", "true")
+
+            // Make the description editable
+            val descriptionElement = element.querySelector("p")
+            descriptionElement?.setAttribute("contenteditable", "true")
+
+            // Add delete button
+            val deleteButton = document.create.button {
+                attributes["class"] = "delete-button"
+                attributes["onclick"] = "this.parentElement.remove()"
+                attributes["title"] = "Delete this expertise"
+                +"-"
+            }
+            element.insertBefore(deleteButton, element.firstChild)
+        }
+
+        return element
     }
 
     /**

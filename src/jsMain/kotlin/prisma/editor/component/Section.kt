@@ -29,44 +29,6 @@ class Section(
         load()
     }
 
-    fun edit(): HTMLElement {
-        val element = buildHtml()
-
-        val headerElement = element.querySelector("[data-component-tag='${HEADER_ATTR}'] h2")
-        headerElement?.setAttribute("contenteditable", "true")
-
-        val deleteButton = document.create.button {
-            attributes["class"] = "delete-button"
-            attributes["onclick"] = "this.parentElement.remove()"
-            attributes["title"] = "Delete this section"
-            +"-"
-        }
-        element.insertBefore(deleteButton, element.firstChild)
-
-        val contentElement = element.querySelector("[data-component-tag='${CONTENT_ATTR}']")
-        if (contentElement != null) {
-            val addContentButton = document.create.button {
-                attributes["class"] = "add-button"
-                attributes["onclick"] = "prisma.editor.component.Section.addNewContent(this)"
-                attributes["title"] = "Add new content"
-                +"+"
-            }
-            contentElement.appendChild(addContentButton)
-        }
-
-        val gridElement = element.querySelector("[data-component-tag='${GRID_ATTR}']")
-        if (gridElement != null) {
-            val addGridItemButton = document.create.button {
-                attributes["class"] = "add-button"
-                attributes["onclick"] = "prisma.editor.component.Section.addNewGridItem(this)"
-                attributes["title"] = "Add new grid item"
-                +"+"
-            }
-            gridElement.appendChild(addGridItemButton)
-        }
-
-        return element
-    }
 
     fun addContent(element: HTMLElement) {
         contentItems.add(element)
@@ -91,7 +53,7 @@ class Section(
         gridItems.addAll(elements)
     }
 
-    fun buildHtml(): HTMLElement {
+    fun buildHtml(isEditing: Boolean = false): HTMLElement {
         val sectionElement = document.create.section {
             attributes[TAG] = ""
             attributes["data-margin-top"] = marginTop
@@ -134,6 +96,41 @@ class Section(
             }
 
             sectionElement.appendChild(gridElement)
+        }
+
+        if (isEditing) {
+            val headerElement = sectionElement.querySelector("[data-component-tag='${HEADER_ATTR}'] h2")
+            headerElement?.setAttribute("contenteditable", "true")
+
+            val deleteButton = document.create.button {
+                attributes["class"] = "delete-button"
+                attributes["onclick"] = "this.parentElement.remove()"
+                attributes["title"] = "Delete this section"
+                +"-"
+            }
+            sectionElement.insertBefore(deleteButton, sectionElement.firstChild)
+
+            val contentElement = sectionElement.querySelector("[data-component-tag='${CONTENT_ATTR}']")
+            if (contentElement != null) {
+                val addContentButton = document.create.button {
+                    attributes["class"] = "add-button"
+                    attributes["onclick"] = "prisma.editor.component.Section.addNewContent(this)"
+                    attributes["title"] = "Add new content"
+                    +"+"
+                }
+                contentElement.appendChild(addContentButton)
+            }
+
+            val gridElement = sectionElement.querySelector("[data-component-tag='${GRID_ATTR}']")
+            if (gridElement != null) {
+                val addGridItemButton = document.create.button {
+                    attributes["class"] = "add-button"
+                    attributes["onclick"] = "prisma.editor.component.Section.addNewGridItem(this)"
+                    attributes["title"] = "Add new grid item"
+                    +"+"
+                }
+                gridElement.appendChild(addGridItemButton)
+            }
         }
 
         return sectionElement
