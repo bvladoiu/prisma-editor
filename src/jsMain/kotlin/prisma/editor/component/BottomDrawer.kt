@@ -8,6 +8,8 @@ import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLDialogElement
 import org.w3c.dom.HTMLOptionElement
 import org.w3c.dom.asList
+import org.w3c.dom.events.Event
+import org.w3c.dom.get
 import prisma.editor.EditorJs
 import prisma.editor.Config
 import prisma.editor.css.CssRuleDefinition
@@ -52,11 +54,11 @@ class BottomDrawer(
 
             form {
                 // This form will contain the three main sections
-                attributes["TAG"] = CONTENT_TAG
+                attributes["TAG"] = CONTENT_TAG // Reuse CONTENT_TAG for the form itself
 
                 // Language Section
                 div {
-                    attributes["TAG"] = "language-section" // Unique tag for the section
+                    attributes["TAG"] = "language-section" // Unique tag for the language section
                     attributes["role"] = "group"
                     attributes["aria-labelledby"] = "site-group-label"
 
@@ -124,13 +126,17 @@ class BottomDrawer(
                         comment("Placeholder for Add New Language functionality")
                     }
                 }
+                // Container for the list of existing languages
+                div {
+                    id = "language-list-container" // ID for the language list container
 
+                }
                 // Pages Section
                 div {
                     attributes["TAG"] = "pages-section" // Unique tag for the section
-                    attributes["role"] = "group"
+ attributes["role"] = "group"
                     attributes["aria-labelledby"] = "page-group-label"
-
+                    // Placeholder for Page group label (kept for consistency)
                     h4 {
                          id = "page-group-label"
                         attributes[Typography.TAGLINE] = ""
@@ -139,9 +145,10 @@ class BottomDrawer(
 
                     div {
                         id = "page-list-container" // Container for the page list
-                        comment("Placeholder for Page list and actions")
+
                 }
 
+                    // Button to create a new page
                     div {
  attributes["TAG"] = FIELD_TAG // Reuse FIELD_TAG for layout
  button {
@@ -153,7 +160,7 @@ class BottomDrawer(
                 }
             }
 
-             // Add event listener for the Add Language button after the element is created
+ // Add event listener for the Add Language button after the element is created
             document.getElementById("add-language-button")?.addEventListener("click", {
  val newLanguageInput = document.getElementById("new-language-input") as? HTMLInputElement
  val newLanguage = newLanguageInput?.value?.trim()
@@ -318,12 +325,12 @@ class BottomDrawer(
     }
 
  @JsName("updateCurrentPage")
- fun updateCurrentPage() {
+ fun updateCurrentPage() { // This function updates both site and language
         val siteSelect = document.getElementById("site-select") as? HTMLSelectElement
         val languageSelect = document.getElementById("language-select") as? HTMLSelectElement
         val pageSelect = document.getElementById("page-select") as? HTMLSelectElement
 
-        if (siteSelect != null && languageSelect != null && pageSelect != null) {
+        if (siteSelect != null && languageSelect != null && pageSelect != null) { // Check if all required elements exist
  currentSite = siteSelect.value
 
             // Only update language if it has actually changed to avoid unnecessary page reload
@@ -338,16 +345,17 @@ class BottomDrawer(
         }
     }
 
+    companion object {
         const val TAG = "bottom-drawer"
         const val CONTENT_TAG = "bottom-drawer-content"
         const val FIELD_TAG = "bottom-drawer-field"
 
         @JsName("updateLanguageOptions")
- fun updateLanguageOptions() {
+ fun updateLanguageOptions() { // This function populates the language dropdown based on the selected site
             val siteSelect = document.getElementById("site-select") as? HTMLSelectElement
             val languageSelect = document.getElementById("language-select") as? HTMLSelectElement
             val bottomDrawer = document.querySelector("dialog[TAG='$TAG']")?.asDynamic()?.kotlinInstance as? BottomDrawer
-
+            // Ensure all required elements and the BottomDrawer instance are available
             if (siteSelect != null && languageSelect != null && bottomDrawer != null) {
                 val selectedSite = siteSelect.value
 
@@ -506,8 +514,8 @@ class BottomDrawer(
             }
         }
     }
-
-     @JsName("updateCurrentPage")
+    
+    @JsName("updateCurrentPage")
     fun updateCurrentPage() {
         val siteSelect = document.getElementById("site-select") as? HTMLSelectElement
         val languageSelect = document.getElementById("language-select") as? HTMLSelectElement
@@ -536,7 +544,8 @@ class BottomDrawer(
         @JsName("updateLanguageOptions")
         fun updateLanguageOptions() {
             val siteSelect = document.getElementById("site-select") as? HTMLSelectElement
-            val languageSelect = document.getElementById("language-select") as? HTMLSelectElement
+ val languageSelect = document.getElementById("language-select") as? HTMLSelectElement
+ val languageListContainer = document.getElementById("language-list-container")
             val bottomDrawer = document.querySelector("dialog[TAG='$TAG']")?.asDynamic()?.kotlinInstance as? BottomDrawer
 
             if (siteSelect != null && languageSelect != null && bottomDrawer != null) {
@@ -544,20 +553,53 @@ class BottomDrawer(
 
                 languageSelect.innerHTML = ""
 
-                // Assuming Config.sites has a structure like Map<String, SiteConfig> where SiteConfig has a list of languages
-                val languages = when (selectedSite) {
-                    "contadeal" -> arrayOf("en", "ro")
-                    "prisma" -> arrayOf("en", "de")
-                    else -> arrayOf("en")
-                }
+                // Get languages for the selected site from Config (assuming mutable structure)
+                val languages = Config.sites[selectedSite]?.languages ?: mutableListOf()
 
-                for (language in languages) {
+                // Populate the language select dropdown
+ for (language in languages) {
                     val option = document.createElement("option") as HTMLOptionElement
                     option.value = language
                     option.text = language.uppercase()
                     languageSelect.add(option)
                 }
 
+                // Populate the language list container with edit/delete options
+ if (languageListContainer != null) {
+ languageListContainer.innerHTML = "" // Clear previous list
+
+ for (language in languages) {
+ languageListContainer.appendChild(document.create.div {
+ attributes["TAG"] = "language-item" // Unique tag for each language item
+ attributes[Typography.BODY] = ""
+ +"${language.uppercase()} " // Display language name with a space for buttons
+
+ // Action buttons for each language
+ button {
+ attributes[Typography.BUTTON] = ""
+ +"Edit"
+ addEventListener("click", { event: Event ->
+                    val newLanguageName = window.prompt("Enter the new name for language '$language':")
+                    if (!newLanguageName.isNullOrEmpty()) {
+ console.log("updateLanguage:$selectedSite:$language:$newLanguageName")
+                    }
+ event.stopPropagation() // Prevent potential parent element clicks
+ })
+ }
+ button {
+ attributes[Typography.BUTTON] = ""
+ +"Delete"
+ addEventListener("click", { event: Event ->
+                    if (window.confirm("Are you sure you want to delete language '$language'?")) {
+ console.log("deleteLanguage:$selectedSite:$language")
+                    }
+ event.stopPropagation() // Prevent potential parent element clicks
+ })
+ }
+ })
+ }
+
+                // Set the dropdown value to the current language
                 languageSelect.value = bottomDrawer.currentLanguage
 
                  // If the stored language is not available for the new site, default to the first available
@@ -565,10 +607,10 @@ class BottomDrawer(
                     languageSelect.selectedIndex = 0
                  }
 
+
                 // After updating language options, load the drawer state and page list
                 bottomDrawer.load() // This now triggers fetching pages as well
                 }
-            }
         }
 
         @JsName("toggleDrawer")

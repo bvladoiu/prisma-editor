@@ -60,6 +60,27 @@ object EditorJvm {
                         }
                     }
                 }
+
+ "updateLanguage" -> {
+ if (filename != null) {
+ val filenameParts = filename.split(":")
+ if (filenameParts.size == 3) {
+ val site = filenameParts[0]
+ val oldLanguage = filenameParts[1]
+ val newLanguage = filenameParts[2]
+ updateLanguage(site, oldLanguage, newLanguage)
+ }
+ }
+ }
+
+ "deleteLanguage" -> {
+ if (filename != null) {
+ val filenameParts = filename.split(":")
+ if (filenameParts.size == 2) {
+                    deleteLanguage(filenameParts[0], filenameParts[1])
+ }
+ }
+ }
                 else -> trace(message)
             }
         }
@@ -125,6 +146,31 @@ object EditorJvm {
     }
 
     /**
+     * Updates a language for a given site.
+     */
+    private fun updateLanguage(site: String, oldLanguage: String, newLanguage: String) {
+ Config.sites[site]?.let { languages ->
+ val updatedLanguages = languages.map { if (it == oldLanguage) newLanguage else it }
+ Config.sites[site] = updatedLanguages
+ println("JVM: Updated language \'$oldLanguage\' to \'$newLanguage\' for site \'$site\'")
+        saveConfig() // Save the updated configuration
+        page?.evaluate("console.log('refreshLanguageList')") // Send message to JS to refresh language list
+ }
+    }
+
+    /**
+     * Deletes a language for a given site.
+     */
+    private fun deleteLanguage(site: String, language: String) {
+ Config.sites[site]?.let { languages ->
+ Config.sites[site] = languages.filter { it != language }
+ println("JVM: Deleted language \'$language\' for site \'$site\'")
+        saveConfig() // Save the updated configuration
+        page?.evaluate("console.log('refreshLanguageList')") // Send message to JS to refresh language list
+ }
+    }
+
+    /**
      * Loads data from a file and sends it to the JS side.
      */
     private fun load(filename: String) {
@@ -141,6 +187,14 @@ object EditorJvm {
             )
             page?.evaluate("(data) => receiveData(data.tag, data.jsonString)", dataToPass)
         }
+    }
+
+    /**
+     * Saves the current configuration to a file.
+     */
+    private fun saveConfig() {
+ val configData = mapOf("sites" to Config.sites)
+ File("config.json").writeText(com.google.gson.Gson().toJson(configData)) // Using Gson for better JSON handling
     }
 
     /**

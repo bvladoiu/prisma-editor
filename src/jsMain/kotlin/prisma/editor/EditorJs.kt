@@ -170,7 +170,7 @@ fun receiveData(tag: String, jsonString: String) {
 
     // Handle refreshPageList message
     if (tag == "refreshPageList") {
-        EditorJs.bottomDrawer.load() // Request updated page list from JVM
+ EditorJs.bottomDrawer.updateLanguageOptions() // Refresh language list display
     }
 
     val element = document.querySelector("[$tag]") as? HTMLElement
