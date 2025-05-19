@@ -168,6 +168,11 @@ fun receiveData(tag: String, jsonString: String) {
         return
     }
 
+    // Handle refreshPageList message
+    if (tag == "refreshPageList") {
+        EditorJs.bottomDrawer.load() // Request updated page list from JVM
+    }
+
     val element = document.querySelector("[$tag]") as? HTMLElement
     if (element != null) {
         val component = element.asDynamic().kotlinInstance

@@ -143,8 +143,12 @@ class BottomDrawer(
                 }
 
                     div {
- attributes["TAG"] = FIELD_TAG // Reuse FIELD_TAG for internal fields
-                        comment("Placeholder for Page list and actions")
+ attributes["TAG"] = FIELD_TAG // Reuse FIELD_TAG for layout
+ button {
+ id = "create-page-button"
+                            attributes[Typography.BUTTON] = ""
+ +"Create New Page"
+                        }
                     }
                 }
             }
@@ -165,6 +169,14 @@ class BottomDrawer(
         window.setTimeout({
             updateLanguageOptions() // This now also loads pages after setting language options
         }, 100)
+
+        // Add event listener for the Create New Page button after the element is created
+ document.getElementById("create-page-button")?.addEventListener("click", {
+            val pageName = window.prompt("Enter the name for the new page:")
+            if (!pageName.isNullOrEmpty()) {
+ console.log("createPage:$pageName")
+ }
+        })
 
         return dialog
     }
@@ -317,7 +329,7 @@ class BottomDrawer(
             // Only update language if it has actually changed to avoid unnecessary page reload
  if (currentLanguage != languageSelect.value) {
  currentLanguage = languageSelect.value
- // When language changes, we need to request the new page list
+ // When language changes, we need to request the new page list and potentially reload the current page content
  load() // This will now trigger fetching pages as well
  }
 
@@ -326,7 +338,6 @@ class BottomDrawer(
         }
     }
 
-    companion object {
         const val TAG = "bottom-drawer"
         const val CONTENT_TAG = "bottom-drawer-content"
         const val FIELD_TAG = "bottom-drawer-field"
@@ -554,8 +565,8 @@ class BottomDrawer(
                     languageSelect.selectedIndex = 0
                  }
 
-                // After updating language options, request the page list for the new site/language
-                 bottomDrawer.load()
+                // After updating language options, load the drawer state and page list
+                bottomDrawer.load() // This now triggers fetching pages as well
                 }
             }
         }

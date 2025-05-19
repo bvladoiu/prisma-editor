@@ -10,6 +10,7 @@ import java.io.File
  */
 object EditorJvm {
     const val TAG = "editor"
+    private val pages = mutableListOf<Map<String, Any>>()
 
     private var page: Page? = null
 
@@ -40,6 +41,12 @@ object EditorJvm {
                 "load" -> {
                     if (filename != null) {
                         load(filename)
+                    }
+                }
+
+                "createPage" -> {
+                    if (filename != null) {
+                        createPage(filename)
                     }
                 }
 
@@ -108,6 +115,16 @@ object EditorJvm {
     }
 
     /**
+     * Creates a new page with the given name.
+     */
+    private fun createPage(pageName: String) {
+        val newPageData = mapOf("name" to pageName, "components" to emptyList<Any>())
+        pages.add(newPageData)
+        println("JVM: New page created with name: $pageName and data: $newPageData")
+        page?.evaluate("console.log('refreshPageList')") // Send message to JS to refresh page list
+    }
+
+    /**
      * Loads data from a file and sends it to the JS side.
      */
     private fun load(filename: String) {
@@ -130,9 +147,8 @@ object EditorJvm {
      * Sends a list of pages for a given site and language to the JS side.
      */
     private fun sendPageList(site: String, language: String) {
-        // TODO: Implement logic to get actual pages based on site and language
-        val samplePages = listOf(mapOf("name" to "Home", "url" to "/home.html"), mapOf("name" to "Catalog", "url" to "/catalog.html"))
-        val dataToPass = mapOf("pages" to samplePages)
+        // For now, return all pages regardless of site and language
+        val dataToPass = mapOf("pages" to pages)
         page?.evaluate(\"(data) => receivePageList(data.pages)\", dataToPass)
     }
 
