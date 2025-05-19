@@ -2,7 +2,9 @@ package prisma.editor
 
 import com.microsoft.playwright.ConsoleMessage
 import com.microsoft.playwright.Page
+import com.google.gson.Gson
 import java.io.File
+import java.io.FileNotFoundException
 
 /**
  * JVM counterpart to EditorJs in the JS sourceset.
@@ -10,12 +12,13 @@ import java.io.File
  */
 object EditorJvm {
     const val TAG = "editor"
-    private val pages = mutableListOf<Map<String, Any>>()
+ private val pageList: MutableList<PageDataModel> = mutableListOf()
 
     private var page: Page? = null
 
     init {
         load()
+ loadPageMetadata() // Load page metadata on startup
     }
 
     /**
@@ -37,6 +40,12 @@ object EditorJvm {
                         save(filename, message)
                     }
                 }
+
+ "save:pages-metadata" -> {
+ if (message.args().isNotEmpty()) {
+ savePageMetadata(message.args()[0].jsonValue().toString())
+ }
+ }
 
                 "load" -> {
                     if (filename != null) {
@@ -107,6 +116,32 @@ object EditorJvm {
         File(jsonFilename).writeText(jsonData)
     }
 
+ /**
+ * Loads page metadata from a file.
+ */
+ private fun loadPageMetadata() {
+ val gson = Gson()
+ val pagesMetadataFile = File("pages-metadata.json")
+ try {
+ if (pagesMetadataFile.exists()) {
+ val jsonString = pagesMetadataFile.readText()
+ // Use TypeToken for deserializing List
+ val type = object : com.google.gson.reflect.TypeToken<List<PageDataModel>>() {}.type
+ pageList.addAll(gson.fromJson(jsonString, type))
+ println("JVM: Loaded ${pageList.size} pages from pages-metadata.json")
+ } else {
+ println("JVM: pages-metadata.json not found, starting with empty page list.")
+ }
+ } catch (e: FileNotFoundException) {
+ println("JVM: pages-metadata.json not found (caught exception), starting with empty page list.")
+ } catch (e: Exception) {
+ console.error("JVM: Error loading page metadata: ${e.message}")
+ // Consider initializing pageList to an empty list even on other errors
+ pageList.clear()
+ }
+    }
+
+
     /**
      * Saves the current configuration.
      */
@@ -117,6 +152,15 @@ object EditorJvm {
             "pageTag" to Config.currentPageTag
         )
         println("save:$TAG ${data}")
+    }
+
+ /**
+ * Saves the page metadata to a file.
+ */
+ private fun savePageMetadata(jsonData: String) {
+ val pagesMetadataFile = File("pages-metadata.json")
+ pagesMetadataFile.writeText(jsonData)
+ println("JVM: Saved page metadata to pages-metadata.json")
     }
 
     /**
@@ -139,9 +183,15 @@ object EditorJvm {
      * Creates a new page with the given name.
      */
     private fun createPage(pageName: String) {
-        val newPageData = mapOf("name" to pageName, "components" to emptyList<Any>())
-        pages.add(newPageData)
-        println("JVM: New page created with name: $pageName and data: $newPageData")
+ // For now, create a simple slug and names map
+ val slug = pageName.toLowerCase().replace(" ", "-")
+ val names = mapOf(Config.currentLanguage to pageName)
+
+ val newPageDataModel = PageDataModel(slug = slug, names = names)
+ pageList.add(newPageDataModel)
+
+ println("JVM: Created new page data model: $newPageDataModel")
+ page?.evaluate("console.log(\"save:pages-metadata\", JSON.stringify(prisma.editor.EditorJs.pageList))") // Trigger save on JS side
         page?.evaluate("console.log('refreshPageList')") // Send message to JS to refresh page list
     }
 

@@ -11,6 +11,7 @@ import org.w3c.dom.asList
 import org.w3c.dom.events.Event
 import org.w3c.dom.get
 import prisma.editor.EditorJs
+import prisma.editor.PageDataModel
 import prisma.editor.Config
 import prisma.editor.css.CssRuleDefinition
 import prisma.editor.css.Theme
@@ -157,6 +158,39 @@ class BottomDrawer(
  +"Create New Page"
                         }
                     }
+
+                    // Form for creating a new page (initially hidden)
+ div {
+ id = "create-page-form"
+ style {
+                            display = "none"
+                        }
+
+                        attributes["TAG"] = CONTENT_TAG // Reuse CONTENT_TAG for form content layout
+
+                        // Slug Input
+ div {
+ attributes["TAG"] = FIELD_TAG
+ label { htmlFor = "new-page-slug"; attributes[Typography.CAPTION] = ""; +"Page Slug:" }
+ input { id = "new-page-slug"; type = InputType.text; attributes[Typography.BODY] = "" }
+                        }
+
+                        // Localized Names Inputs (dynamic based on languages)
+ val currentSiteConfig = Config.sites[siteSelect.value] // Access current site config
+                        currentSiteConfig?.languages?.forEach { lang ->
+ div {
+ attributes["TAG"] = FIELD_TAG
+ label { htmlFor = "new-page-name-${lang}"; attributes[Typography.CAPTION] = ""; +"Name (${lang.uppercase()}):" }
+ input { id = "new-page-name-${lang}"; type = InputType.text; attributes[Typography.BODY] = "" }
+                            }
+                        }
+
+                        // Action Buttons
+ button { id = "create-page-submit"; attributes[Typography.BUTTON] = ""; +"Create" }
+ button { id = "create-page-cancel"; attributes[Typography.BUTTON] = ""; +"Cancel" }
+
+
+                    }
                 }
             }
 
@@ -173,17 +207,71 @@ class BottomDrawer(
             })
         }
 
+        // Add event listener for the Create New Page button after the element is created
+ document.getElementById("create-page-button")?.addEventListener("click", {
+ val createPageForm = document.getElementById("create-page-form") as? HTMLElement
+ createPageForm?.style?.display = "block" // Show the form
+ })
+
         window.setTimeout({
             updateLanguageOptions() // This now also loads pages after setting language options
         }, 100)
 
-        // Add event listener for the Create New Page button after the element is created
- document.getElementById("create-page-button")?.addEventListener("click", {
-            val pageName = window.prompt("Enter the name for the new page:")
-            if (!pageName.isNullOrEmpty()) {
- console.log("createPage:$pageName")
- }
+        // Add event listeners for the create page form buttons
+ window.setTimeout({ // Use setTimeout to ensure elements are in the DOM
+            val createPageForm = document.getElementById("create-page-form") as? HTMLElement
+            val createPageForm = document.getElementById("create-page-form") as? HTMLElement
+            createPageForm?.style?.display = "block" // Show the form
         })
+
+        // Note: Event listeners for create-page-submit and create-page-cancel will be added after the form is in the DOM.
+        // This typically happens when the drawer is built/refreshed. We might need a dedicated function to attach these.
+        // For now, we'll assume they are attached elsewhere or will be added in the next step.
+ val createPageSubmitButton = document.getElementById("create-page-submit") as? HTMLButtonElement
+ val createPageCancelButton = document.getElementById("create-page-cancel") as? HTMLButtonElement
+            val newPageSlugInput = document.getElementById("new-page-slug") as? HTMLInputElement
+
+ createPageSubmitButton?.addEventListener("click", { event: Event ->
+ event.preventDefault() // Prevent default form submission
+
+                val slug = newPageSlugInput?.value?.trim()
+                if (slug.isNullOrEmpty()) {
+                    window.alert("Page slug cannot be empty.")
+                    return@addEventListener
+                }
+
+                val names = mutableMapOf<String, String>()
+                val currentSiteConfig = Config.sites[currentSite]
+                currentSiteConfig?.languages?.forEach { lang ->
+                    val nameInput = document.getElementById("new-page-name-${lang}") as? HTMLInputElement
+                    val name = nameInput?.value?.trim()
+                    if (!name.isNullOrEmpty()) {
+                        names[lang] = name
+                    }
+                }
+
+                val newPageData = js {
+                    this.slug = slug
+                    this.names = names.toJs() // Convert Kotlin Map to JS object
+                }
+
+ console.log("createPage:" + JSON.stringify(newPageData))
+
+                // Hide and clear the form
+ createPageForm?.style?.display = "none"
+ newPageSlugInput.value = ""
+                currentSiteConfig?.languages?.forEach { lang ->
+                    (document.getElementById("new-page-name-${lang}") as? HTMLInputElement)?.value = ""
+                }
+            })
+
+ createPageCancelButton?.addEventListener("click", { event: Event ->
+ event.preventDefault() // Prevent default form action
+ createPageForm?.style?.display = "none" // Hide the form
+                // Optional: Clear form fields on cancel as well
+ })
+ }, 0) // Use a slight delay to ensure elements exist
+
 
         return dialog
     }
@@ -204,36 +292,39 @@ class BottomDrawer(
         console.log("load:${Config.currentSite}_${Config.currentLanguage}_$TAG")
     }
 
-    fun setPageList(pageList: dynamic) {
+    fun setPageList(pageList: List<PageDataModel>) {
         val pageListContainer = document.getElementById("page-list-container")
         if (pageListContainer != null) {
- pageListContainer.innerHTML = "" // Clear previous list
+            pageListContainer.innerHTML = "" // Clear previous list
 
- // Add a select dropdown for current page selection
- pageListContainer.appendChild(document.create.div {
- attributes["TAG"] = FIELD_TAG
- label {
- htmlFor = "page-select"
- attributes[Typography.CAPTION] = ""
- +"Select Page:"
- }
- select {
- id = "page-select"
- attributes[Typography.BODY] = ""
- pageList.asList().forEach { page ->
- option {
- value = page.tag as String // Assuming page object has a 'tag' property
- text = page.name as String // Assuming page object has a 'name' property
- }
- }
- attributes["onchange"] = "prisma.editor.component.BottomDrawer.updateCurrentPage()"
- }
- })
+            // Add a select dropdown for current page selection
+            pageListContainer.appendChild(document.create.div {
+                attributes["TAG"] = FIELD_TAG
+                label {
+                    htmlFor = "page-select"
+                    attributes[Typography.CAPTION] = ""
+                    +"Select Page:"
+                }
+                select {
+                    id = "page-select"
+                    attributes[Typography.BODY] = ""
+                    pageList.forEach { page ->
+                        option {
+                            value = page.slug // Use slug for value
+                            text = page.names[Config.currentLanguage] ?: page.slug // Use localized name or slug for text
+                        }
+                    }
+                    // Set the selected value to the current page tag
+                    value = currentPageTag
 
- // Display list of pages with actions
- pageList.asList().forEach { page ->
- val pageName = page.name as String
+                    attributes["onchange"] = "prisma.editor.component.BottomDrawer.updateCurrentPage()"
+                }
+            })
+
+            // Display list of pages with actions
+ pageList.forEach { page ->
  pageListContainer.appendChild(document.create.div {
+                    // Display slug and localized name
  attributes["TAG"] = "page-item" // Unique tag for each page item
  attributes[Typography.BODY] = ""
  +"$pageName (${page.url}) " // Display name and URL with a space for buttons
@@ -247,8 +338,8 @@ class BottomDrawer(
  attributes[Typography.BUTTON] = ""
  +"Edit"
  addEventListener("click", { event: Event ->
- // TODO: Implement edit page functionality
- console.log("editPage:${page.tag}") // Assuming page object has a 'tag' property
+ // This command might need to be handled to load the page content for editing
+ console.log("editPage:${page.slug}") // Use slug for edit command
  event.stopPropagation() // Prevent potential parent element clicks
  })
  }
@@ -475,7 +566,7 @@ class BottomDrawer(
             if (currentLanguage != languageSelect.value) {
                  currentLanguage = languageSelect.value
                  // When language changes, we need to request the new page list
-                 load() // This will now trigger fetching pages as well
+                 load() // This triggers fetching pages and drawer state for the new language
             }
 
             currentPageTag = pageSelect.value
