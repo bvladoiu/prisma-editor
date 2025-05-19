@@ -232,12 +232,13 @@ class BottomDrawer(
 
  // Display list of pages with actions
  pageList.asList().forEach { page ->
+ val pageName = page.name as String
  pageListContainer.appendChild(document.create.div {
  attributes["TAG"] = "page-item" // Unique tag for each page item
  attributes[Typography.BODY] = ""
- +page.name + " (" + page.url + ")" // Display name and URL
+ +"$pageName (${page.url}) " // Display name and URL with a space for buttons
 
- // Action buttons for each page
+ // Action buttons for each page (placeholders)
  button {
  attributes[Typography.BUTTON] = ""
  +"Select"
@@ -245,6 +246,11 @@ class BottomDrawer(
  button {
  attributes[Typography.BUTTON] = ""
  +"Edit"
+ addEventListener("click", { event: Event ->
+ // TODO: Implement edit page functionality
+ console.log("editPage:${page.tag}") // Assuming page object has a 'tag' property
+ event.stopPropagation() // Prevent potential parent element clicks
+ })
  }
  button {
  attributes[Typography.BUTTON] = ""
@@ -442,64 +448,6 @@ class BottomDrawer(
                     }
                 }
                  attributes["onchange"] = "prisma.editor.component.BottomDrawer.updateCurrentPage()"
-            })
-        }
-    }
-
-    fun set(data: dynamic) {
-        // Update properties
-        if (data.site != null) {
-            currentSite = data.site as String
-        }
-        if (data.language != null) {
-            currentLanguage = data.language as String
-        }
-        if (data.pageTag != null) {
-            currentPageTag = data.pageTag as String
-        }
-        if (data.isOpen != null) {
-            isOpen = data.isOpen as Boolean
-        }
-
-        // Refresh the DOM element
-        refresh()
-
-        // Ensure dialog state in DOM matches the 'isOpen' property after refresh
-        val dialog = document.getElementById("bottom-drawer") as? HTMLDialogElement
-        if (dialog != null) {
-            if (isOpen && !dialog.hasAttribute("open")) {
-                dialog.showModal()
-            } else if (!isOpen && dialog.hasAttribute("open")) {
-                dialog.close()
-            }
-        }
-    }
-
-    fun refresh() {
-        val existingElement = document.querySelector("dialog[TAG='$TAG']") as? HTMLDialogElement
-        if (existingElement != null) {
-            // Store the current open state before replacing
-            val wasOpen = existingElement.hasAttribute("open")
-            val newElement = preview()
-
-            // Replace the element
-            existingElement.parentElement?.replaceChild(newElement, existingElement)
-
-            // Restore the open state on the new element if it was open
-            if (wasOpen) {
-                // Need a slight delay to re-show after replacement
-                window.setTimeout({
-                    (document.getElementById("bottom-drawer") as? HTMLDialogElement)?.showModal()
-                }, 0) // Use a 0ms delay to allow DOM update cycle
-            }
-        } else {
-            console.warn("No existing element with attribute [TAG='$TAG'] found to refresh.")
-            document.body?.appendChild(preview())
-
-            // If appending and it should be open, show it
-            if (isOpen) {
-                (document.getElementById("bottom-drawer") as? HTMLDialogElement)?.showModal()
-            }
         }
     }
 
